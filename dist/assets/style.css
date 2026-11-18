@@ -127,3 +127,18 @@ ul.ticks li b{display:block}
 .post-list h2 a{text-decoration:none;color:var(--ink)}.post-list h2 a:hover{color:var(--brand)}
 .note-footer{margin-top:2em;color:var(--muted);font-size:.95rem}
 footer.site .contact{margin-top:8px}
+
+/* Unverified free-version products (guide list) */
+tr.unverified-label th,tr.unverified-label td{background:#eceef1;color:#4a5160;font-weight:700;font-size:.92rem;padding:12px}
+tr.unverified td{color:#5c6370;background:#f4f5f7}
+tr.unverified a{color:#3f4a5c;text-decoration:underline;text-underline-offset:2px}
+tr.unverified a:hover,tr.unverified a:focus-visible{color:#1f2937}
+tr.unverified .y{color:#3e6b58}
+tr.unverified .n,tr.unverified .u{color:#6b7280}
+.unverified-dialog{border:1px solid var(--line);border-radius:var(--radius);padding:22px 22px 18px;max-width:min(28rem,calc(100vw - 32px));width:100%;color:var(--ink);box-shadow:0 16px 48px rgba(20,33,61,.2);background:#fff}
+.unverified-dialog:not([open]){display:none}
+.unverified-dialog::backdrop{background:rgba(20,33,61,.45)}
+.unverified-dialog h2{margin:0 0 .45em;font-size:1.2rem}
+.unverified-dialog p{margin:0 0 1.15em;color:var(--muted)}
+.unverified-dialog .dialog-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
+@media(max-width:520px){.unverified-dialog{padding:18px 16px 16px}.unverified-dialog .dialog-actions{flex-direction:column-reverse}.unverified-dialog .dialog-actions .btn{text-align:center;width:100%}}

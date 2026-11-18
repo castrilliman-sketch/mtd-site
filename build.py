@@ -573,16 +573,50 @@ FREE = [p for p in products if p['free_version'] == 'yes']
 FREE_CHECKED = [p for p in FREE if p['vendor_checked'] and p['price_text'] != 'unknown' and 'per HMRC' not in p['price_text']]
 FREE_UNCHECKED = [p for p in FREE if p not in FREE_CHECKED]
 
+def _ulink(href, rel, text, target='_blank'):
+    tgt = ' target="_blank"' if target == '_blank' else ''
+    return f'<a class="unverified-link" href="{E(href)}" rel="{E(rel)}"{tgt}>{text}</a>'
+
+def _uplink(p):
+    href, rel, aff = link_for(p)
+    tag = ' <small class="disclose">(affiliate link)</small>' if aff else ''
+    site = _ulink(href, rel, 'Provider site')
+    hmrc = _ulink(p['hmrc_url'], 'noopener', 'HMRC listing') if p.get('hmrc_url') else ''
+    return site + tag + (f' · {hmrc}' if hmrc else '')
+
+UNVERIFIED_DIALOG = """
+<dialog id="unverified-dialog" class="unverified-dialog" aria-labelledby="unverified-dialog-title" aria-describedby="unverified-dialog-desc">
+<h2 id="unverified-dialog-title">We haven't verified this one yet</h2>
+<p id="unverified-dialog-desc">This product is listed as having a free version in HMRC's software finder. We haven't yet checked the free plan on the provider's own website, so please confirm the details there.</p>
+<div class="dialog-actions">
+<button type="button" class="btn ghost" data-unverified-close>Close</button>
+<a class="btn" data-unverified-continue href="#">Continue to the link</a>
+</div>
+</dialog>
+"""
+
 def tok_free_checked_table():
-    rows = ''.join(f'<tr><td><a href="/software/{p["slug"]}/">{E(p["name"])}</a></td><td>{E(p["price_text"])}</td><td>{E(p["price_note"] or "Not stated")}</td>'
-                   f'<td>{_inc(p)}</td><td>{_tr(p)}</td><td>{_ptype(p)}</td><td>{_plink(p)} · <a href="{E(p["price_source"])}" rel="noopener" target="_blank">price source</a></td></tr>' for p in FREE_CHECKED)
-    return ('<div class="tablewrap"><table><thead><tr><th>Software</th><th>Free plan (provider)</th><th>What the provider says about it</th>'
-            '<th>Income types (HMRC)</th><th>Tax return (HMRC listing)</th><th>Type</th><th>Links</th></tr></thead><tbody>' + rows + '</tbody></table></div>')
+    return tok_free_plans_table()
 
 def tok_free_unchecked_table():
-    rows = ''.join(f'<tr><td><a href="/software/{p["slug"]}/">{E(p["name"])}</a></td><td>{_inc(p)}</td><td>{_tr(p)}</td><td>{_ptype(p)}</td></tr>' for p in FREE_UNCHECKED)
-    return ('<div class="tablewrap"><table><thead><tr><th>Software</th><th>Income types (HMRC)</th><th>Tax return (HMRC listing)</th><th>Type</th></tr></thead><tbody>'
-            + rows + '</tbody></table></div>')
+    return ''
+
+def tok_free_plans_table():
+    head = ('<div class="tablewrap"><table class="free-plans"><thead><tr><th>Software</th><th>Free plan (provider)</th><th>What the provider says about it</th>'
+            '<th>Income types (HMRC)</th><th>Tax return (HMRC listing)</th><th>Type</th><th>Links</th></tr></thead>')
+    checked = ''.join(
+        f'<tr><td><a href="/software/{p["slug"]}/">{E(p["name"])}</a></td><td>{E(p["price_text"])}</td><td>{E(p["price_note"] or "Not stated")}</td>'
+        f'<td>{_inc(p)}</td><td>{_tr(p)}</td><td>{_ptype(p)}</td><td>{_plink(p)} · <a href="{E(p["price_source"])}" rel="noopener" target="_blank">price source</a></td></tr>'
+        for p in FREE_CHECKED)
+    unchecked = ''.join(
+        f'<tr class="unverified"><td>{_ulink("/software/" + p["slug"] + "/", "noopener", E(p["name"]), target=None)}</td>'
+        f'<td>Not yet checked</td><td>Unknown</td><td>{_inc(p)}</td><td>{_tr(p)}</td><td>{_ptype(p)}</td><td>{_uplink(p)}</td></tr>'
+        for p in FREE_UNCHECKED)
+    label = ''
+    if FREE_UNCHECKED:
+        label = (f'<tr class="unverified-label"><th scope="col" colspan="7">Other free versions on HMRC\'s list '
+                 f'({len(FREE_UNCHECKED)}, not yet checked by us). Limits are unknown here.</th></tr>')
+    return (head + f'<tbody>{checked}</tbody><tbody>{label}{unchecked}</tbody></table></div>' + UNVERIFIED_DIALOG)
 
 def _cnt(f): return str(sum(1 for p in FREE if f(p)))
 GUIDE_TOKENS = {
@@ -599,6 +633,7 @@ GUIDE_TOKENS = {
     'free_cis': lambda: _cnt(lambda p: p['cis'] == 'yes'),
     'free_checked_table': tok_free_checked_table,
     'free_unchecked_table': tok_free_unchecked_table,
+    'free_plans_table': tok_free_plans_table,
     'hmrc_date': lambda: nice_date(HMRC_DATE),
     'signup_inline': lambda: signup_block('inline'),
 }
@@ -654,6 +689,8 @@ def guide_pages():
 {faqs}
 <p class="note-footer">This page gives general information about the options available. It is not tax, legal or financial advice, and we don't tell you which option to choose. Prices and plans change, so check the provider's own website. See our <a href="/affiliate-disclosure/">affiliate disclosure</a> and <a href="/methodology/">how we check</a>.</p>
 </article>'''
+        if 'unverified-dialog' in g['html']:
+            out += '<script src="/assets/unverified.js" defer></script>'
         out += foot(); write(g['path'], out)
 
 
@@ -903,6 +940,7 @@ if __name__ == '__main__':
     os.makedirs(f'{DIST}/assets')
     shutil.copy(f'{ROOT}/src/style.css', f'{DIST}/assets/style.css')
     shutil.copy(f'{ROOT}/src/directory.js', f'{DIST}/assets/directory.js')
+    shutil.copy(f'{ROOT}/src/unverified.js', f'{DIST}/assets/unverified.js')
     if ANALYTICS_ON: shutil.copy(f'{ROOT}/src/analytics.js', f'{DIST}/assets/analytics.js')
     if EMAIL_ON: shutil.copy(f'{ROOT}/src/signup.js', f'{DIST}/assets/signup.js')
     for i in (1, 2): shutil.copy(f'{ROOT}/src/kit-preview-{i}.png', f'{DIST}/assets/kit-preview-{i}.png')
