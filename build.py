@@ -21,8 +21,20 @@ CHECKED = VV['checked']
 HMRC_DATE = HM['retrieved']
 BASE = SITE['base_url'].rstrip('/')
 NAME = SITE['name']
+OPERATOR = (SITE.get('operator_name') or '').strip() or 'Daniel Wyatt'
+CONTACT_EMAIL = (SITE.get('contact_email') or '').strip()
 FINDER = 'https://www.tax.service.gov.uk/find-making-tax-digital-income-tax-software/'
 E = html.escape
+
+def contact_html():
+    if CONTACT_EMAIL:
+        addr = E(CONTACT_EMAIL)
+        return f'<a href="mailto:{addr}">{addr}</a>'
+    return 'Contact email coming soon'
+
+def person_ld():
+    return {'@context': 'https://schema.org', '@type': 'Person', 'name': OPERATOR, 'url': BASE + '/about/'}
+
 
 def nice_date(iso):
     d = datetime.date.fromisoformat(iso); return f'{d.day} {d.strftime("%B %Y")}'
@@ -126,7 +138,7 @@ def analytics_tag():
     return (f'\n<script src="/assets/analytics.js" defer data-mtd-provider="{E(ANALYTICS["provider"])}" '
             f'data-mtd-site="{E(ANALYTICS["site_id"])}" data-mtd-opts="{E(json.dumps(opts))}"></script>')
 
-def head(title, desc, path, jsonld=(), noindex=False):
+def head(title, desc, path, jsonld=(), noindex=False, og_type='website'):
     canon = BASE + path
     ld = ''.join(f'<script type="application/ld+json">{json.dumps(j, ensure_ascii=False)}</script>' for j in jsonld)
     robots = '<meta name="robots" content="noindex,follow">' if noindex else '<meta name="robots" content="index,follow,max-snippet:-1">'
@@ -134,20 +146,20 @@ def head(title, desc, path, jsonld=(), noindex=False):
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(title)}</title><meta name="description" content="{E(desc)}">
 <link rel="canonical" href="{canon}">{robots}
-<meta property="og:type" content="website"><meta property="og:title" content="{E(title)}"><meta property="og:description" content="{E(desc)}"><meta property="og:url" content="{canon}"><meta property="og:site_name" content="{E(NAME)}"><meta property="og:locale" content="en_GB">
+<meta property="og:type" content="{E(og_type)}"><meta property="og:title" content="{E(title)}"><meta property="og:description" content="{E(desc)}"><meta property="og:url" content="{canon}"><meta property="og:site_name" content="{E(NAME)}"><meta property="og:locale" content="en_GB">
 <meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#0b6e4f">
 <link rel="stylesheet" href="/assets/style.css">{ld}{analytics_tag()}</head><body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site"><div class="wrap"><a class="logo" href="/">{E(NAME[:5])}<span>{E(NAME[5:])}</span></a>
-<nav class="main" aria-label="Main"><a href="/#directory">Compare software</a><a href="/do-i-need-mtd/">Do I need MTD?</a><a href="/methodology/">How we check</a><a href="/about/">About</a><a class="navkit" href="/free-mtd-kit/">Free MTD kit</a></nav></div></header>
+<nav class="main" aria-label="Main"><a href="/#directory">Compare software</a><a href="/do-i-need-mtd/">Do I need MTD?</a><a href="/methodology/">How we check</a><a href="/founders-blog/">Founders Blog</a><a href="/about/">About</a><a class="navkit" href="/free-mtd-kit/">Free MTD kit</a></nav></div></header>
 <main id="main">'''
 
 def foot():
     return f'''</main><footer class="site"><div class="wrap"><div class="cols3">
 <div><strong>{E(NAME)}</strong><br>{E(SITE['tagline'])}.<br>HMRC list last read: {nice_date(HMRC_DATE)}.</div>
 <div><a href="/#directory">Compare all software</a><br><a href="/do-i-need-mtd/">Do I need MTD, and when?</a><br><a href="/methodology/">Methodology</a><br><a href="/free-mtd-kit/">Free MTD Ready Kit</a></div>
-<div><a href="/about/">About</a><br><a href="/affiliate-disclosure/">Affiliate disclosure</a><br><a href="/privacy/">Privacy</a></div></div>
+<div><a href="/about/">About</a><br><a href="/founders-blog/">Founders Blog</a><br><a href="/affiliate-disclosure/">Affiliate disclosure</a><br><a href="/privacy/">Privacy</a><br><span class="contact">{contact_html()}</span></div></div>
 <p class="disclaimer"><strong>Not tax advice.</strong> This site gives general information only. It is not tax, legal or financial advice. Check your own position on <a href="https://www.gov.uk/guidance/check-if-youre-eligible-for-making-tax-digital-for-income-tax">GOV.UK</a> or with a qualified adviser before you act. HMRC does not recommend any software product and is not connected with this site. Prices change, so always confirm on the provider's own website. Some links may be affiliate links; see our <a href="/affiliate-disclosure/">disclosure</a>. Contains public sector information licensed under the <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">Open Government Licence v3.0</a>.</p>
 </div></footer></body></html>'''
 
@@ -339,6 +351,7 @@ def home():
     out += f'''<section class="hero"><div class="wrap">
 <h1>Find the right Making Tax Digital software, in plain English</h1>
 <p class="lead">All {n} products HMRC recognises for Making Tax Digital for Income Tax, in one list you can filter. We've checked prices on the providers' own websites for {len(CHECKEDP)} of the best-known ones, and we tell you when a fact isn't known.</p>
+<p class="founders-cta"><a class="btn ghost" href="/founders-blog/">Founders Blog</a> <span>Why I built this site, by {E(OPERATOR)}</span></p>
 <h2 style="margin-top:1em">Start here</h2>
 <div class="steps">
 <div class="step"><b class="n">1</b><strong>Check if you need MTD</strong><p>It depends on your self-employment and property income before expenses.</p><a href="/do-i-need-mtd/">Do I need MTD, and when? →</a></div>
@@ -539,6 +552,136 @@ def simple(path, title, desc, body, crumbs):
     out += f'<div class="wrap" style="max-width:820px"><p class="breadcrumb"><a href="/">Home</a> › {E(title)}</p><h1>{E(title)}</h1>{body}</div>'
     out += foot(); write(path, out)
 
+
+# ---------- Founders Blog (data/blog/*.md) ----------
+def md_inline(text):
+    pattern = re.compile(r'\[([^\]]+)\]\(([^)]+)\)|\*\*(.+?)\*\*|\*(.+?)\*')
+    parts, pos = [], 0
+    for m in pattern.finditer(text):
+        parts.append(E(text[pos:m.start()]))
+        if m.group(1) is not None:
+            href = m.group(2)
+            rel = ' rel="noopener"' if href.startswith(('http://', 'https://')) else ''
+            parts.append(f'<a href="{E(href)}"{rel}>{E(m.group(1))}</a>')
+        elif m.group(3) is not None:
+            parts.append(f'<strong>{E(m.group(3))}</strong>')
+        else:
+            parts.append(f'<em>{E(m.group(4))}</em>')
+        pos = m.end()
+    parts.append(E(text[pos:]))
+    return ''.join(parts)
+
+def md_to_html(text):
+    blocks, buf, mode = [], [], None
+    def flush():
+        nonlocal buf, mode
+        if not buf:
+            return
+        if mode == 'ul':
+            blocks.append('<ul>' + ''.join(f'<li>{md_inline(x)}</li>' for x in buf) + '</ul>')
+        elif mode == 'ol':
+            blocks.append('<ol>' + ''.join(f'<li>{md_inline(x)}</li>' for x in buf) + '</ol>')
+        else:
+            blocks.append('<p>' + md_inline(' '.join(buf)) + '</p>')
+        buf, mode = [], None
+    for line in text.splitlines():
+        if not line.strip():
+            flush(); continue
+        hm = re.match(r'^(#{1,3}) (.+)$', line)
+        if hm:
+            flush(); n = len(hm.group(1)); blocks.append(f'<h{n}>{md_inline(hm.group(2))}</h{n}>'); continue
+        um = re.match(r'^[-*] (.+)$', line)
+        if um:
+            if mode != 'ul':
+                flush(); mode = 'ul'
+            buf.append(um.group(1)); continue
+        om = re.match(r'^\d+\. (.+)$', line)
+        if om:
+            if mode != 'ol':
+                flush(); mode = 'ol'
+            buf.append(om.group(1)); continue
+        if mode not in (None, 'p'):
+            flush()
+        mode = 'p'
+        buf.append(line)
+    flush()
+    return '\n'.join(blocks)
+
+def load_posts():
+    folder = os.path.join(ROOT, 'data', 'blog')
+    posts = []
+    if not os.path.isdir(folder):
+        return posts
+    for fn in sorted(os.listdir(folder)):
+        if not fn.endswith('.md'):
+            continue
+        raw = open(os.path.join(folder, fn), encoding='utf-8').read()
+        if not raw.startswith('---'):
+            raise SystemExit(f'Blog post {fn} needs front matter between --- lines')
+        parts = raw.split('---', 2)
+        if len(parts) < 3:
+            raise SystemExit(f'Blog post {fn} front matter is not closed')
+        meta = {}
+        for line in parts[1].strip().splitlines():
+            if not line.strip() or line.strip().startswith('#'):
+                continue
+            k, _, v = line.partition(':')
+            meta[k.strip()] = v.strip().strip('"').strip("'")
+        for req in ('title', 'date'):
+            if not meta.get(req):
+                raise SystemExit(f'Blog post {fn} is missing {req}')
+        posts.append({
+            'slug': fn[:-3], 'title': meta['title'], 'date': meta['date'],
+            'author': meta.get('author') or OPERATOR, 'description': meta.get('description') or '',
+            'html': md_to_html(parts[2].strip()), 'path': f'/founders-blog/{fn[:-3]}/',
+        })
+    posts.sort(key=lambda p: p['date'], reverse=True)
+    return posts
+
+POSTS = load_posts()
+
+def blog_pages():
+    il = {'@context': 'https://schema.org', '@type': 'Blog', 'name': f'Founders Blog · {NAME}',
+          'url': BASE + '/founders-blog/', 'inLanguage': 'en-GB', 'author': person_ld(),
+          'blogPost': [{'@type': 'BlogPosting', 'headline': p['title'], 'url': BASE + p['path'],
+                        'datePublished': p['date'], 'author': person_ld()} for p in POSTS]}
+    items = ''.join(
+        f'''<li><p class="byline">{E(nice_date(p["date"]))} · {E(p["author"])}</p>
+<h2><a href="{p["path"]}">{E(p["title"])}</a></h2>
+<p>{E(p["description"])}</p>
+<p><a href="{p["path"]}">Read the post →</a></p></li>''' for p in POSTS) or '<li><p>No posts yet.</p></li>'
+    out = head(f'Founders Blog | {NAME}',
+               f'Notes from {OPERATOR} on building {NAME}, a plain-English comparison of Making Tax Digital software.',
+               '/founders-blog/', [il, crumb_ld([('Home', '/'), ('Founders Blog', '/founders-blog/')])])
+    out += f'''<div class="wrap prose">
+<p class="breadcrumb"><a href="/">Home</a> › Founders Blog</p>
+<h1>Founders Blog</h1>
+<p class="lead">Notes from {E(OPERATOR)} on why this site exists and how we compare Making Tax Digital software in plain English.</p>
+<ul class="post-list">{items}</ul>
+</div>'''
+    out += foot(); write('/founders-blog/', out)
+    for p in POSTS:
+        post_ld = {
+            '@context': 'https://schema.org', '@type': 'BlogPosting',
+            'headline': p['title'], 'description': p['description'] or p['title'],
+            'datePublished': p['date'], 'dateModified': p['date'], 'inLanguage': 'en-GB',
+            'author': person_ld(),
+            'publisher': {'@type': 'Organization', 'name': NAME, 'url': BASE + '/'},
+            'mainEntityOfPage': {'@type': 'WebPage', '@id': BASE + p['path']},
+            'url': BASE + p['path'],
+        }
+        crumbs = [('Home', '/'), ('Founders Blog', '/founders-blog/'), (p['title'], p['path'])]
+        out = head(f"{p['title']} | Founders Blog | {NAME}", p['description'] or p['title'], p['path'],
+                   [post_ld, crumb_ld(crumbs)], og_type='article')
+        out += f'''<article class="wrap prose">
+<p class="breadcrumb"><a href="/">Home</a> › <a href="/founders-blog/">Founders Blog</a> › {E(p["title"])}</p>
+<h1>{E(p["title"])}</h1>
+<p class="byline">{E(nice_date(p["date"]))} · {E(p["author"])}</p>
+<div class="post-body">{p["html"]}</div>
+<p class="note-footer">This site gives general information, not personal tax advice. <a href="/about/">About {E(OPERATOR)}</a>.</p>
+</article>'''
+        out += foot(); write(p['path'], out)
+
 def other_pages():
     simple('/methodology/', 'How we check', 'Where our MTD software data comes from, how we check prices, and what "unknown" means.', f'''
 <p class="lead">Our rule is simple: we only show a fact if we can point to where it came from. If we can't confirm something, we say "Unknown" rather than guess.</p>
@@ -553,15 +696,29 @@ def other_pages():
 <h2>Which pages search engines see</h2>
 <p>Every HMRC-recognised product has a page. Pages for products we haven't price-checked yet are kept out of search results until we've added checked information, so we don't publish thin pages.</p>
 <h2>Keeping it up to date</h2>
-<p>We re-read HMRC's list and re-check prices regularly. If you spot something out of date, tell us and we'll correct it. <span class="fillme">[D to add a corrections email address]</span></p>''',
+<p>We re-read HMRC's list and re-check prices regularly. If you spot something out of date, {('email ' + contact_html() + ' and we will correct it.') if CONTACT_EMAIL else 'a corrections email is coming soon.'}</p>''',
            [('Home', '/'), ('How we check', '/methodology/')])
-    simple('/about/', 'About', f'Who runs {NAME} and why.', '''
-<div class="fillme"><strong>For D to complete.</strong> Nothing here is published until you write it. Suggested points, in your own words and only what's accurate:
-<ul><li>Your name and how you'd like to be described</li><li>Your finance and complaints-handling background (roles, years, any qualifications you actually hold)</li><li>Why you built this: HMRC's list tells you what's compatible, not what suits you</li><li>Whether you are or aren't a qualified tax adviser (important for trust and compliance)</li><li>A contact email</li></ul></div>
+    about_person = person_ld()
+    about_person['description'] = (
+        "I've spent 20 years working in finance in London, in debt purchasing, complaints handling "
+        "and credit control for a consumer loan company, and I've also trained and managed teams of new starters."
+    )
+    about_person['mainEntityOfPage'] = BASE + '/about/'
+    about_crumbs = [('Home', '/'), ('About Daniel Wyatt', '/about/')]
+    about_body = f'''
+<p class="lead">I've spent 20 years working in finance in London, in debt purchasing, complaints handling and credit control for a consumer loan company, and I've also trained and managed teams of new starters. That means I've seen money matters from both sides: how businesses and regulators talk, and how hard that language can be for the people on the receiving end.</p>
+<p>I built this site to close that gap. Making Tax Digital is a big change for landlords and sole traders, and most of what's written about it is either jargon or a sales pitch. Here you'll get plain English, the facts checked against GOV.UK and the software providers' own websites, and a clear way to compare your options.</p>
+<p>I use AI to gather and organise the details quickly, but a person always checks the results before anything goes on this site. Where I earn a commission, I'll always tell you, and it never decides what I recommend.</p>
+<p class="note-footer">This site gives general information, not personal tax advice.</p>
 <h2>What this site is</h2>
 <p>A plain-English, independent comparison of software HMRC recognises for Making Tax Digital for Income Tax, built from HMRC's own list and the providers' own websites.</p>
 <h2>What this site isn't</h2>
-<p>It isn't HMRC, it isn't connected with any government body, and it doesn't give tax advice.</p>''', [('Home', '/'), ('About', '/about/')])
+<p>It isn't HMRC, it isn't connected with any government body, and it doesn't give tax advice.</p>
+<h2>Contact</h2>
+<p>{contact_html()}.</p>'''
+    out = head(f'About Daniel Wyatt | {NAME}', f'Who runs {NAME} and why. {OPERATOR} on 20 years in London finance and a plain-English comparison of Making Tax Digital software.', '/about/', [about_person, crumb_ld(about_crumbs)])
+    out += f'<div class="wrap prose"><p class="breadcrumb"><a href="/">Home</a> › About Daniel Wyatt</p><h1>About Daniel Wyatt</h1>{about_body}</div>'
+    out += foot(); write('/about/', out)
     live = [p for p in products if p['affiliate_url']]
     simple('/affiliate-disclosure/', 'Affiliate disclosure', 'How this site makes money and how affiliate links are marked.', f'''
 <p class="lead">This site is free to use. To pay for it, we may earn a commission when you sign up for some software through links on this site.</p>
@@ -597,7 +754,9 @@ def email_privacy():
 <p><strong>How long we keep it:</strong> until you unsubscribe. After that we keep only your email address on a suppression list, so we don't email you again by mistake. If you never confirm your sign-up, you're not added to the list.</p>"""
 
 def privacy_body():
-    op = '<p class="fillme">[D to add the site operator\'s name and contact details before launch.]</p>'
+    op = (f'<p>This site is operated by {E(OPERATOR)}.</p>'
+          + (f'<p>Email: {contact_html()}.</p>' if CONTACT_EMAIL else '<p>Contact email coming soon.</p>')
+          + '<p class="fillme">[Postal address to be added.]</p>')
     if not ANALYTICS_ON:
         return ("<h2>Cookies and visitor statistics</h2><p>This site doesn't use cookies, analytics or tracking at the moment. "
                 "If that changes, we'll update this page first.</p>" + email_privacy() + "<h2>Other websites</h2><p>When you click through to a software provider, their own privacy policy applies.</p>"
@@ -626,8 +785,11 @@ def privacy_body():
 <h2>Your rights and contact</h2><p>You can ask us for a copy of your data, or to correct or delete it, and you can complain to the <a href="https://ico.org.uk/make-a-complaint/" rel="noopener">Information Commissioner's Office</a>.</p>""" + op
 
 def seo_files():
-    urls = ['/', '/do-i-need-mtd/', '/free-mtd-kit/', '/methodology/', '/about/', '/affiliate-disclosure/', '/privacy/'] + [f"/software/{p['slug']}/" for p in CHECKEDP]
-    sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'<url><loc>{BASE}{u}</loc><lastmod>{CHECKED}</lastmod></url>\n' for u in urls) + '</urlset>\n'
+    urls = [('/', CHECKED), ('/do-i-need-mtd/', CHECKED), ('/free-mtd-kit/', CHECKED), ('/methodology/', CHECKED),
+            ('/about/', CHECKED), ('/founders-blog/', CHECKED), ('/affiliate-disclosure/', CHECKED), ('/privacy/', CHECKED)]
+    urls += [(p['path'], p['date']) for p in POSTS]
+    urls += [(f"/software/{p['slug']}/", CHECKED) for p in CHECKEDP]
+    sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'<url><loc>{BASE}{u}</loc><lastmod>{lm}</lastmod></url>\n' for u, lm in urls) + '</urlset>\n'
     write('/sitemap.xml', sm)
     write('/robots.txt', f'User-agent: *\nAllow: /\nDisallow: /kit/\n\nSitemap: {BASE}/sitemap.xml\n')
 
@@ -644,7 +806,7 @@ if __name__ == '__main__':
     json.dump({'source': HM['source'], 'hmrc_retrieved': HMRC_DATE, 'vendor_checked': CHECKED, 'count': len(products), 'products': products},
               open(f'{ROOT}/data/products.json', 'w'), indent=1, ensure_ascii=False)
     os.makedirs(f'{DIST}/data'); shutil.copy(f'{ROOT}/data/products.json', f'{DIST}/data/products.json')
-    home(); guide(); other_pages(); kit_pages(); seo_files()
+    home(); guide(); other_pages(); blog_pages(); kit_pages(); seo_files()
     for p in products: product_page(p)
     missing = [k for k in VV['products'] if k not in {p['name'] for p in products}]
     print('Email sign-up:', f"{EMAIL['provider']} ({EMAIL['form_action']})" if EMAIL_ON else 'OPENING SOON state (config/email.json has no provider/form_action)')

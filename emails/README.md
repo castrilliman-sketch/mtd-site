@@ -51,4 +51,4 @@ The optional "I am a…" field is there for segmentation (landlord vs sole-trade
 - `02-sequence-day2-five-decisions.md`, `03-sequence-day5-choosing-software.md` (affiliate disclosure inline), `04-sequence-day10-diy-or-accountant.md`
 - `05-deadline-reminder-template.md`: reminder template + full send schedule to May 2028
 
-Placeholders: `{{ contact.FIRSTNAME }}` and `{{ unsubscribe }}` are Brevo syntax; `[SITE_URL]`, `[D's first name]` and `[Operator …]` need filling in. The welcome email names 7 February 2027 as the next deadline: update it after that date.
+Placeholders: `{{ contact.FIRSTNAME }}` and `{{ unsubscribe }}` are Brevo syntax; `[SITE_URL]` and `[Postal address to be added]` still need filling in. Sign-offs use Daniel Wyatt. The welcome email names 7 February 2027 as the next deadline: update it after that date.

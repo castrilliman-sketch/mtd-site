@@ -18,7 +18,8 @@ Local-only static site. Nothing is deployed.
 
 ## Before launch (D)
 - Choose brand/domain → `config/site.json` (`name`, `base_url`).
-- Fill in About page, corrections email and privacy operator details (marked in yellow).
+- Add the public contact email in `config/site.json` (`contact_email`) and a postal address on the privacy page (still marked in yellow). The About page and operator name (Daniel Wyatt) are in place.
+- Founders Blog posts live in `data/blog/*.md` (YAML-like front matter + Markdown) and are built by `build.py`.
 
 ## Analytics & private stats (off until configured)
 - Provider: GoatCounter (cookieless, free hosted service). Config: `config/analytics.json` – tracking only loads when `provider` and `site_id` are both set; until then `dist/` contains no analytics code at all.

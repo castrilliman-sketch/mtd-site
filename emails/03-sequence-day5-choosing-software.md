@@ -24,6 +24,6 @@ HMRC recognises well over 100 products for MTD for Income Tax, and it doesn't re
 
 *How we make money: some "Visit" buttons on our site are affiliate links, clearly marked. If you sign up through one we may earn a commission, at no extra cost to you. It never changes which products we list or how we describe them. [Our affiliate disclosure]([SITE_URL]/affiliate-disclosure/).*
 
-[D's first name], PlainMTD
+Daniel, PlainMTD
 
 Source: [Choose the right software](https://www.gov.uk/guidance/choose-the-right-software-for-making-tax-digital-for-income-tax) (GOV.UK) · {{ unsubscribe }}

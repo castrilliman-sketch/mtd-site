@@ -26,8 +26,8 @@ We'll email you 7 days before each deadline. Over the next fortnight we'll also 
 Not sure you need MTD at all? Our [plain-English guide]([SITE_URL]/do-i-need-mtd/) walks you through it, with a link to every GOV.UK source.
 
 Best wishes,
-[D's first name]
+Daniel
 PlainMTD
 
 *General information from GOV.UK, not tax advice. PlainMTD is independent and not connected with HMRC.*
-[Operator name and contact address] · {{ unsubscribe }}
+Daniel Wyatt · [Postal address to be added] · {{ unsubscribe }}

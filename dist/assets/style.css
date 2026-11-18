@@ -114,3 +114,16 @@ ul.ticks li b{display:block}
 .downloads{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}
 @media(max-width:820px){.kh-grid{display:flex;flex-direction:column}.kh-text{display:contents}.kh-text>*{order:1}
 .kh-text>ul.ticks,.kh-text>.nextdl,.kh-text>.trust{order:4}.kit-hero .kh-form{order:3;position:static;margin:4px 0 10px}}
+/* founders blog + about */
+.founders-cta{margin:18px 0 4px;display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.founders-cta span{color:var(--muted)}
+.byline{color:var(--muted);font-size:.95rem;margin:0 0 1.4em}
+.prose{max-width:760px}
+.prose p{margin:0 0 1.05em}
+.prose a{font-weight:500}
+.post-list{list-style:none;padding:0;margin:16px 0 0}
+.post-list li{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;margin:0 0 14px}
+.post-list h2{margin:.15em 0 .35em;font-size:1.25rem}
+.post-list h2 a{text-decoration:none;color:var(--ink)}.post-list h2 a:hover{color:var(--brand)}
+.note-footer{margin-top:2em;color:var(--muted);font-size:.95rem}
+footer.site .contact{margin-top:8px}

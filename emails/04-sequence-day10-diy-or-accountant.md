@@ -27,6 +27,6 @@ An agent can sign you up for MTD, send your quarterly updates and submit your ta
 
 That's the end of the welcome emails. From now on you'll hear from us 7 days before each deadline, and when HMRC changes something important.
 
-[D's first name], PlainMTD
+Daniel, PlainMTD
 
 Sources: [Send quarterly updates](https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/send-quarterly-updates) (GOV.UK) · *General information, not tax advice.* · {{ unsubscribe }}

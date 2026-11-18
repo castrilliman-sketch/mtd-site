@@ -21,7 +21,7 @@ Most of the work in Making Tax Digital happens once, at the start. Here are the 
 
 Next email: how to choose software without overpaying.
 
-[D's first name], PlainMTD
+Daniel, PlainMTD
 
 Sources: [Send quarterly updates](https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/send-quarterly-updates) · [Check if you're eligible](https://www.gov.uk/guidance/check-if-youre-eligible-for-making-tax-digital-for-income-tax) (GOV.UK)
-*General information, not tax advice.* [Operator contact] · {{ unsubscribe }}
+*General information, not tax advice.* Daniel Wyatt · [Postal address to be added] · {{ unsubscribe }}

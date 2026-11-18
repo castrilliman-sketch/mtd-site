@@ -9,7 +9,7 @@ import json, os, datetime as dt, html, hashlib
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = json.load(open(f'{ROOT}/config/site.json'))
 D = json.load(open(f'{ROOT}/data/deadlines.json'))
-NAME = SITE['name']; E = html.escape
+NAME = SITE['name']; OPERATOR = (SITE.get('operator_name') or '').strip() or 'Daniel Wyatt'; E = html.escape
 SRC = D['sources']
 def d(iso): return dt.date.fromisoformat(iso)
 def nice(x, wd=True): return (x.strftime('%a ') if wd else '') + f'{x.day} {x.strftime("%B %Y")}'
@@ -77,7 +77,7 @@ ul.cl{list-style:none;padding:0;margin:4pt 0}ul.cl li{display:flex;gap:7pt;margi
 a{color:#0b6e4f;word-break:break-all}.foot{font-size:8pt;color:#5b6475;border-top:1px solid #dfe3ea;margin-top:10pt;padding-top:5pt}
 ol.src li{margin-bottom:4pt;font-size:9pt}"""
 top = f'<div class="top"><div class="logo">{E(NAME[:5])}<span>{E(NAME[5:])}</span></div><div class="tag">Free MTD Ready Kit · 2026 to 2028 · checked {CHECKED}</div></div>'
-foot = f'<div class="foot">General information from GOV.UK, not tax advice. HMRC does not endorse this kit or any software. Contains public sector information licensed under the Open Government Licence v3.0.</div>'
+foot = f'<div class="foot">Prepared by {E(OPERATOR)}. General information from GOV.UK, not tax advice. HMRC does not endorse this kit or any software. Contains public sector information licensed under the Open Government Licence v3.0.</div>'
 H = f'''<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><title>Free MTD Ready Kit 2026 to 2028 | {E(NAME)}</title><style>{CSS}</style></head><body>
 <section class="page">{top}
 <h1>Your Making Tax Digital Ready Kit</h1>
@@ -134,7 +134,7 @@ H = f'''<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><title>Fre
 <h2>Choosing software</h2>
 <p>Our free directory compares every product on HMRC's list in plain English, with filters for landlords, sole traders, spreadsheet users (bridging software), CIS and free versions. Prices are checked on each provider's own website.</p>
 <div class="callout"><b>Not sure you want to do this yourself?</b> An accountant or bookkeeper can sign you up and send your updates as your agent. HMRC's guidance explains how agents work with MTD.</div>
-<p class="muted">This kit is general information, not tax, legal or financial advice. Check your own position on GOV.UK or with a qualified adviser. {E(NAME)} is independent and is not connected with HMRC.</p>
+<p class="muted">This kit is general information, not tax, legal or financial advice. Check your own position on GOV.UK or with a qualified adviser. Prepared by {E(OPERATOR)} for {E(NAME)}, which is independent and is not connected with HMRC.</p>
 {foot}</section></body></html>'''
 os.makedirs(f'{ROOT}/kit', exist_ok=True)
 open(f'{ROOT}/kit/kit.html', 'w').write(H)

@@ -19,4 +19,4 @@ By confirming, you agree to get the kit, a reminder before each Making Tax Digit
 If you didn't ask for this, ignore this email and you won't hear from us again.
 
 PlainMTD
-[Operator name and contact address – D to fill in]
+Daniel Wyatt · [Postal address to be added]
