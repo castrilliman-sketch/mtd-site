@@ -152,13 +152,13 @@ def head(title, desc, path, jsonld=(), noindex=False, og_type='website'):
 <link rel="stylesheet" href="/assets/style.css">{ld}{analytics_tag()}</head><body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site"><div class="wrap"><a class="logo" href="/">{E(NAME[:5])}<span>{E(NAME[5:])}</span></a>
-<nav class="main" aria-label="Main"><a href="/#directory">Compare software</a><a href="/do-i-need-mtd/">Do I need MTD?</a><a href="/methodology/">How we check</a><a href="/founders-blog/">Founders Blog</a><a href="/about/">About</a><a class="navkit" href="/free-mtd-kit/">Free MTD kit</a></nav></div></header>
+<nav class="main" aria-label="Main"><a href="/#directory">Compare software</a><a href="/do-i-need-mtd/">Do I need MTD?</a><a href="/guides/">Guides</a><a href="/methodology/">How we check</a><a href="/founders-blog/">Founders Blog</a><a href="/about/">About</a><a class="navkit" href="/free-mtd-kit/">Free MTD kit</a></nav></div></header>
 <main id="main">'''
 
 def foot():
     return f'''</main><footer class="site"><div class="wrap"><div class="cols3">
 <div><strong>{E(NAME)}</strong><br>{E(SITE['tagline'])}.<br>HMRC list last read: {nice_date(HMRC_DATE)}.</div>
-<div><a href="/#directory">Compare all software</a><br><a href="/do-i-need-mtd/">Do I need MTD, and when?</a><br><a href="/methodology/">Methodology</a><br><a href="/free-mtd-kit/">Free MTD Ready Kit</a></div>
+<div><a href="/#directory">Compare all software</a><br><a href="/do-i-need-mtd/">Do I need MTD, and when?</a><br><a href="/guides/">MTD guides</a><br><a href="/methodology/">Methodology</a><br><a href="/free-mtd-kit/">Free MTD Ready Kit</a></div>
 <div><a href="/about/">About</a><br><a href="/founders-blog/">Founders Blog</a><br><a href="/affiliate-disclosure/">Affiliate disclosure</a><br><a href="/privacy/">Privacy</a><br><span class="contact">{contact_html()}</span></div></div>
 <p class="disclaimer"><strong>Not tax advice.</strong> This site gives general information only. It is not tax, legal or financial advice. Check your own position on <a href="https://www.gov.uk/guidance/check-if-youre-eligible-for-making-tax-digital-for-income-tax">GOV.UK</a> or with a qualified adviser before you act. HMRC does not recommend any software product and is not connected with this site. Prices change, so always confirm on the provider's own website. Some links may be affiliate links; see our <a href="/affiliate-disclosure/">disclosure</a>. Contains public sector information licensed under the <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">Open Government Licence v3.0</a>.</p>
 </div></footer></body></html>'''
@@ -392,7 +392,7 @@ def home():
 </section>
 <section><h2>Free options we've price-checked</h2>
 <p>These are free, or have a free plan, according to the provider's own website. Free plans usually have limits, so read the note before you choose.</p>
-<ul>{free_list}</ul></section>
+<ul>{free_list}</ul><p><a href="/guides/free-mtd-software/">Free MTD software: what each free plan includes, and the catches →</a></p></section>
 <section><h2>Common questions</h2>{faq_html(qas)}</section>
 </div><script src="/assets/directory.js" defer></script>'''
     out += foot()
@@ -462,7 +462,7 @@ def product_page(p):
 <div class="fact"><small>HMRC Assist built in</small><b>{yn(p['hmrc_assist'])}</b></div>
 <div class="fact"><small>Runs on</small><b>{E(p['software_type'])}</b><br><small>{E(p['compatible_with'])}</small></div>
 </div>
-<h2>Price</h2>{price_block}
+<h2>Price</h2>{price_block}{('<p class="disclose">HMRC lists a free version of this product. See <a href="/guides/free-mtd-software/">free MTD software: what is really free, and the catches</a>.</p>') if p['free_version'] == 'yes' else ''}
 <h2>What it can put on your tax return</h2>
 <p>HMRC lists {len(ready)} of {len(tr)} other income and tax-return items as ready now{f", {len(dev)} in development" if dev else ""}{f" and {len(no)} not included" if no else ""}. "In development" means the provider has told HMRC it will build it in time for the 2026 to 2027 tax return.</p>
 <div class="tablewrap"><table><thead><tr><th>Item</th><th>Status (HMRC)</th></tr></thead><tbody>{tr_rows}</tbody></table></div>
@@ -542,6 +542,7 @@ def guide():
 <p class="disclose">Source: <a href="{G}find-out-if-you-can-get-an-exemption-from-making-tax-digital-for-income-tax">GOV.UK, Find out if you can get an exemption</a>.</p>
 <h2>Next step: pick your software</h2>
 <p>You'll need HMRC-recognised software. <a class="btn" href="/#directory">Compare all {len(products)} products</a></p>
+<p>Browse our <a href="/guides/">plain-English MTD guides</a>, including <a href="/guides/free-mtd-software/">which free MTD software options exist and their limits</a>.</p>
 <h2>Quick answers</h2>{faq_html(qas)}
 </div>'''
     out += foot()
@@ -551,6 +552,109 @@ def simple(path, title, desc, body, crumbs):
     out = head(f'{title} | {NAME}', desc, path, [crumb_ld(crumbs)])
     out += f'<div class="wrap" style="max-width:820px"><p class="breadcrumb"><a href="/">Home</a> › {E(title)}</p><h1>{E(title)}</h1>{body}</div>'
     out += foot(); write(path, out)
+
+
+# ---------- Guides (data/guides/*.html: <!--meta {json} --> + HTML body with {{tokens}}) ----------
+def _tr(p):
+    return '<span class="y">Yes</span>' if p['tax_return'] else '<span class="n">Not listed</span>'
+
+def _inc(p):
+    return E(', '.join(incomes(p)) or 'Unknown')
+
+def _ptype(p):
+    return E(' + '.join(types(p)) or 'Unknown')
+
+def _plink(p):
+    href, rel, aff = link_for(p)
+    tag = ' <small class="disclose">(affiliate link)</small>' if aff else ''
+    return f'<a href="{E(href)}" rel="{rel}" target="_blank">Provider site</a>{tag}'
+
+FREE = [p for p in products if p['free_version'] == 'yes']
+FREE_CHECKED = [p for p in FREE if p['vendor_checked'] and p['price_text'] != 'unknown' and 'per HMRC' not in p['price_text']]
+FREE_UNCHECKED = [p for p in FREE if p not in FREE_CHECKED]
+
+def tok_free_checked_table():
+    rows = ''.join(f'<tr><td><a href="/software/{p["slug"]}/">{E(p["name"])}</a></td><td>{E(p["price_text"])}</td><td>{E(p["price_note"] or "Not stated")}</td>'
+                   f'<td>{_inc(p)}</td><td>{_tr(p)}</td><td>{_ptype(p)}</td><td>{_plink(p)} · <a href="{E(p["price_source"])}" rel="noopener" target="_blank">price source</a></td></tr>' for p in FREE_CHECKED)
+    return ('<div class="tablewrap"><table><thead><tr><th>Software</th><th>Free plan (provider)</th><th>What the provider says about it</th>'
+            '<th>Income types (HMRC)</th><th>Tax return (HMRC listing)</th><th>Type</th><th>Links</th></tr></thead><tbody>' + rows + '</tbody></table></div>')
+
+def tok_free_unchecked_table():
+    rows = ''.join(f'<tr><td><a href="/software/{p["slug"]}/">{E(p["name"])}</a></td><td>{_inc(p)}</td><td>{_tr(p)}</td><td>{_ptype(p)}</td></tr>' for p in FREE_UNCHECKED)
+    return ('<div class="tablewrap"><table><thead><tr><th>Software</th><th>Income types (HMRC)</th><th>Tax return (HMRC listing)</th><th>Type</th></tr></thead><tbody>'
+            + rows + '</tbody></table></div>')
+
+def _cnt(f): return str(sum(1 for p in FREE if f(p)))
+GUIDE_TOKENS = {
+    'products_total': lambda: str(len(products)),
+    'free_total': lambda: str(len(FREE)),
+    'free_checked_n': lambda: str(len(FREE_CHECKED)),
+    'free_unchecked_n': lambda: str(len(FREE_UNCHECKED)),
+    'free_tr': lambda: _cnt(lambda p: p['tax_return']),
+    'free_no_tr': lambda: _cnt(lambda p: not p['tax_return']),
+    'free_both': lambda: _cnt(lambda p: p['sole_trader'] == 'yes' and p['uk_property'] == 'yes'),
+    'free_both_tr': lambda: _cnt(lambda p: p['sole_trader'] == 'yes' and p['uk_property'] == 'yes' and p['tax_return']),
+    'free_fp': lambda: _cnt(lambda p: p['foreign_property'] == 'yes'),
+    'free_bridging': lambda: _cnt(lambda p: p['bridging'] == 'yes'),
+    'free_cis': lambda: _cnt(lambda p: p['cis'] == 'yes'),
+    'free_checked_table': tok_free_checked_table,
+    'free_unchecked_table': tok_free_unchecked_table,
+    'hmrc_date': lambda: nice_date(HMRC_DATE),
+    'signup_inline': lambda: signup_block('inline'),
+}
+
+def load_guides():
+    gs = []
+    d = f'{ROOT}/data/guides'
+    if not os.path.isdir(d): return gs
+    for fn in sorted(os.listdir(d)):
+        if not fn.endswith('.html'): continue
+        raw = open(os.path.join(d, fn)).read()
+        m = re.match(r'\s*<!--meta\s*(\{.*?\})\s*-->', raw, re.S)
+        meta = json.loads(m.group(1)); body = raw[m.end():]
+        def sub(mm, fn=fn):
+            k = mm.group(1)
+            if k not in GUIDE_TOKENS: raise KeyError(f'Unknown guide token {k} in {fn}')
+            return GUIDE_TOKENS[k]()
+        meta['html'] = re.sub(r'\{\{(\w+)\}\}', sub, body)
+        meta['slug'] = fn[:-5]; meta['path'] = f'/guides/{meta["slug"]}/'
+        meta['qas'] = [(q, re.sub(r'\{\{(\w+)\}\}', sub, a)) for q, a in meta.get('faqs', [])]
+        gs.append(meta)
+    gs.sort(key=lambda g: g['published'], reverse=True)
+    return gs
+
+GUIDES = load_guides()
+
+def guide_pages():
+    il = {'@context': 'https://schema.org', '@type': 'CollectionPage', 'name': f'Making Tax Digital guides · {NAME}', 'url': BASE + '/guides/',
+          'inLanguage': 'en-GB', 'hasPart': [{'@type': 'Article', 'headline': g['title'], 'url': BASE + g['path']} for g in GUIDES]}
+    items = '<li><p class="byline">Facts checked ' + E(nice_date(CHECKED)) + '</p><h2><a href="/do-i-need-mtd/">Do I need Making Tax Digital, and when?</a></h2><p>Who needs MTD for Income Tax, the thresholds, quarterly deadlines and exemptions, all sourced from GOV.UK.</p></li>'
+    items += ''.join(f'''<li><p class="byline">Facts checked {E(nice_date(g["checked"]))}</p>
+<h2><a href="{g["path"]}">{E(g["title"])}</a></h2><p>{E(g["description"])}</p></li>''' for g in GUIDES)
+    out = head(f'Making Tax Digital guides for landlords and sole traders | {NAME}',
+               "Plain-English guides to Making Tax Digital for Income Tax for landlords and sole traders, checked against GOV.UK and providers' own websites.",
+               '/guides/', [il, crumb_ld([('Home', '/'), ('Guides', '/guides/')])])
+    out += f'''<div class="wrap prose"><p class="breadcrumb"><a href="/">Home</a> › Guides</p><h1>Making Tax Digital guides</h1>
+<p class="lead">Plain-English answers to the questions landlords and sole traders ask most about Making Tax Digital for Income Tax. Every fact is linked to its source.</p>
+<ul class="post-list">{items}</ul></div>'''
+    out += foot(); write('/guides/', out)
+    for g in GUIDES:
+        crumbs = [('Home', '/'), ('Guides', '/guides/'), (g['short'], g['path'])]
+        art = {'@context': 'https://schema.org', '@type': 'Article', 'headline': g['title'], 'description': g['description'],
+               'datePublished': g['published'], 'dateModified': g['checked'], 'inLanguage': 'en-GB', 'author': person_ld(),
+               'publisher': {'@type': 'Organization', 'name': NAME, 'url': BASE + '/'},
+               'mainEntityOfPage': {'@type': 'WebPage', '@id': BASE + g['path']}, 'url': BASE + g['path']}
+        ld = [art, crumb_ld(crumbs)] + ([faq_ld(g['qas'])] if g['qas'] else [])
+        out = head(f"{g['title']} | {NAME}", g['description'], g['path'], ld, og_type='article')
+        faqs = ('<h2>Quick answers</h2>' + faq_html(g['qas'])) if g['qas'] else ''
+        out += f'''<article class="wrap" style="max-width:980px"><p class="breadcrumb"><a href="/">Home</a> › <a href="/guides/">Guides</a> › {E(g["short"])}</p>
+<h1>{E(g["title"])}</h1>
+<p class="byline">By <a href="/about/">{E(OPERATOR)}</a> · Facts checked {E(nice_date(g["checked"]))}</p>
+{g["html"]}
+{faqs}
+<p class="note-footer">This page gives general information about the options available. It is not tax, legal or financial advice, and we don't tell you which option to choose. Prices and plans change, so check the provider's own website. See our <a href="/affiliate-disclosure/">affiliate disclosure</a> and <a href="/methodology/">how we check</a>.</p>
+</article>'''
+        out += foot(); write(g['path'], out)
 
 
 # ---------- Founders Blog (data/blog/*.md) ----------
@@ -788,6 +892,7 @@ def seo_files():
     urls = [('/', CHECKED), ('/do-i-need-mtd/', CHECKED), ('/free-mtd-kit/', CHECKED), ('/methodology/', CHECKED),
             ('/about/', CHECKED), ('/founders-blog/', CHECKED), ('/affiliate-disclosure/', CHECKED), ('/privacy/', CHECKED)]
     urls += [(p['path'], p['date']) for p in POSTS]
+    urls += [('/guides/', max([g['checked'] for g in GUIDES] + [CHECKED]))] + [(g['path'], g['checked']) for g in GUIDES]
     urls += [(f"/software/{p['slug']}/", CHECKED) for p in CHECKEDP]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'<url><loc>{BASE}{u}</loc><lastmod>{lm}</lastmod></url>\n' for u, lm in urls) + '</urlset>\n'
     write('/sitemap.xml', sm)
@@ -806,7 +911,7 @@ if __name__ == '__main__':
     json.dump({'source': HM['source'], 'hmrc_retrieved': HMRC_DATE, 'vendor_checked': CHECKED, 'count': len(products), 'products': products},
               open(f'{ROOT}/data/products.json', 'w'), indent=1, ensure_ascii=False)
     os.makedirs(f'{DIST}/data'); shutil.copy(f'{ROOT}/data/products.json', f'{DIST}/data/products.json')
-    home(); guide(); other_pages(); blog_pages(); kit_pages(); seo_files()
+    home(); guide(); other_pages(); blog_pages(); guide_pages(); kit_pages(); seo_files()
     for p in products: product_page(p)
     missing = [k for k in VV['products'] if k not in {p['name'] for p in products}]
     print('Email sign-up:', f"{EMAIL['provider']} ({EMAIL['form_action']})" if EMAIL_ON else 'OPENING SOON state (config/email.json has no provider/form_action)')
