@@ -1,0 +1,183 @@
+https://123sheets.com/
+Self Employed Landlords VAT Accountants Contact Get Updates  Login  Tax Agent Login
+
+
+
+
+
+The Making Tax Digital Spreadsheet Specialists
+
+We offer Spreadsheet/Excel MTD bridging software for Income Tax and VAT.
+
+50,000+ file with us
+
+We Are One Of The Top 10 Software Providers For MTD By Number of Submssions
+
+Making Tax Digital (MTD) Bridging Software
+Select what option suits your needs...
+For Self Employed
+Simplifying the MTD process for self employed
+ Learn more
+For Landlords
+Simplifying the MTD process for Landlords
+ Learn more
+For VAT
+Helping VAT returns run smoothly for MTD
+ Learn more
+For Accountants
+Simplifying the MTD process for Accountants
+ Learn more
+Testimonials
+From Accountants
+ 
+From Businessess
+I tried other bridging software, and gave up in despair! I then found 123 Sheets which I found simple and easy to file my VAT Return
+Trusted Floor Solutions Ltd
+The software looked so easy, I suspected fraud. My accountant told me you are legitimately recognised by HMRC. I’ve now filed my first VAT Return with ease.
+Abbey Pet Foods
+I feel smug that I have filed my first VAT Return with 123 Sheets, and haven’t had to pay hundreds to one of the larger software providers.
+Saxtead Livestock Ltd
+ 
+I’ve now filed my first VAT Return. They helped me register for MTD when I was struggling: excellent service.
+Stock Solutions Ltd
+The system is very easy to use, I filed our VAT Return without needing any support
+BJ Chemists Ltd
+Customer Services was exceptional, I was quickly able to file my VAT Return with their help
+Unsworth Family Stores
+We take your Data Security seriously.
+
+
+	We are ISO27001 certified. This means we have been audited by a UK government-recognised external auditor confirming we exceed the information security management system requirements of the ISO27001 standards recognised by the UK government. We are ISO27001 recognised accounting software for Making Tax Digital.
+	123 Sheets are Cyber Essentials certified. This means we have been self-certified and independently verified by a UK government-recognised independent party for exceeding the UK government's standards in cyber security. We are Cyber Essentials certified MTD VAT Software.
+	We are Cyber Essentials Plus certified. This means a UK government-recognised auditor has independently undertaken a technical audit to confirm we exceed the UK government standards in cyber security. We are Cyber Essentials Plus certified MTD ITSA compatible software.
+We encrypt all data transferred between you, us and HMRC.
+
+When you upload your data to us, we only read your summary figures HMRC needs for tax digital submissions. We do not use or store any of your underlying financial data.
+
+We do not see or store any of your credit card details either. For your annual licence payment, you are re-directed to Pay360, the preferred merchant facility of WorldPay. Once payment is made, you are re-directed back to our website. WorldPay is the largest card payment facility provider in the UK.
+123 Sheets store very limited information about you. All historic filing data, future filing obligations listed, HMRC tax estimates, payments and liability information shown on our website all come from HMRC's server each time, we do not store these. We store: contact name, business name, e-mail address, National Insurance Number, VAT Number and your phone number when you use our MTD VAT software.
+
+The servers we use are kept in a secure UK-based data centre, controlled by the largest web hosting company in Europe. Our servers use the latest enterprise level Microsoft operating systems and database software, as well as the latest anti-virus and anti-intrusion blocking software. The database and website are backed up daily. Remote server access is restricted to administrators having unique hand-held security devices. Remote server access security is provided by Cisco Systems, a company listed on the NASDAQ stock exchange.
+
+So, as you can see, we take it very, very seriously when it comes data security concerns with our MTD compatible software and your data.
+Read more +
+
+
+
+
+
+
+
+
+
+What is ‘Making Tax Digital’?
+HM Revenue & Customs wants to cut its costs, reduce errors, get paid quicker and bring its systems and those of taxpayer businesses into the digital age. Meaning you’ll need recognised making tax digital bridging software like ours.
+
+HM Revenue & Customs believes the software industry is better suited to assist businesses bring their affairs into the digital age, so quarterly filing will need to be submitted to HMRC via recognised third-party HMRC bridging software such as 123 Sheets. From April 2026 HM Revenue & Customs will require sole traders and landlord businesses to keep their bookkeeping on MTD accounting software (eg: Microsoft Excel) and make quarterly submission of income and expense summary totals via HMRC-recognised third-party MTD ITSA software, where their gross income was over £50,000 in the prior tax year.
+
+Those of turnover between £30,000 to £50,000 start from April 2027. Those of turnover between £20,000 and £30,000 start from April 2028. HM Revenue and Customs has not yet announced dates for partnerships. VAT-registered persons and entities must already keep digital bookkeeping and make regular digital submissions of data to HMRC using third-party VAT Return software. Limited companies are not currently slated to join MTD for corporation tax any time soon.
+
+
+
+
+
+
+Latest Articles
+View all Articles
+Making Tax Digital (MTD)
+Read more
+Do People Still Use Spreadsheets?
+Read more
+Data Security and MTD
+Read more
+FAQ’s
+What is ‘Making Tax Digital’?
+
+There are two basic elements to this:
+
+1. You must keep your bookkeeping, through to the digital filings, on software (eg a spreadsheet). You cannot do it in ledger books/paper anymore;
+2. If your bookkeeping software doesn’t have a facility for you to file digital sumbissions to HMRC, you will need bridging software. This is what we provide.
+
+What Data do you Send to HMRC?
+
+We extract out of your spreadsheet the summary figures to be sent to HMRC. HMRC do not get your spreadsheet. We do not keep anything you upload to us.
+
+Are Spreadsheets only a Temporary Solution for MTD?
+
+No, our software has been recognised by HM Revenue & Customs for long-term use to accept spreadsheets.
+
+Don’t get sucked in by the tales of some software providers that spreadsheets are only a temporary solution.
+
+How Do I Insert The 123 Sheets Worksheet Into My Spreadsheet?
+
+‍Watch this video For Excel
+
+‍or follow these steps:
+
+1. Ensure you have both spreadsheets open in Excel: our worksheet and your bookkeeping spreadsheet;
+2. Then, click on "View" then "View Side-by-Side". You may need to click on "Reset Window Position". You should now see both spreadsheets at the same time on the same screen: one above the other;
+3. Now pick up by the tab and drop either our worksheet into your spreadsheet, or vice versa to finish.
+
+Failing that, you do not need to merge our worksheet into yours. You could instead keep the two spreadsheets separate, and use a formula to move your summary HMRC figures to our spreadsheet and just upload that.
+
+Is Your Software Compatible With Older Versions of Microsoft Excel?
+
+Our software is compatible with Microsoft Excel 1997 through to the latest versions. However, if you have chosen to use our bookkeeping spreadsheet, you'll need Excel 2016 or higher.
+
+Don’t I need to Put My Business Details in The Spreadsheet?
+
+No. In order to file a Return, you will set up an account with us and enter those details there. When filing a Return to HMRC, we send those details and your figures to HMRC, so we do not need to ask you for them each time you submit a Return.
+
+I Don’t Have Excel, Do You Work With Other Spreadsheet Software?
+
+Yes. Please click on the relevant software link below to see how to do it
+
+.Google Sheets
+‍ Apple Numbers
+‍ Libre Office
+‍ Open Office
+
+‍If your software is missing from the above list, let us know what it is and we’ll get back to you.
+
+Do you Work with Sage, Quickbooks and Other Bookkeeping Software?
+
+Yes, just export your summary data to Excel, and we can submit your data to HMRC. We have a specific VAT solution for Sage and Quickbooks users on our VAT page. As long as your software allows you to export the Return into Excel or a .csv file, you can use our software. If it will only export a PDF, you can use a free PDF converter on the internet to convert your file into an Excel file. We are looking to increase the number of automatic imports for different software. If your software isn’t listed, get in touch, and we may be able to provide an automatic import facility for you within a week or so.
+
+Do you Work with Different VAT Schemes?
+
+Yes, we work with all VAT Schemes.
+
+FRS, Groups, Partial Exemption, Capital Goods, Margin Schemes, Cash Accounting, Annual Scheme, Retail Schemes, Payments on Account etc can all use our software. Just ensure the figures on your return are calculated correctly according to your scheme rules and are put in the correct boxes as per the rules for your VAT scheme. (Eg: on the FRS, Box 6 is the Gross Sales (inc. VAT), and Box 1 is your FRS % multiplied by your box 6 figure – other boxes are normally zero).
+
+What Kind of Businesses do you Work With?
+
+We work with all sizes of businesses, organisations and individuals.
+
+How do I Purchase Your Software?
+
+Create an account with us. Do that by clicking on “Create Account” near the top of this page. Then log in to your account and select the ‘Purchase’ link.
+
+Can I Try This Software Before Buying?
+
+Yes, you can use one of our Demos.
+
+There are various Demo buttons on pages across this website, just not on this page.
+
+Do you keep my Data Secure?
+
+Yes, we have a section above dedicated to that entitled “We Take Your Data Security Seriously”. Please read that.
+
+How Much Does it Cost?
+
+You will find on each specific tax page a pricing section.
+
+How Do I File My EC Sales List?
+
+EC Sales Lists are not yet part of Making Tax Digital, so file those however you were filing them previously.
+
+Show more FAQs
+Have you got a question?
+Contact our friendly sales team
+Contact Us
+© 2026 - 123Sheets • Visit our blog
+Terms of Service • Data Privacy Policy • Cookies Policy

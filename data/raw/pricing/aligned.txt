@@ -1,0 +1,477 @@
+https://aligned.tax/
+aligned
+tax
+Product
+Who it's for
+Free templates
+Guides & tools
+For Agents & Accountants
+Log in
+Start filing now
+Free Making Tax Digital software for Income Tax, built for people who use Excel.
+
+aligned.tax helps landlords, sole traders and self-employed people turn spreadsheet records into HMRC-ready quarterly updates, without moving everything into full bookkeeping software. Spreadsheets are allowed for MTD - we connect yours securely to HMRC.
+
+Start filing now
+Check if MTD applies to me
+
+Always free to file your own quarterly updates · Keep using your Excel spreadsheet · Connects securely to HMRC.
+
+client-accounts-2026.xlsx → HMRC Self Employment
+Smart Map Suggestions
+
+Found 8 potential mappings in your spreadsheet.
+
+HIGH CONFIDENCE
+5 fields
+✓
+A3
+→
+Turnover
+= £125,400
+Exact match found in "Income" section
+✓
+B5
+→
+Professional Fees
+= £2,450
+Header "Accountant Fees" matched
+✓
+C2
+→
+Other Income
+= £5,000
+Cell labelled "Misc Income" mapped
+
++5 more mapped automatically
+
+Accept All (8)
+2FA on All Accounts
+Free MTD Software
+FITS HOW YOU ALREADY WORK
+Who it's for.
+ACCOUNTANTS
+Client spreadsheets. One practice dashboard.
+
+Review each client's spreadsheet, approve its mapping to HMRC fields, and submit the quarterly update from one dashboard. Saved mappings can be reused next quarter.
+
+3
+Clients free forever
+£1.50
+Starting monthly price
+1
+Practice dashboard
+Explore accountant filing
+LANDLORDS
+Three properties. One workbook. No accounting software.
+
+Spend minutes on tax, not a weekend. Safe, secure AI reads the rental spreadsheet you already keep and maps it to HMRC's fields, so you file each quarter with a quick check - and never learn accounting software.
+
+3
+Properties, one upload
+0
+Software to learn
+4
+Filings per year
+Explore landlord filing
+SOLE TRADERS
+Back to work after a quick spreadsheet review.
+
+Back to the day job in minutes. Safe, secure AI reads your income and expenses spreadsheet and maps it to HMRC's fields, so filing each quarter is a quick review - not a data-entry chore.
+
+<1min
+To file
+4
+Reminders per year
+30s
+Repeat filing
+Explore sole trader filing
+BRIDGING SOFTWARE, EXPLAINED
+What is MTD bridging software?
+
+Bridging software connects the spreadsheet where you already keep your records to HMRC's Making Tax Digital system, so you can file quarterly updates without switching to full accounting software. aligned.tax is free, HMRC-recognised bridging software for filing your MTD for Income Tax quarterly updates: save or export your records as an XLSX workbook, upload it, review the figures, and submit.
+
+With aligned.tax, filing your own MTD quarterly updates is free, always - no card, no time limit. See how it works with Excel, or start from a free landlord bookkeeping template orself-employed bookkeeping spreadsheet.
+
+HOW IT WORKS
+From spreadsheet to HMRC in three steps
+UPLOAD
+Drop in your spreadsheet
+
+Your spreadsheet. No reformatting, no templates required. Just upload it as-is. Summary totals, category breakdowns, whatever layout you use - Smart Map reads the structure and figures out what goes where.
+
+app.aligned.tax
+How would you like to submit your data?
+Summary Mode
+I have my figures ready
+Enter income and expense totals
+Review and submit to HMRC
+Transaction Mode
+I have bank statements
+Upload an XLSX bank export
+Smart Map categorises transactions
+MAP
+aligned.tax maps your data
+
+Use our ready-made template and your figures drop straight into the right HMRC fields - no mapping needed. Prefer your own spreadsheet? Smart Map scans column headers and layout patterns to map it for you automatically. Either way, you review and approve everything before anything is submitted.
+
+app.aligned.tax
+Smart Map Suggestions
+Found 6 potential mappings
+HIGH
+2 mappings
+✓
+Rental Income
+←
+A2
+= £24,000
+Exact header match
+✓
+Insurance Premiums
+←
+B3
+= £1,500
+Header "Insurance" matches HMRC field
+MEDIUM
+2 mappings
+✓
+Repairs & Maintenance
+←
+C4
+= £3,100
+Partial match - "Repairs" in header
+Skip
+Accept Selected (3)
+SUBMIT
+Submit to HMRC
+
+Check the numbers, hit submit. Filed directly to HMRC via their MTD API. Save the mapping for next quarter - one click to repeat. Full audit trail on every submission.
+
+app.aligned.tax
+Tax Dashboard
+1
+OPEN
+0
+OVERDUE
+0
+DUE SOON
+3
+FULFILLED
+Q2 Update Successfully Filed
+Business
+Acme Consulting - Self Employment
+Period
+06/07/2026 - 05/10/2026
+Submitted
+25 Oct 2026, 14:32
+HMRC Ref
+1234567890
+WATCH IT DONE
+See a quarterly update filed from an ordinary spreadsheet
+
+Upload the workbook you already keep. Smart Map matches your own labels to HMRC’s fields and you check every figure before sending.
+
+Video 04 of 19
+2 min 29 sec
+For anyone who already keeps a spreadsheet
+
+See all 12 videos for individuals
+2 min 29 sec
+KEEP YOUR SPREADSHEET
+Yes, you can still use Excel for MTD
+
+Making Tax Digital does not mean buying full accounting software. HMRC lets you keep your records in a spreadsheet, as long as the figures reach them through software that connects to their system. That is all aligned.tax does.
+
+1
+Your spreadsheet
+
+Excel, Google Sheets or our free template. The one you already use.
+
+2
+aligned.tax
+
+Reads your figures, you review them, and we line them up with the right HMRC boxes.
+
+3
+HMRC
+
+Your quarterly update is submitted straight to HMRC, and you get a confirmation.
+
+Software that links a spreadsheet to HMRC like this is called bridging software. It is a fully valid way to meet MTD, not a temporary workaround. See how spreadsheets fit MTD.
+
+FREE XLSX TEMPLATES
+No spreadsheet yet? Start with one of ours.
+
+Download a free workbook for landlords or sole traders, add your income and expenses, then upload it to aligned.tax when you are ready to file.
+
+Choose a free spreadsheet template
+
+No email required.
+
+Need an invoice, timesheet or cash flow forecast? See all free business templates.
+
+Bookkeeping workbooks
+
+Record transactions throughout the year and see quarterly totals automatically.
+
+Quarterly summaries
+
+Organise figures from records you already keep into an upload-ready XLSX workbook.
+
+FEATURES
+Built-in from day one
+Complete audit trail
+
+Every submission logged with timestamp, data snapshot, and HMRC confirmation.
+
+Deadline tracking
+
+See what's due, filed, and overdue. Never miss a quarterly deadline.
+
+Direct HMRC connection
+
+Filed via HMRC's official MTD API. No middlemen, no delays.
+
+Your XLSX spreadsheet
+
+If it opens in Excel, it works with aligned.tax. Templates optional.
+
+Your data, your rules
+
+Store spreadsheets securely or delete after submission. Your choice.
+
+Year-end submissions
+
+Quarterly and annual, all in one place. Coming soon.
+
+VERIFIED REVIEWS
+People who dreaded MTD, pleasantly surprised.
+We had been struggling for months to establish just what our longstanding accounts software provider planned to offer to make us MTD compliant. With the deadline for the first quarterly submission looming we stumbled upon aligned.tax. What a revelation. Within less than half an hour we managed to register and make our submission to HMRC.
+Kevin Barnes
+Verified Trustpilot review
+It picked up all the right numbers from my spreadsheet first time. I had to download my Google spreadsheet as an xls version. Other than that all worked smoothly and was easy to follow.
+Nigel Reynolds
+Verified Trustpilot review
+After trying numerous different apps, this is the only one that actually did exactly what it said. Easy, intuitive bridging software to submit MTD accounts. I did what I needed to do in minutes.
+Claire Davies
+Verified Trustpilot review
+
+Read all reviews on Trustpilot
+
+PRICING
+Free for individuals.
+
+aligned.tax is free MTD software for filing your own Making Tax Digital for Income Tax quarterly updates. Upload your spreadsheet, map it once with Smart Map, and file directly to HMRC - no credit card, no time limit. Accountants and bookkeepers start with three clients free.
+
+£0
+for individuals
+
+Filing your own updates. No limits. No card.
+
+Free always - a commitment, not a launch offer.
+
+Unlimited quarterly submissions
+Smart Map automatic mapping
+Reusable mapping templates
+Full audit trail
+Direct HMRC filing via MTD API
+No credit card required
+
+Accountants and bookkeepers: free until April 2027, and your first three clients are free forever. From the 2027/28 tax year, from £0.75-1.50 +VAT per active client per month - no card required, cancel anytime.See practice pricing.
+
+Start filing now
+
+Filing your own MTD Income Tax quarterly updates is free, always. Practice pricing applies to accountants and bookkeepers filing for clients.
+
+See full pricing details
+
+SCOPE CHECK
+Does Making Tax Digital for Income Tax even affect you?
+
+It depends on your income, not a letter from HMRC. Answer three short questions and find out exactly when, and why, with every part traced back to GOV.UK. No sign-up.
+
+Check in 60 seconds
+FREE RESOURCES
+Get MTD right before the deadline.
+
+Plain-English guides, deadline trackers and a free template - so you know exactly what HMRC wants and when.
+
+FREE TOOL
+MTD Software Assessment
+
+Bridging or full bookkeeping? Compare aligned.tax, Xero, QuickBooks and FreeAgent side by side and find the right fit for you or your clients.
+
+FREE TEMPLATE
+Landlord Bookkeeping Template
+
+A ready-made Excel template for tracking rental income and expenses, built to drop straight into aligned.tax for MTD filing.
+
+GUIDE
+MTD ITSA Deadlines
+
+Every quarterly update and tax return deadline, plus the April 2026, 2027 and 2028 mandation cohorts in one place.
+
+FREE TEMPLATE
+Sole Trader Bookkeeping Spreadsheet
+
+A free Excel template built around HMRC's self-employment categories, with automatic quarterly totals ready for aligned.tax filing.
+
+Browse all MTD guides, tools and templates →
+
+SECURITY
+Your tax data is locked down. Full stop.
+
+We know tax software makes people nervous. That's why security is built in from day one: your figures encrypted with AES-256, two-factor on every account, and Smart Map reads only your column headers, never the numbers.
+
+Encrypted & secure
+AES-256, at rest and in transit
+Two-factor auth
+MFA on all accounts
+Your data, your control
+AI never stores your figures. Delete your spreadsheet after submission.
+Cyber Essentials certified
+Independently assessed to the UK government security standard.
+HMRC-recognised for Making Tax Digital
+View the listing →
+Cyber Essentials certified
+Verify the certificate →
+
+Registered with the Information Commissioner's Office:ZC120933
+
+FAQ
+Common questions
+Is aligned.tax HMRC-recognised software?
+
+Yes. aligned.tax is officially HMRC-recognised software for Making Tax Digital for Income Tax, recognised in July 2026. That means it passed HMRC's production approval checks and files through HMRC's official MTD API. 'Recognised' is the term HMRC uses - HMRC does not approve or endorse individual products. Read the announcement.
+
+Is there free MTD software?
+
+Yes. aligned.tax is free, HMRC-recognised MTD software for Income Tax - filing your own quarterly updates is free, always, with no credit card. Accountants and bookkeepers get their first three clients free, then simple per-client pricing. A few accounting packages offer free tiers too, and GOV.UK lists every compatible option. What "free" really means under MTD.
+
+How much does MTD software cost?
+
+Bridging software typically costs £5 to £10 +VAT per month - £72 to £144 a year - and full accounting packages run from around £10 to £40+ per month. With aligned.tax, filing your own MTD quarterly updates is £0, always, with no card. See the pricing page for the full picture.
+
+Will HMRC provide free software for Making Tax Digital?
+
+No. HMRC does not provide its own filing software for MTD for Income Tax - you must use compatible third-party software, which GOV.UK lists. Free options exist, including aligned.tax, which is HMRC-recognised and free for individuals filing their own quarterly updates.
+
+What is MTD ITSA?
+
+Making Tax Digital for Income Tax Self Assessment. From April 2026, sole traders and landlords earning over £50,000 must keep digital records and submit quarterly updates to HMRC. The threshold drops to £30,000 from April 2027.
+
+Do I have to change my spreadsheet?
+
+No. That's the whole point. Upload whatever you've got, even if it's messy. Smart Map reads your spreadsheet and figures out what goes where. You review the mapping, make any tweaks, and submit.
+
+Can I use Excel or a spreadsheet for MTD?
+
+Yes. HMRC lets you keep your records in Excel, Google Sheets or another spreadsheet, as long as you file through software that connects to HMRC. aligned.tax does exactly that: you upload your spreadsheet, review the figures, and we submit your quarterly update. Here is how it works with Excel.
+
+How long can I use bridging software?
+
+As long as you need to. Using a spreadsheet with bridging software is a valid, ongoing way to meet Making Tax Digital, not a temporary workaround, and there is no time limit on it. More on spreadsheets and MTD.
+
+How does Smart Map work? Is my data sent to AI?
+
+Smart Map sends a prepared view of your spreadsheet to an AI model so it can suggest how cells map to HMRC fields. The view includes spreadsheet structure, labels and financial figures, but recognised personal identifiers such as names, email addresses, phone numbers, addresses and National Insurance numbers are redacted before the request is sent. Your original spreadsheet file is never sent. The model returns cell references only, and you review every suggestion before anything is submitted to HMRC. Every request runs under a zero data retention policy with data collection denied, enforced on the request itself, so it can only be answered by an endpoint that does not retain your data, and inputs are not used to train models.
+
+What happens to my spreadsheet after I submit?
+
+Your choice. You can store it securely on our platform for your records, or have it deleted immediately after submission. Either way, we keep only the summary data that was sent to HMRC. Nothing more.
+
+You can also delete your entire account and all associated data at any time from your account settings. No hoops, no retention period, no need to contact support.
+
+What about year-end submissions?
+
+Year-end filing support is in active development and will be available soon. You won't need a separate platform. Quarterly and annual submissions will all be handled in aligned.tax.
+
+What's the HMRC soft landing period?
+
+MTD for Income Tax is a legal requirement from April 2026. You still need to keep digital records and submit quarterly updates. However, HMRC's soft landing means no penalty points for late quarterly submissions in year one (April 2026 to April 2027). It's time to get set up, not time to ignore it. aligned.tax is free for individuals filing their own updates.
+
+Is this just for accountants?
+
+Not at all. aligned.tax works for anyone who needs to file under MTD ITSA: sole traders, landlords, and accountants managing clients. The multi-client dashboard is particularly useful for practices, but if you're filing for yourself it's just as simple. Our help centre has step-by-step guidance for each account type.
+
+Will aligned.tax stay free?
+
+For individuals, yes. Filing your own MTD Income Tax quarterly updates is free, always - a commitment, not a launch offer. For accountants and bookkeepers, everything is free until April 2027 and the first three clients stay free forever; the per-client pricing that applies from the 2027/28 tax year is published in full on the pricing page.
+
+Is free MTD software safe? What's the catch?
+
+There's no catch. Filing your own quarterly updates is free, and always will be - no credit card required. If you are an accountant, practice pricing is published openly: first three clients free, then a simple per-client price. The core filing route stays free; optional extras, such as one-to-one setup help, are priced separately. Your connection to HMRC is secure, you review every figure before anything is submitted, and your data is encrypted with two-factor authentication on every account.
+
+I use Google Sheets, not Excel. Can I still use aligned.tax?
+
+Yes. In Google Sheets, go to File > Download > Microsoft Excel (.xlsx) and upload the downloaded file. The same applies to Apple Numbers (File > Export To > Excel) or LibreOffice Calc (Save As > .xlsx). aligned.tax needs an .xlsx file, but any spreadsheet app can export one in a few clicks.
+
+How is my data protected?
+
+All data is encrypted at rest and in transit. We enforce two-factor authentication on all accounts and maintain a complete audit trail. You choose whether aligned.tax keeps your original spreadsheet after submission or deletes it. For Smart Map, only the redacted prepared view described above leaves aligned.tax, with zero data retention enforced on every AI request.
+
+Missed a quarterly update? It's not too late to catch up.
+
+There are no penalty points for late quarterly updates in 2026-27. Updates are cumulative, so your next update also covers any quarter you missed.
+
+Time left to file your next update
+7 February 2027
+80
+DAYS
+:
+05
+HOURS
+:
+16
+MINS
+:
+05
+SECS
+
+The next quarterly update is due by 7 February 2027.
+
+Do not leave your HMRC connection and workbook checks until deadline day. See the quarterly update filing checklist.
+
+Start filing now
+
+Free for individuals, always. Practices start with three clients free. No credit card, no setup.
+
+Product
+How it works
+Pricing
+About
+Who it’s for
+Landlords
+Sole traders
+Accountants
+Aligned Intelligence
+Free templates
+Templates hub
+Business template library
+Practice-branded client spreadsheets
+Landlord spreadsheet
+Sole trader spreadsheet
+2025/26 Self Assessment spreadsheets
+Guides & tools
+Resources
+Help Centre
+Key dates
+Demo videos
+Using Excel for MTD
+Start-date checker
+Free MTD software compared
+Blog
+Contact
+Support
+hello@aligned.tax
+Report a Security Issue
+Legal
+Privacy Policy
+Cookie settings
+Terms of Service
+Data Processing Agreement
+Accessibility Statement
+
+Aligned Logic Ltd t/a aligned.tax (Company No. 17081706) - 167-169 Great Portland Street, 5th Floor, London, W1W 5PF
+
+© 2026 Aligned Logic Ltd. All rights reserved.

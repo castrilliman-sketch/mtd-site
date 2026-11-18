@@ -1,0 +1,188 @@
+https://vitaltax.uk/
+Home
+Contact
+Privacy Policy
+Licence Agreement
+One solution for your Making Tax Digital compliance
+How To Install
+Demo
+INCOME TAXVAT
+Making Tax Digital for Income Tax
+
+Making Tax Digital (MTD) for Income Tax is a UK Government initiative designed to modernise and digitalise the tax system. From April 2026, MTD for Income Tax will apply to self-employed individuals and landlords with a combined gross income exceeding £50,000. The scope will expand in April 2027 to include those earning over £30,000, and from April 2028, it will extend to taxpayers with income above £20,000 from these sources. The Government also plans to introduce MTD for Income Tax for partnerships at a later date, which is yet to be confirmed.
+
+What is New?
+
+Digital Records: Businesses and landlords will be required to keep their records digitally and submit their business income and expenses to HMRC using MTD-compatible software. HMRC recognises spreadsheets as an acceptable solution for maintaining digital records. You can still use your current spreadsheet template and submit data via approved Making Tax Digital bridging software.
+
+Quarterly Submissions: Taxpayers will need to provide quarterly business income and expenses for each self-employment and property business. This information must be linked to the original digital records. After each submission, taxpayers will be able to review up-to-date information about their tax liabilities.
+
+Annual Submission: After the fourth quarterly update has been submitted, corrected if necessary, and finalized, the taxpayer must submit the year-end tax return to confirm their final income tax position for the year. The MTD year-end tax return will be pre-populated with the income and expense data from the previously filed quarterly updates. These figures can then be reviewed and adjusted as needed for accounting and tax purposes. At the same time, other non-MTD sources of income, such as bank interest and PAYE income, must be reported, or any pre-populated entries should be reviewed for accuracy. In addition, any capital gains must be declared, and any applicable reliefs should be claimed.
+
+There will be no online filing service provided by HMRC under MTD. Self-employed individuals and landlords (or their agent) will have to use compatible software to file the MTD quarterly updates and tax return.
+
+Start using VitalTax for free
+
+VitalTax is recognised by HMRC as a compliant bridging solution for Making Tax Digital (MTD) for Income Tax. You can start using VitalTax for Income Tax completely free today and see how it supports your MTD compliance in practice. Your first quarterly submission with VitalTax is free. This gives you the opportunity to try the product with no obligation or commitment. If you’re happy after your first submission, you can then activate your licence.
+
+Sign up for news
+You are
+Taxpayer
+Agent
+Subscribe
+
+Check this HMRC guidance to find out how to sign up for MTD for Income Tax. If you’re an agent, use this HMRC link instead to sign up your clients for MTD for Income Tax.
+
+Your Guide to VitalTax for Income Tax Submissions
+
+VitalTax enables you to submit Income Tax quarterly updates directly from any Excel spreadsheet. No fixed templates are required — you can continue using your existing income tax calculation process. Follow these simple steps to stay compliant with Making Tax Digital for Income Tax.
+
+Install VitalTax
+
+Download VitalTax from the Microsoft Office Store. It’s a secure and straightforward way to add VitalTax to Excel on Windows, Mac, Web, iOS, and Android. Wherever Excel runs, VitalTax works.
+
+Set up your VitalTax account
+
+Create your VitalTax account and authorise VitalTax to interact with HMRC on your behalf. You can choose to set up a taxpayer account and add multiple National Insurance numbers for your entire family, or create an agent account to manage multiple clients from a single VitalTax account.
+
+Add Income Tax to your existing VAT account
+
+If you already use VitalTax for VAT, simply add Income Tax to your existing account — no need to start again.
+
+Submit your quarterly update
+
+When you’re ready to submit your quarterly update, select the relevant cells in your spreadsheet and VitalTax will automatically map and import your figures into the correct sections of your MTD Income Tax quarterly update.
+
+Submit MTD Quarterly Updates for Landlords
+
+Watch how to manage landlord reporting in VitalTax for both sole ownership and joint ownership scenarios, from initial setup through to quarterly submission.
+
+How to set up and use templates in VitalTax
+
+Create templates and let VitalTax automatically pick up figures from your spreadsheet — saving time, reducing manual work, and simplifying quarterly submissions.
+
+VitalTax for Agents: Step-by-step guide
+
+Agents, this video is for you. Learn how to use VitalTax to add clients, configure income sources, and submit MTD updates to HMRC, with examples for self-employed and rental income clients.
+
+Taxpayer
+
+Set up your VitalTax account and be fully compliant with MTD for Income Tax
+
+First submission FREE
+
+Multi-Person / Family
+
+Easily manage Income Tax for multiple people from a single account
+
+First submission FREE
+
+Agent
+
+Manage your clients’ Income Tax effortlessly from a single agent account
+
+First submission FREE
+
+Annual licence prices
+
+Pricing is based on how many National Insurance numbers (individual taxpayers) you include in your VitalTax account. A licence that includes one NI number costs £30 + VAT per year and covers all quarterly submissions for that person, whether they have a single sole trader business, multiple sole trader businesses, one or more properties, or a combination of income sources. As you include more NI numbers, the annual licence price increases accordingly. The unlimited licence option applies for more than 10 NI numbers with no limit on how many you can include.
+
+All prices are annual and exclude VAT.
+
+Number of Taxpayers (NI Numbers)	Licence Price
+1	£30.00
+2	£54.00
+3	£72.00
+4	£90.00
+5	£108.00
+Number of Taxpayers (NI Numbers)	Licence Price
+6	£126.00
+7	£144.00
+8	£162.00
+9	£180.00
+Unlimited	£198.00
+Making Tax Digital – A Visual Guide
+
+Below is a diagram representing the main steps in Making Tax Digital for Income Tax compliance. Click on each step to read more information.
+
+Income Sources
+Quarterly submissions (cumulative figures)
+Income and Expenses Quarter 1
+Income and Expenses Quarter 2
+Income and Expenses Quarter 3
+Income and Expenses Quarter 4
+Annual submissions
+Annual Income and Expenditure
+Adjustments and Allowances
+Other income sources
+All income sources have been finalised
+Final Declaration
+Income Sources
+
+With MTD for Income Tax, different income sources involve different compliance requirements.
+
+Business income sources: These include self-employment, UK and foreign property businesses. MTD for Income Tax legislation mandates digital record-keeping for these businesses. Taxpayers will need to provide quarterly income and expenses for each business income source. VitalTax will automatically retrieve from HMRC all business income sources associated with your National Insurance number.
+
+Information for all non-business income sources can be submitted annually. These include employment income, bank and building society interest, dividends, capital gains, etc. MTD for Income Tax legislation does not mandate digital record keeping and quarterly submissions for non-business income sources. You will be able to configure your VitalTax account to include any non-business income sources that you want to declare. The data provided for these income sources will be used to calculate your annual tax liability.
+
+Quarterly Updates for Income and Expenses
+
+Taxpayers will need to submit quarterly updates for income and expenses for each business income source. The income and expenses figures should be calculated from the original digital records that you can keep in your Excel spreadsheet. You can continue using all your preferred Excel formulas to calculate figures for income and expenses for each quarter.
+
+By default, the quarters are aligned with the tax year rather than the business’s accounting period. Updates must be submitted by the 7th of the month following the quarter end. For example, the first quarter runs from 6 April to 5 July, with the quarterly update due to HMRC by 7 August. To better align with accounting periods, taxpayers can opt to make a calendar quarters election. This means the first quarter runs from 1 April to 30 June, the second from 1 July to 30 September, and so on. The filing deadlines for quarterly updates remain unchanged — the first update is due by 7 August, the second- by 7 November, and so forth.
+
+HMRC requires different information for quarterly updates depending on the income source and annual turnover. If the annual turnover for an income source is expected to be less than the VAT registration threshold, you will not be required to submit a detailed expenses breakdown; instead, you can provide a consolidated expenses summary for the quarter. For example, for the self-employment quarterly submission for an expected turnover of less than the VAT registration threshold, you will only need to provide turnover, other income not included in turnover, and a single consolidated expense figure.
+
+For taxpayers whose annual business turnover meets or exceeds the VAT registration threshold, a detailed breakdown of expenses is required. This should include, but is not limited to, staff costs, travel expenses, premises running costs, advertising costs, and other relevant expense categories. A comprehensive list of the required expense categories for each income source is available in VitalTax.
+
+UK and overseas properties are treated as two separate businesses. Income from each property must be grouped into one of these categories before submission. Digital record keeping applies to the property business as a whole, not to each property individually. If a property is jointly owned, each owner must maintain digital records and submit updates for their share of income and expenses. They can record totals by category in their spreadsheet rather than listing every transaction, and expenses do not need to be included in quarterly updates.
+
+Quarterly updates will be cumulative, so if an error is discovered in a previous submission, it can be corrected the following quarter. HMRC expects quarterly information to be up to date with the digital records but does not require a legal declaration for the quarterly submission. You can resubmit your income and expenses figures at any time before finalising the annual income source data.
+
+Tax Calculations
+
+Every quarterly submission will trigger tax calculations. You can review your up-to-date tax calculations in VitalTax. This will include a summary of your taxable income and a detailed breakdown of your Income Tax and National Insurance contribution calculations, including your savings, capital gains, dividends, allowances, reliefs, and other data.
+
+Annual Submission
+
+Annual Income and Expenditure. With VitalTax, you can also provide figures for annual income and expenses, in addition to the quarterly submissions. This is an optional submission and is not mandated by MTD for Income Tax legislation. We developed this functionality to facilitate collaboration between taxpayers and their agents and help agents to optimise their workload.
+
+When you submit annual income and expenses figures, VitalTax will retrieve totals from the final quarterly update in HMRC system. You can amend these figures to guarantee that the final annual income and expenses figures that HMRC holds agree to your annual calculations.
+
+Submitting quarterly income and expense updates can be time-consuming and costly for agents. Since these submissions don’t require a legal declaration, they can be easily delegated to clients. While quarterly figures should be as accurate as possible, they can be amended at any time or adjusted at year-end.
+
+Agents can continue submitting annual returns and providing yearly income and expense figures as before MTD, using the annual submission to amend any client-submitted quarterly figures. VitalTax ensures accurate annual figures are applied when finalising income sources at year-end.
+
+Adjustments and Allowances. Taxpayer or their agent can make tax and accounting adjustments (eg disallowing elements of private use or capital expenditure). This process must be completed for each MTD income source.
+
+Including other income sources. Any non-business income sources, such as bank interest or salaries/pensions, will need to be reported to form the complete tax return. MTD aims to enable greater pre-population of data held by HMRC, which should mean you just need to check and approve or amend HMRC’s figures. You will be able to report other, non-MTD income sources, through VitalTax.
+
+Final Declaration
+
+The Final Declaration is a process that allows the taxpayers to finalise their tax position for the tax year. Taxpayers will have an opportunity to create loss claims against income sources for a specific tax year and declare voluntary Class 2 National Insurance contributions and other disclosures at this stage. This process brings together all the data that taxpayers need to provide to HMRC to reach their final tax liability for a specific year.
+
+Before submitting the Final Declaration, taxpayers must confirm that all income sources have been considered and that all required adjustments and claims have been made.
+
+VitalTax will show the final tax calculations, with a detailed breakdown of Income Tax and National Insurance contribution calculations. The user must then review the tax calculations and accept a legal declaration confirming that the information provided is correct and complete. After the user approves the final declaration, VitalTax will submit the annual return and finalise the taxpayer’s tax liabilities for the year.
+
+Contact us
+You are
+Taxpayer
+Agent
+Send message
+Contact Us
+
+01223 652744
+
+Monday - Friday, 9:00am - 5:00pm
+
+info@vitaltax.uk
+2026 © Vital Code Ltd
+
+Registered in England & Wales No. 09394521
+
+21 Radegund Road, Cambridge, CB1 3RH
+
+VAT Number 206653616
+
+

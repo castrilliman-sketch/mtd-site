@@ -1,0 +1,88 @@
+https://www.quickfile.co.uk/making-tax-digital-income-tax-and-self-assessment
+Community Pricing Blog Login
+	
+Making Tax Digital for Income Tax and Self Assessment (ITSA)
+
+From April 2026, self-employed individuals and landlords earning £50,000+ annually must use MTD-compatible software to keep digital records and submit quarterly income and expense updates to HMRC. These changes will replace the traditional Self Assessment tax return. Read on to find out more..
+
+Sign Up Now
+What's Changing?
+
+From April 2026, self-employed individuals and landlords with a combined annual income of £50,000 or more will be required to:
+
+Maintain digital records using MTD-compatible software.
+Submit quarterly updates of income and expenses to HMRC.
+
+In addition, they will need to provide end-of-year information covering other income sources, such as:
+
+Dividends
+Bank interest
+Employment income
+Capital gains and other miscellaneous income
+
+Once submitted, HMRC will generate a tax calculation, which you can review before filing a Final Declaration to confirm all income has been reported.
+
+What Do I Need to Submit in my Quarterly Updates?
+
+From April 2026, you'll need to submit cumulative quarterly updates that include:
+
+Total income for the year to date
+A breakdown of business expenses (across ~16 categories)
+
+These updates must be submitted at least once per quarter, but you can submit more frequently if preferred. Each update:
+
+Supersedes the previous one
+Triggers a new real-time tax calculation, helping you track and budget for your tax liability
+
+Quarterly Update Periods:
+
+Quarter 1: 6 April – 5 July
+Quarter 2: 6 April – 5 October
+Quarter 3: 6 April – 5 January
+Quarter 4: 6 April – 5 April (end of tax year)
+Note: Businesses with a combined income under £90,000 will have the option to submit consolidated expense totals rather than a detailed breakdown.
+What is the Final Declaration?
+
+After submitting your four quarterly updates, you must:
+
+Enter any additional income (e.g. bank interest, employment income, capital gains).
+Review the HMRC-generated tax calculation.
+Submit a Final Declaration, confirming all income for the tax year has been declared.
+
+This replaces the current Self Assessment tax return process.
+
+How Can QuickFile Help?
+
+QuickFile has developed a fully-featured MTD Income Tax solution designed to help self-employed individuals and landlords stay compliant with the new requirements.
+
+We are a listed software provider on HMRC's Software Choices page and are supporting all MTD mandated businesses from April 2025.
+
+Getting Started
+
+To take the first step and get your business or accounting practice ready for Making Tax Digital for Income Tax and Self-Assessment, please choose from one of the following options:
+
+ Register as an Accountant Register as a Single Business
+Further Reading
+Making Tax Digital - Detailed guidance
+Making Tax Digital - For Landlords
+Making Tax Digital for Income Tax and Self Assessment
+Making Tax Digital - Key Points
+VAT Bridging Software
+Terms and Conditions
+Privacy Policy
+ Back
+Home Community Knowledge Base Pricing Mobile Apps API Affinity System Health Business Banking Contact us
+QuickFile Ltd
+Registered in England & Wales
+Reg No: 7109543
+ 
+QuickFile.co.uk and its sub domains use cookies - find out more
+QuickFile - ©2026 all rights reserved
+Build: 2026-11-04-20-58
+×
+This website uses cookies
+This website uses cookies to improve user experience. By using our website you consent to all cookies in accordance with our Cookie Policy. Read more
+ACCEPT ALL
+DECLINE ALL
+ SHOW DETAILS
+POWERED BY COOKIESCRIPT

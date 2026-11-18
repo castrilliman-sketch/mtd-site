@@ -1,0 +1,12 @@
+{
+ "_how_to_use": "Paste a tracked affiliate URL against a product slug once a programme approves you. Empty string = no affiliate link; the site falls back to the official website from HMRC's list and does NOT add rel=sponsored. Only add links for programmes you have actually joined.",
+ "quickbooks-intuit": "",
+ "xero": "",
+ "sage-sole-trader-landlord": "",
+ "sage-sole-trader-landlord-free": "",
+ "zoho": "",
+ "freeagent": "",
+ "hammock-for-landlords": "",
+ "coconut": "",
+ "clear-books": ""
+}

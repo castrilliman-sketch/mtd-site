@@ -1,0 +1,333 @@
+{
+ "_note": "Facts checked by hand on each vendor's own site on the date shown. Anything not listed here is 'unknown' on the site. Never add a value without a source URL.",
+ "checked": "2026-11-18",
+ "products": {
+  "QuickBooks (Intuit)": {
+   "price_text": "unknown",
+   "price_note": "Plan prices on the pricing page load dynamically and could not be captured on 18 Nov 2026. The page shows a 30-day free trial and 'Calculate and submit CIS' on every plan, including Sole Trader Plus.",
+   "price_source": "https://quickbooks.intuit.com/uk/pricing/",
+   "joint": "unknown",
+   "affiliate": {
+    "status": "yes",
+    "note": "Listed on FlexOffers; the listing states a payout of 16% of online sales and free trials.",
+    "source": "https://www.flexoffers.com/affiliate-programs/intuit-quickbooks-uk-affiliate-program/"
+   }
+  },
+  "Xero": {
+   "price_text": "From £18/month excl. VAT",
+   "price_from_gbp_month": 18,
+   "price_note": "Ignite plan. Intro offer at check: 90% off for the first 6 months (£1.80/month excl. VAT). The Ignite plan lists 'MTD for Income Tax ready' and CIS calculations.",
+   "price_source": "https://www.xero.com/uk/pricing-plans/",
+   "joint": "unknown",
+   "affiliate": {
+    "status": "yes",
+    "note": "Xero runs an affiliate programme via PartnerStack; commission is not published (discussed after joining).",
+    "source": "https://www.xero.com/uk/affiliate-program/"
+   }
+  },
+  "Sage Sole Trader & Landlord Free": {
+   "price_text": "Free",
+   "price_from_gbp_month": 0,
+   "price_note": "Sole Trader Free: 25 auto-categorised transactions per month, 1 bank account, records landlord income and expenses.",
+   "price_source": "https://www.sage.com/en-gb/making-tax-digital/sole-trader/",
+   "joint": "unknown",
+   "affiliate": {
+    "status": "yes",
+    "note": "sage.com links to a 'Sage Affiliate Programme'; terms not yet reviewed.",
+    "source": "https://www.sage.com/en-gb/making-tax-digital/sole-trader/"
+   }
+  },
+  "Sage Sole Trader & Landlord": {
+   "price_text": "£7/month excl. VAT",
+   "price_from_gbp_month": 7,
+   "price_note": "Intro offer at check: 90% off for 10 months (£0.70/month excl. VAT), then £7/month.",
+   "price_source": "https://www.sage.com/en-gb/making-tax-digital/sole-trader/",
+   "joint": "unknown",
+   "affiliate": {
+    "status": "yes",
+    "note": "sage.com links to a 'Sage Affiliate Programme'; terms not yet reviewed.",
+    "source": "https://www.sage.com/en-gb/making-tax-digital/sole-trader/"
+   }
+  },
+  "FreeAgent": {
+   "price_text": "Sole trader £19/month, landlord £10/month (excl. VAT)",
+   "price_from_gbp_month": 10,
+   "price_note": "Prices for UK sole traders and unincorporated landlords. Intro offer at check: 50% off for the first six months. 30-day free trial.",
+   "price_source": "https://www.freeagent.com/pricing/",
+   "joint": "yes",
+   "joint_source": "https://www.freeagent.com/blog/freeagent-landlords-mtd-ready/",
+   "affiliate": {
+    "status": "no",
+    "note": "No public affiliate programme found. FreeAgent's customer referral scheme gives the new customer a 10% discount, not a cash commission.",
+    "source": "https://www.freeagent.com/company/terms/freeagent-referral-scheme/"
+   }
+  },
+  "FreeAgent for free with Mettle, NatWest & RBS": {
+   "price_text": "Free for eligible bank customers",
+   "price_from_gbp_month": 0,
+   "price_note": "Free while you keep a NatWest, Royal Bank of Scotland or Ulster Bank business current account, or a Mettle account with at least one transaction a month.",
+   "price_source": "https://www.freeagent.com/pricing/",
+   "joint": "yes",
+   "joint_source": "https://www.freeagent.com/blog/freeagent-landlords-mtd-ready/",
+   "affiliate": {
+    "status": "no",
+    "note": "No public affiliate programme found.",
+    "source": "https://www.freeagent.com/company/terms/freeagent-referral-scheme/"
+   }
+  },
+  "Zoho": {
+   "price_text": "Free plan; paid from £10/month billed annually",
+   "price_from_gbp_month": 0,
+   "price_note": "Zoho Books Free plan is £0. Its MTD page says sole traders and landlords can manage MTD obligations for free. Standard plan is £10/org/month billed annually (£12 monthly).",
+   "price_source": "https://www.zoho.com/uk/books/pricing/",
+   "joint": "unknown",
+   "affiliate": {
+    "status": "yes",
+    "note": "Zoho Affiliate Program: 15% commission on qualified sales for the first 12 months (standard tier).",
+    "source": "https://www.zoho.com/affiliate/"
+   }
+  },
+  "Hammock for landlords": {
+   "price_text": "From £8/month",
+   "price_from_gbp_month": 8,
+   "price_note": "30-day free trial.",
+   "price_source": "https://www.usehammock.com/pricing/",
+   "joint": "yes",
+   "joint_source": "https://www.usehammock.com/landlord-mtd-for-accountants/",
+   "affiliate": {
+    "status": "unknown"
+   }
+  },
+  "Coconut": {
+   "price_text": "Bridging £49.99/year; MTD filing £12.99/month",
+   "price_note": "MTD Bridging plan £49.99/year (quarterly updates from a spreadsheet; year-end submission is a £49.99 add-on). MTD filing plan £12.99/month or £129.99/year. 14-day free trial.",
+   "price_source": "https://www.getcoconut.com/pricing",
+   "joint": "unknown",
+   "affiliate": {
+    "status": "unknown"
+   },
+   "price_from_gbp_year": 49.99
+  },
+  "Coconut Free": {
+   "price_text": "Free version (per HMRC)",
+   "price_from_gbp_month": 0,
+   "price_note": "HMRC lists a free Coconut product; its limits were not checked.",
+   "price_source": "https://www.getcoconut.com/pricing",
+   "joint": "unknown",
+   "affiliate": {
+    "status": "unknown"
+   }
+  },
+  "Clear Books Free": {
+   "price_text": "Free",
+   "price_from_gbp_month": 0,
+   "price_note": "Sole Trader Free, Property Free and Foreign Property Free (one property) plans at £0.",
+   "price_source": "https://www.clearbooks.co.uk/pricing/",
+   "joint": "unknown",
+   "affiliate": {
+    "status": "unknown"
+   }
+  },
+  "Clear Books": {
+   "price_text": "From £5/month excl. VAT",
+   "price_from_gbp_month": 5,
+   "price_note": "Sole Trader £5/month, Property £5/month, Sole Trader Plus (VAT-registered) £15/month, all excl. VAT. 30-day free trial.",
+   "price_source": "https://www.clearbooks.co.uk/pricing/",
+   "joint": "unknown",
+   "affiliate": {
+    "status": "unknown"
+   }
+  },
+  "Acorah Software Products Ltd (TaxCalc)": {
+   "price_text": "From £112/year",
+   "price_note": "TaxCalc MTD Quarterly Filer is aimed at accountants filing for clients from spreadsheets.",
+   "price_source": "https://www.taxcalc.com/products/mtd-quarterly-filer",
+   "joint": "unknown",
+   "audience": "Accountants",
+   "affiliate": {
+    "status": "unknown"
+   },
+   "price_from_gbp_year": 112
+  },
+  "VitalTax": {
+   "price_text": "£30 + VAT/year",
+   "price_note": "Excel add-in. One NI number £30 + VAT per year, covering all quarterly submissions for that person; unlimited licence £198 + VAT.",
+   "price_source": "https://vitaltax.uk/",
+   "joint": "yes",
+   "joint_source": "https://vitaltax.uk/",
+   "affiliate": {
+    "status": "unknown"
+   },
+   "price_from_gbp_year": 30
+  },
+  "Abridge (MTD for Excel/Sheets)": {
+   "price_text": "£39/year inc. VAT",
+   "price_note": "Full MTD Coverage plan: quarterly updates and final declaration, from Excel, Google Sheets or file upload.",
+   "price_source": "https://abridge.tax/",
+   "joint": "unknown",
+   "affiliate": {
+    "status": "unknown"
+   },
+   "price_from_gbp_year": 39
+  },
+  "Absolute Excel Income Tax Filer": {
+   "price_text": "From £40 + VAT",
+   "price_note": "Price covers 5 National Insurance numbers for a tax year.",
+   "price_source": "https://absoluteexcelincometaxfiler.co.uk/",
+   "joint": "unknown",
+   "affiliate": {
+    "status": "unknown"
+   },
+   "price_from_gbp_year": 40
+  },
+  "My Tax Digital (Free)": {
+   "price_text": "Free",
+   "price_from_gbp_month": 0,
+   "price_note": "Describes itself as free MTD software for Income Tax and VAT, with a bridging mode that imports spreadsheet figures.",
+   "price_source": "https://mytaxdigital.co.uk/",
+   "joint": "unknown",
+   "affiliate": {
+    "status": "unknown"
+   }
+  },
+  "TaxPig": {
+   "price_text": "Free; Pro £7.50/month",
+   "price_from_gbp_month": 0,
+   "price_note": "Free Community Edition (£0/month, 50 receipt scans). TaxPig Pro £7.50/month.",
+   "price_source": "https://taxpig.co.uk/",
+   "joint": "unknown",
+   "affiliate": {
+    "status": "unknown"
+   }
+  },
+  "RentalBux Free": {
+   "price_text": "Free",
+   "price_from_gbp_month": 0,
+   "price_note": "Free plan for basic MTD compliance. Joint ownership splits are on paid plans.",
+   "price_source": "https://rentalbux.com/free-mtd-software",
+   "joint": "paid plans only",
+   "joint_source": "https://rentalbux.com/landlords/joint-ownership-profit-splits",
+   "affiliate": {
+    "status": "unknown"
+   }
+  },
+  "RentalBux": {
+   "price_text": "unknown",
+   "price_source": "https://rentalbux.com/free-mtd-software",
+   "joint": "yes",
+   "joint_source": "https://rentalbux.com/landlords/joint-ownership-profit-splits",
+   "affiliate": {
+    "status": "unknown"
+   }
+  },
+  "GetGround": {
+   "price_text": "Free (Basic plan)",
+   "price_from_gbp_month": 0,
+   "price_note": "MTD for landlords free with GetGround's Basic plan.",
+   "price_source": "https://www.getground.co.uk/features/making-tax-digital-landlords",
+   "joint": "unknown",
+   "affiliate": {
+    "status": "unknown"
+   }
+  },
+  "Aligned.tax MTD for Spreadsheets": {
+   "price_text": "Free for individuals",
+   "price_from_gbp_month": 0,
+   "price_note": "Filing your own quarterly updates is free for individuals; accountants pay per client from the 2027/28 tax year.",
+   "price_source": "https://aligned.tax/",
+   "joint": "unknown",
+   "affiliate": {
+    "status": "unknown"
+   }
+  },
+  "MTD Sheets": {
+   "price_text": "£2.99 per submission",
+   "price_note": "First submission free, then £2.99 per submission (from 49p each in bulk).",
+   "price_source": "https://mtdsheets.com/Income-Tax",
+   "joint": "unknown",
+   "affiliate": {
+    "status": "unknown"
+   }
+  },
+  "Simple File for Excel Users": {
+   "price_text": "From £5/month",
+   "price_from_gbp_month": 5,
+   "price_source": "https://vatman.online/itsa",
+   "joint": "unknown",
+   "affiliate": {
+    "status": "unknown"
+   }
+  },
+  "PaTMa Property Manager": {
+   "price_text": "Free for 1 unit; Pro £15/month",
+   "price_from_gbp_month": 0,
+   "price_note": "Free plan covers 1 rental unit. Pro £15/month including VAT for 5 units (extra units £1.50/month). 14-day Pro trial.",
+   "price_source": "https://www.patma.co.uk/property-manager/solutions/mtd-making-tax-digital/",
+   "joint": "unknown",
+   "affiliate": {
+    "status": "unknown"
+   }
+  },
+  "Provestor for Landlords": {
+   "price_text": "DIY from £69/year (first year)",
+   "price_note": "DIY plan shown at £69 for the first year with a £99/year regular price. Check VAT basis on the source page.",
+   "price_source": "https://www.provestor.co.uk/tour/mtd",
+   "joint": "yes",
+   "joint_source": "https://www.provestor.co.uk/tour/mtd",
+   "affiliate": {
+    "status": "unknown"
+   },
+   "price_from_gbp_year": 69
+  },
+  "Taxzap": {
+   "price_text": "£9/month after 1 month free",
+   "price_from_gbp_month": 9,
+   "price_note": "For non-VAT-registered sole traders and landlords.",
+   "price_source": "https://taxzap.com/uk/mtd-home",
+   "joint": "unknown",
+   "affiliate": {
+    "status": "unknown"
+   }
+  },
+  "Pandle": {
+   "price_text": "Free; Pro £5/month + VAT",
+   "price_from_gbp_month": 0,
+   "price_note": "Free Pandle plan; Pandle Pro £5/month + VAT.",
+   "price_source": "https://www.pandle.com/",
+   "joint": "unknown",
+   "affiliate": {
+    "status": "unknown"
+   }
+  },
+  "Landlord Vision": {
+   "price_text": "Starter from £7.99/month (intro)",
+   "price_from_gbp_month": 7.99,
+   "price_note": "Starter plan (4 tenancies) shown at £7.99/month with '60% off for the 2 years', against £19.97. VAT basis not confirmed on the captured page.",
+   "price_source": "https://www.landlordvision.co.uk/landlord-software-pricing.html",
+   "joint": "unknown",
+   "affiliate": {
+    "status": "unknown"
+   }
+  },
+  "Landlord Studio": {
+   "price_text": "Free up to 3 properties + £5 per MTD submission; Pro £12 + VAT/month",
+   "price_from_gbp_month": 0,
+   "price_note": "MTD Go plan is free for up to 3 properties but charges £5 per MTD tax submission. Pro £12 + VAT/month includes MTD submissions.",
+   "price_source": "https://www.landlordstudio.com/uk/pricing",
+   "joint": "unknown",
+   "affiliate": {
+    "status": "unknown"
+   }
+  },
+  "IRIS Kashflow": {
+   "price_text": "Starter £13.50/month",
+   "price_from_gbp_month": 13.5,
+   "price_note": "Intro offer at check: 90% off for 6 months (£1.35/month).",
+   "price_source": "https://www.kashflow.com/pricing/",
+   "joint": "unknown",
+   "affiliate": {
+    "status": "unknown"
+   }
+  }
+ }
+}

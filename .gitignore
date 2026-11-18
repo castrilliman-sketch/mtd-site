@@ -1,0 +1,5 @@
+# Private stats dashboard and raw analytics exports: never commit/publish
+stats/index.html
+stats/sample.html
+stats/data/
+stats/earnings.csv

@@ -1,0 +1,58 @@
+https://mytaxdigital.co.uk/
+This site makes use of cookies, some may have been set already. By using this site you consent to the use of cookies as described in our Cookies Policy. We would also like to use analytics cookies to improve your user experience. Click the accept button if you are happy for us to do so.
+
+Accept
+Dismiss
+Home
+Affiliates
+Help
+Ask AIsha
+Sign in
+Register
+My Tax Digital is free MTD software for Income Tax & VAT
+HMRC-recognised simple bridging & accounting for Businesses, Sole Traders, Landlords & Agents. Trusted by tens of thousands to submit billions in returns since 2019.
+Register
+Sign in
+Learn more
+Free MTD for Income Tax Self Assessment
+My Tax Digital now supports MTD for Income Tax Self Assessment (ITSA). While currently voluntary, from April 2026, sole traders and landlords with qualifying income over £50,000 must use digital records and MTD-compatible software to submit quarterly summaries to HMRC. You can register and start submitting now. See our Getting Started guide for details.
+Free Making Tax Digital for VAT
+All VAT-registered businesses must now file digitally through Making Tax Digital regardless of turnover. My Tax Digital combines the benefits of both digital record keeping and MTD VAT filing into a single free web application allowing you to be MTD compliant. Simply register, sign in and start submitting VAT returns. For more information, see our Getting Started guide.
+Bridging and Accounting mode
+My Tax Digital's Bridging mode facilitates free MTD VAT and Income Tax filing by directly importing your figures from spreadsheets for submission to HMRC. This establishes the required digital link between your spreadsheet and HMRC. Alternatively, Accounting mode allows you to keep digital records of income and expenses and automatically calculates your VAT and Income Tax figures.
+Manage multiple Businesses and Individuals
+Whether you're an accountant, tax agent, or business owner, My Tax Digital simplifies managing multiple Businesses and Individuals. From submitting MTD VAT returns to handling Self Assessment, you can switch between profiles seamlessly. Stay compliant with HMRC for unlimited Businesses and Individuals.
+Record and categorise income and expenses
+Keep MTD-compliant digital records of all your income and expenses. My Tax Digital handles the categorisation, ensuring you correctly complete your quarterly obligations for VAT and/or Income Tax, for self-employment (SA103S/F), UK property (SA105) and foreign property (SA106).
+E-Invoicing
+The My Tax Digital E-Invoicing feature allows you to quickly and easily create customized invoices to send to your customers. You can create, preview, download, and reconcile invoices, ensuring your business keeps complete digital records and remains compliant with Making Tax Digital (MTD) standards.
+Import & export data
+Seamlessly import bank transactions and financial records from other accounting software. You can also export your data via CSV for use in applications like Microsoft Excel. This ensures MTD-compliant digital linking and gives you full control over your financial records.
+Connect your existing accounting system to HMRC MTD
+If your existing accounting system is not MTD-compliant, create a direct digital link from it to HMRC using My Tax Digital. Contact the integration experts Open Answers to discuss options by emailing: info@openanswers.co.uk.
+What our customers are saying
+ Thank you @mytaxdigital for making our UK VAT compliance so easy! And amazing customer support to boot! Highly, highly recommended! 
+- aescripts+aeplugins (via X)
+ Radio Times Money's Paul Lewis highlighted My Tax Digital when writing about Making Tax Digital software options for the self-employed: 'My Tax Digital is completely free.' 
+- Paul Lewis, Radio Times Money
+ I first heard about your company on Radio 4's MoneyBox and have been using your MTD VAT Bridging Software for a year. Frustrated by the lack of simple accounting product on the market, I have been looking for something like your Accounting Software for years. I run accounts for my partner's small business and just don't have the time to learn (or need the functionality of) Quickbooks, Sage, Xero etc. Your software solution is brilliant - thank you! 
+- Lor Cole (Abel Brook Limited)
+ Take the pain out of submitting your #MTD #VATReturn for #Free with @mytaxdigital Best free MTD software so far for our VAT return. Painless. Thank you 
+- sanjay shah (via X)
+ @mytaxdigital very #easytouse #MTD and very #helpfulstaff #highlyrecommend 
+- Kent Hall Hotel (via X)
+ @mytaxdigital used this today. Excellent service, easy to use. Needed a free MTD software to make a single VAT return for deregistration. Sage subscription had expired 5 days ago but would not allow me the courtesy to make a final tax return. Disgusting behaviour 
+- Andrew Man (via X)
+ Thank you @mytaxdigital for making our UK VAT compliance so easy! And amazing customer support to boot! Highly, highly recommended! 
+- aescripts+aeplugins (via X)
+ Radio Times Money's Paul Lewis highlighted My Tax Digital when writing about Making Tax Digital software options for the self-employed: 'My Tax Digital is completely free.' 
+- Paul Lewis, Radio Times Money
+About us
+Open Answers has a track record of 35+ years delivering specialist Open Systems and Open Source services, from support and education to systems engineering and integration.
+By Appointment to: HM The King Supplier of Information Technology Services
+Certified compliant with the requirements of: ISO 27001: 2022
+HMRC-Recognised for Making Tax Digital VAT and Income Tax
+Complies with the requirements of the Cyber Essentials plus scheme
+Register for free now
+Register
+Open Answers Ltd
