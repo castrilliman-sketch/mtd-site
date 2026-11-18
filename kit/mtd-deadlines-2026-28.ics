@@ -1,0 +1,299 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//PlainMTD//MTD Ready Kit 2026-28//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:MTD deadlines 2026-28 (PlainMTD)
+BEGIN:VEVENT
+UID:b28c5c49f31471a4@mtd-ready-kit
+DTSTAMP:20261118T200125Z
+DTSTART;VALUE=DATE:20270131
+DTEND;VALUE=DATE:20270201
+SUMMARY:MTD: 2025 to 2026 Self Assessment tax return and payment due
+DESCRIPTION:2025 to 2026 Self Assessment tax return and payment due. Who: 
+ Everyone in Self Assessment. If you start MTD in April 2027\, this is the 
+ last return you send the old way. Source: https://www.gov.uk/guidance/use-
+ making-tax-digital-for-income-tax/submit-your-tax-return (checked 18 Novem
+ ber 2026). General information\, not tax advice.
+URL:https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/subm
+ it-your-tax-return
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:In 7 days: Tax return due
+TRIGGER:-P7D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:8ce43b25938b972b@mtd-ready-kit
+DTSTAMP:20261118T200125Z
+DTSTART;VALUE=DATE:20270131
+DTEND;VALUE=DATE:20270201
+SUMMARY:MTD: First payment on account for 2026 to 2027 (if you make them)
+DESCRIPTION:First payment on account for 2026 to 2027 (if you make them). 
+ Who: Anyone who makes payments on account. Source: https://www.gov.uk/unde
+ rstand-self-assessment-bill/payments-on-account (checked 18 November 2026)
+ . General information\, not tax advice.
+URL:https://www.gov.uk/understand-self-assessment-bill/payments-on-account
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:In 7 days: Self Assessment payment due
+TRIGGER:-P7D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:78079d81e1c5ac60@mtd-ready-kit
+DTSTAMP:20261118T200125Z
+DTSTART;VALUE=DATE:20270207
+DTEND;VALUE=DATE:20270208
+SUMMARY:MTD: Quarterly update 3 for 2026 to 2027 (6 April 2026 to 5 Januar
+ y 2027)
+DESCRIPTION:Quarterly update 3 for 2026 to 2027 (6 April 2026 to 5 January
+  2027). Who: Already using MTD (started April 2026). Source: https://www.g
+ ov.uk/guidance/use-making-tax-digital-for-income-tax/send-quarterly-update
+ s (checked 18 November 2026). General information\, not tax advice.
+URL:https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/send
+ -quarterly-updates
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:In 7 days: MTD quarterly update due
+TRIGGER:-P7D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:6f15e19d2cd4c6c2@mtd-ready-kit
+DTSTAMP:20261118T200125Z
+DTSTART;VALUE=DATE:20270406
+DTEND;VALUE=DATE:20270407
+SUMMARY:MTD: MTD starts for qualifying income over £30\,000 (based on you
+ r 2025 to 2026 return)
+DESCRIPTION:MTD starts for qualifying income over £30\,000 (based on your
+  2025 to 2026 return). Who: New joiners from April 2027. Source: https://w
+ ww.gov.uk/guidance/check-if-youre-eligible-for-making-tax-digital-for-inco
+ me-tax (checked 18 November 2026). General information\, not tax advice.
+URL:https://www.gov.uk/guidance/check-if-youre-eligible-for-making-tax-dig
+ ital-for-income-tax
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:In 7 days: MTD for Income Tax starts
+TRIGGER:-P7D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:c1c9fb6d442c5931@mtd-ready-kit
+DTSTAMP:20261118T200125Z
+DTSTART;VALUE=DATE:20270507
+DTEND;VALUE=DATE:20270508
+SUMMARY:MTD: Quarterly update 4 for 2026 to 2027 (6 April 2026 to 5 April 
+ 2027)
+DESCRIPTION:Quarterly update 4 for 2026 to 2027 (6 April 2026 to 5 April 2
+ 027). Who: Already using MTD (started April 2026). Source: https://www.gov
+ .uk/guidance/use-making-tax-digital-for-income-tax/send-quarterly-updates 
+ (checked 18 November 2026). General information\, not tax advice.
+URL:https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/send
+ -quarterly-updates
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:In 7 days: MTD quarterly update due
+TRIGGER:-P7D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:95bfa1dacdf28c9f@mtd-ready-kit
+DTSTAMP:20261118T200125Z
+DTSTART;VALUE=DATE:20270731
+DTEND;VALUE=DATE:20270801
+SUMMARY:MTD: Second payment on account for 2026 to 2027 (if you make them)
+DESCRIPTION:Second payment on account for 2026 to 2027 (if you make them).
+  Who: Anyone who makes payments on account. Source: https://www.gov.uk/und
+ erstand-self-assessment-bill/payments-on-account (checked 18 November 2026
+ ). General information\, not tax advice.
+URL:https://www.gov.uk/understand-self-assessment-bill/payments-on-account
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:In 7 days: Self Assessment payment due
+TRIGGER:-P7D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:cfd308be921dfa11@mtd-ready-kit
+DTSTAMP:20261118T200125Z
+DTSTART;VALUE=DATE:20270807
+DTEND;VALUE=DATE:20270808
+SUMMARY:MTD: Quarterly update 1 for 2027 to 2028 (6 April to 5 July 2027)
+DESCRIPTION:Quarterly update 1 for 2027 to 2028 (6 April to 5 July 2027). 
+ Who: Everyone using MTD\, including April 2027 joiners. Source: https://ww
+ w.gov.uk/guidance/use-making-tax-digital-for-income-tax/send-quarterly-upd
+ ates (checked 18 November 2026). General information\, not tax advice.
+URL:https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/send
+ -quarterly-updates
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:In 7 days: MTD quarterly update due
+TRIGGER:-P7D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:9a8c594d60b42a58@mtd-ready-kit
+DTSTAMP:20261118T200125Z
+DTSTART;VALUE=DATE:20271107
+DTEND;VALUE=DATE:20271108
+SUMMARY:MTD: Quarterly update 2 for 2027 to 2028 (6 April to 5 October 202
+ 7)
+DESCRIPTION:Quarterly update 2 for 2027 to 2028 (6 April to 5 October 2027
+ ). Who: Everyone using MTD. Source: https://www.gov.uk/guidance/use-making
+ -tax-digital-for-income-tax/send-quarterly-updates (checked 18 November 20
+ 26). General information\, not tax advice.
+URL:https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/send
+ -quarterly-updates
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:In 7 days: MTD quarterly update due
+TRIGGER:-P7D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:fb023b2e073ac8d3@mtd-ready-kit
+DTSTAMP:20261118T200125Z
+DTSTART;VALUE=DATE:20280131
+DTEND;VALUE=DATE:20280201
+SUMMARY:MTD: 2026 to 2027 tax return due\, sent through MTD software if yo
+ u started in April 2026
+DESCRIPTION:2026 to 2027 tax return due\, sent through MTD software if you
+  started in April 2026. Who: Everyone in Self Assessment. Source: https://
+ www.gov.uk/guidance/use-making-tax-digital-for-income-tax/submit-your-tax-
+ return (checked 18 November 2026). General information\, not tax advice.
+URL:https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/subm
+ it-your-tax-return
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:In 7 days: Tax return due
+TRIGGER:-P7D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dc827a07130842db@mtd-ready-kit
+DTSTAMP:20261118T200125Z
+DTSTART;VALUE=DATE:20280131
+DTEND;VALUE=DATE:20280201
+SUMMARY:MTD: Balancing payment for 2026 to 2027 and first payment on accou
+ nt for 2027 to 2028 (if you make them)
+DESCRIPTION:Balancing payment for 2026 to 2027 and first payment on accoun
+ t for 2027 to 2028 (if you make them). Who: Anyone who owes tax or makes p
+ ayments on account. Source: https://www.gov.uk/understand-self-assessment-
+ bill/payments-on-account (checked 18 November 2026). General information\,
+  not tax advice.
+URL:https://www.gov.uk/understand-self-assessment-bill/payments-on-account
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:In 7 days: Self Assessment payment due
+TRIGGER:-P7D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:b9625905f5400f49@mtd-ready-kit
+DTSTAMP:20261118T200125Z
+DTSTART;VALUE=DATE:20280207
+DTEND;VALUE=DATE:20280208
+SUMMARY:MTD: Quarterly update 3 for 2027 to 2028 (6 April 2027 to 5 Januar
+ y 2028)
+DESCRIPTION:Quarterly update 3 for 2027 to 2028 (6 April 2027 to 5 January
+  2028). Who: Everyone using MTD. Source: https://www.gov.uk/guidance/use-m
+ aking-tax-digital-for-income-tax/send-quarterly-updates (checked 18 Novemb
+ er 2026). General information\, not tax advice.
+URL:https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/send
+ -quarterly-updates
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:In 7 days: MTD quarterly update due
+TRIGGER:-P7D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:c96d47cf579fa7ab@mtd-ready-kit
+DTSTAMP:20261118T200125Z
+DTSTART;VALUE=DATE:20280406
+DTEND;VALUE=DATE:20280407
+SUMMARY:MTD: MTD starts for qualifying income over £20\,000 (based on you
+ r 2026 to 2027 return)
+DESCRIPTION:MTD starts for qualifying income over £20\,000 (based on your
+  2026 to 2027 return). Who: New joiners from April 2028. Source: https://w
+ ww.gov.uk/guidance/check-if-youre-eligible-for-making-tax-digital-for-inco
+ me-tax (checked 18 November 2026). General information\, not tax advice.
+URL:https://www.gov.uk/guidance/check-if-youre-eligible-for-making-tax-dig
+ ital-for-income-tax
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:In 7 days: MTD for Income Tax starts
+TRIGGER:-P7D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:c2c04868de62e3d0@mtd-ready-kit
+DTSTAMP:20261118T200125Z
+DTSTART;VALUE=DATE:20280507
+DTEND;VALUE=DATE:20280508
+SUMMARY:MTD: Quarterly update 4 for 2027 to 2028 (6 April 2027 to 5 April 
+ 2028)
+DESCRIPTION:Quarterly update 4 for 2027 to 2028 (6 April 2027 to 5 April 2
+ 028). Who: Everyone using MTD. Source: https://www.gov.uk/guidance/use-mak
+ ing-tax-digital-for-income-tax/send-quarterly-updates (checked 18 November
+  2026). General information\, not tax advice.
+URL:https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/send
+ -quarterly-updates
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:In 7 days: MTD quarterly update due
+TRIGGER:-P7D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:57b0e41a4a346030@mtd-ready-kit
+DTSTAMP:20261118T200125Z
+DTSTART;VALUE=DATE:20280731
+DTEND;VALUE=DATE:20280801
+SUMMARY:MTD: Second payment on account for 2027 to 2028 (if you make them)
+DESCRIPTION:Second payment on account for 2027 to 2028 (if you make them).
+  Who: Anyone who makes payments on account. Source: https://www.gov.uk/und
+ erstand-self-assessment-bill/payments-on-account (checked 18 November 2026
+ ). General information\, not tax advice.
+URL:https://www.gov.uk/understand-self-assessment-bill/payments-on-account
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:In 7 days: Self Assessment payment due
+TRIGGER:-P7D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:a7a6ecad9ad27b73@mtd-ready-kit
+DTSTAMP:20261118T200125Z
+DTSTART;VALUE=DATE:20290131
+DTEND;VALUE=DATE:20290201
+SUMMARY:MTD: 2027 to 2028 tax return due\, sent through your MTD software
+DESCRIPTION:2027 to 2028 tax return due\, sent through your MTD software. 
+ Who: Everyone using MTD. Source: https://www.gov.uk/guidance/use-making-ta
+ x-digital-for-income-tax/submit-your-tax-return (checked 18 November 2026)
+ . General information\, not tax advice.
+URL:https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/subm
+ it-your-tax-return
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:In 7 days: Tax return due
+TRIGGER:-P7D
+END:VALARM
+END:VEVENT
+END:VCALENDAR

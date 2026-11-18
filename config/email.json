@@ -1,0 +1,25 @@
+{
+ "_how_to_use": "Email sign-up stays in a friendly 'opening soon' state until provider AND form_action are both filled in. Recommended provider: \"brevo\". After creating the Brevo sign-up form (Marketing > Forms > Sign-up, Double confirmation ON), open Share > HTML, copy the form's action URL (https://....sibforms.com/serve/....) into form_action and check the field names match the attribute names in your Brevo form. The Brevo API key for the private stats dashboard is NEVER stored here: set BREVO_API_KEY when running scripts/stats.py. See emails/README.md for the full setup.",
+ "provider": "",
+ "form_action": "",
+ "list_id": "",
+ "fields": {
+  "email": "EMAIL",
+  "first_name": "FIRSTNAME",
+  "role": "MTD_ROLE"
+ },
+ "role_values": {
+  "landlord": "Landlord",
+  "sole_trader": "Sole trader",
+  "both": "Both",
+  "accountant": "Accountant or bookkeeper"
+ },
+ "hidden_fields": {
+  "locale": "en",
+  "html_type": "simple",
+  "email_address_check": ""
+ },
+ "honeypot_field": "email_address_check",
+ "emails_track_opens_and_clicks": true,
+ "kit_version": "2026-28"
+}

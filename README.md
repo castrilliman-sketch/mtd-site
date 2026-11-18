@@ -26,3 +26,13 @@ Local-only static site. Nothing is deployed.
 - Privacy page text switches automatically to describe exactly what is collected when analytics is on.
 - Dashboard: `GOATCOUNTER_TOKEN=... python3 scripts/stats.py [--days 30 | --from YYYY-MM-DD --to YYYY-MM-DD]` -> `stats/index.html` (private, git-ignored, not in dist). Uses GoatCounter's CSV export API, which needs Settings → Data collection → "Individual pageviews" ON. `--csv file` reads a downloaded export; `--sample` writes `stats/sample.html` with FAKE, red-bannered numbers for layout checks only.
 - Affiliate earnings: add real network-report rows to `stats/earnings.csv` (`date,network,product_slug,clicks,sales,commission_gbp`).
+
+## Email list: Free MTD Ready Kit (off until configured)
+- Lead magnet: `kit/mtd-ready-kit-2026-28.pdf` + `kit/mtd-deadlines-2026-28.ics`, generated from `data/deadlines.json` by `python3 scripts/make_kit.py` (needs playwright). Re-run after renaming the site.
+- Config: `config/email.json` (provider-agnostic; recommended provider Brevo). Until `provider` and `form_action` are set, every form shows an "Opening soon" state with disabled fields, and no sign-up JavaScript is published.
+- Where the form appears: homepage section after Start here, inline box on the guide and every product page, landing page `/free-mtd-kit/`, plus `/free-mtd-kit/confirmed/` (kit download after double opt-in) and `/free-mtd-kit/check-your-inbox/` (no-JS fallback). Both are noindex.
+- `src/signup.js` posts the form to the provider, shows a "check your inbox" message, and fires the analytics event `signup:<role>:<page>` (no personal data).
+- Privacy page text switches automatically when the email list is on.
+- Stats: the dashboard shows form submissions and conversion per page (GoatCounter) and, with `BREVO_API_KEY` + `list_id`, confirmed subscribers and roles from Brevo.
+- Test a live-looking build without a real account: `MTD_EMAIL_CONFIG=/path/to/test.json python3 build.py`.
+- Email drafts and the Brevo setup checklist: `emails/README.md`.

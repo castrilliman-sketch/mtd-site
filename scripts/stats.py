@@ -13,6 +13,10 @@ Data source: GoatCounter's CSV export API (needs Settings -> Data collection -> 
 which gives one row per page view/event with a random session ID, so page views, visitors, bounce, time on page and
 click-through rate can all be computed here. Docs: https://www.goatcounter.com/help/api , https://www.goatcounter.com/help/export
 
+Email sign-ups: form submissions come from the GoatCounter 'signup:<role>:<page>' event. Confirmed subscribers come from
+Brevo's API when BREVO_API_KEY is set and config/email.json has provider "brevo" and list_id (read-only use:
+GET /v3/contacts/lists/{id} and GET /v3/contacts/lists/{id}/contacts, https://developers.brevo.com/reference/get-list).
+
 Affiliate earnings: put real figures exported from the affiliate networks in stats/earnings.csv
 (columns: date,network,product_slug,clicks,sales,commission_gbp). Never type estimates into it.
 """
@@ -24,6 +28,7 @@ from zoneinfo import ZoneInfo
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CFG = {k: v for k, v in json.load(open(f'{ROOT}/config/analytics.json')).items() if not k.startswith('_')}
 SITE = json.load(open(f'{ROOT}/config/site.json'))
+ECFG = {k: v for k, v in json.load(open(f'{ROOT}/config/email.json')).items() if not k.startswith('_')}
 LON = ZoneInfo('Europe/London')
 E = html.escape
 OUT_DIR = f'{ROOT}/stats'
@@ -106,6 +111,8 @@ def sample_rows(start, end):
             rows.append(dict(base, Path=f'time:{rnd.choice([5, 15, 30, 45, 60, 90, 120, 180])}:{path}', _event=True, _t=tt, Referrer='', **{'Referrer scheme': ''}))
             if path.startswith('/software/') and rnd.random() < .25:
                 rows.append(dict(base, Path=f'out:site:{path.split("/")[2]}:{path}', _event=True, _t=tt, Referrer='', **{'Referrer scheme': ''}))
+            if path in ('/', '/do-i-need-mtd/', '/software/xero/') and rnd.random() < .06:
+                rows.append(dict(base, Path=f'signup:{rnd.choice(["landlord", "sole_trader", "both", "none", "accountant"])}:{path}', _event=True, _t=tt, Referrer='', **{'Referrer scheme': ''}))
             if path == '/' and rnd.random() < .3:
                 rows.append(dict(base, Path=f'start:{rnd.choice(["uk_property", "sole_trader", "free", "bridging"])}:/', _event=True, _t=tt, Referrer='', **{'Referrer scheme': ''}))
                 rows.append(dict(base, Path=f'filter:{rnd.choice(["free+uk_property", "cis+sole_trader", "bridging", "joint+uk_property"])}:/', _event=True, _t=tt, Referrer='', **{'Referrer scheme': ''}))
@@ -148,7 +155,7 @@ def analyse(rows, start, end):
     ev = [r for r in rows if r['_event']]
     A = {'pageviews': len(pv), 'visitors': len({r['Session'] for r in pv}), 'events': len(ev)}
     sess_pv = Counter(r['Session'] for r in pv)
-    interact = {r['Session'] for r in ev if split_event(r['Path'])[0] in ('out', 'start', 'filter')}
+    interact = {r['Session'] for r in ev if split_event(r['Path'])[0] in ('out', 'start', 'filter', 'signup')}
     A['bounce'] = (sum(1 for s, n in sess_pv.items() if n == 1 and s not in interact) / len(sess_pv)) if sess_pv else None
     A['pages_per_visit'] = (len(pv) / len(sess_pv)) if sess_pv else None
     # daily
@@ -166,6 +173,7 @@ def analyse(rows, start, end):
     for r in first.values(): pg[r['Path']]['entr'] += 1
     prod = defaultdict(lambda: {'clicks': 0, 'aff': 0, 'clickers': set(), 'from': Counter()})
     outlinks = Counter(); starts = Counter(); filt = Counter(); combos = Counter(); searches = 0
+    su_page = Counter(); su_role = Counter(); su_sess = set()
     for r in ev:
         kind, args, page = split_event(r['Path'])
         if kind == 'time' and args:
@@ -177,6 +185,8 @@ def analyse(rows, start, end):
                 p = pg[page]; p['clicks'] += 1; p['aff'] += args[0] == 'aff'; p['clickers'].add(r['Session'])
             else:
                 outlinks[args[1]] += 1
+        elif kind == 'signup':
+            su_page[page] += 1; su_role[(args[0] if args else 'none')] += 1; su_sess.add(r['Session'])
         elif kind == 'start' and args:
             starts[args[0]] += 1
         elif kind == 'filter' and args:
@@ -205,8 +215,39 @@ def analyse(rows, start, end):
     A['devices'] = Counter(device(r.get('Screen size', '')) for r in first.values()).most_common()
     A['systems'] = Counter((r.get('System') or 'Unknown').split(' ')[0] for r in first.values()).most_common(6)
     A['countries'] = Counter(COUNTRIES.get((r.get('Location') or '')[:2], (r.get('Location') or 'Unknown')[:2] or 'Unknown') for r in first.values()).most_common(10)
+    A['signups'] = sum(su_page.values()); A['signup_roles'] = su_role.most_common()
+    A['signup_rate'] = (len(su_sess) / A['visitors']) if A['visitors'] else None
+    A['signup_pages'] = [(pgp, n, len(pg[pgp]['visitors']) if pgp in pg else 0) for pgp, n in su_page.most_common(10)]
     A['starts'] = starts.most_common(); A['filters'] = filt.most_common(); A['combos'] = combos.most_common(8); A['searches'] = searches
     return A
+
+def brevo_signups(start, end):
+    """Confirmed subscribers from Brevo (read-only). Returns dict or a string explaining why there's no data."""
+    if ECFG.get('provider') != 'brevo':
+        return 'Email sign-up isn\'t switched on yet (config/email.json has no provider), so there are no subscribers.'
+    key = os.environ.get('BREVO_API_KEY', '').strip(); lid = str(ECFG.get('list_id') or '').strip()
+    if not lid: return 'Set <code>list_id</code> in <code>config/email.json</code> to your Brevo list ID to show confirmed subscribers.'
+    if not key: return 'Run with <code>BREVO_API_KEY=…</code> set to load confirmed subscribers from Brevo.'
+    def get(path):
+        r = urllib.request.Request('https://api.brevo.com/v3' + path, headers={'api-key': key, 'accept': 'application/json'})
+        return json.load(urllib.request.urlopen(r, timeout=30))
+    try:
+        lst = get(f'/contacts/lists/{lid}')
+        new, roles, off = 0, Counter(), 0
+        since = dt.datetime.combine(start, dt.time(0), LON).astimezone(dt.timezone.utc).strftime('%Y-%m-%dT%H:%M:%S.000Z')
+        while True:
+            page = get(f'/contacts/lists/{lid}/contacts?limit=500&offset={off}&modifiedSince={since}')
+            cs = page.get('contacts', [])
+            for c in cs:
+                try: cd = dt.datetime.fromisoformat(c.get('createdAt', '').replace('Z', '+00:00')).astimezone(LON).date()
+                except ValueError: continue
+                if start <= cd <= end:
+                    new += 1; roles[(c.get('attributes') or {}).get(ECFG.get('fields', {}).get('role', 'MTD_ROLE')) or 'Not given'] += 1
+            off += len(cs)
+            if len(cs) < 500 or off >= page.get('count', 0): break
+        return {'total': lst.get('totalSubscribers'), 'blacklisted': lst.get('totalBlacklisted'), 'new': new, 'roles': roles.most_common()}
+    except Exception as e:
+        return f'Could not read Brevo: {E(str(e))[:200]}'
 
 def earnings(start, end):
     path = f'{OUT_DIR}/earnings.csv'
@@ -264,7 +305,7 @@ def chart(daily):
     lab = f'<text x="0" y="{H - 3}" font-size="11" fill="#5b6475">{daily[0][0]:%d %b}</text><text x="{W}" y="{H - 3}" font-size="11" fill="#5b6475" text-anchor="end">{daily[-1][0]:%d %b}</text><text x="0" y="10" font-size="11" fill="#5b6475">max {mx} views/day</text>'
     return f'<svg viewBox="0 0 {W} {H}" width="100%" role="img" aria-label="Page views per day">{bars}{lab}</svg>'
 
-def render(A, start, end, state, note, earn):
+def render(A, start, end, state, note, earn, brevo=None):
     now = dt.datetime.now(LON)
     empty = A is None
     A = A or {}
@@ -296,6 +337,20 @@ def render(A, start, end, state, note, earn):
                      'export each network\'s performance report and add the real figures to <code>stats/earnings.csv</code> with columns '
                      '<code>date,network,product_slug,clicks,sales,commission_gbp</code>. FlexOffers, PartnerStack and Impact all have reporting APIs, so this can be automated later with your API keys. '
                      'Only confirmed figures from the networks go here – never estimates.</p>')
+    rl = {'landlord': 'Landlord', 'sole_trader': 'Sole trader', 'both': 'Both', 'accountant': 'Accountant', 'none': 'Not given'}
+    sp = [(f'<code>{E(a)}</code>', f'{n:,}', f'{v:,}', fmt_pct(n / v if v else None)) for a, n, v in (g('signup_pages') or [])]
+    sr = [(E(rl.get(k, k)), f'{v:,}') for k, v in (g('signup_roles') or [])]
+    if isinstance(brevo, dict):
+        bh = (f'<p><b>{fmt_n(brevo["new"])}</b> new confirmed subscribers in this period · <b>{fmt_n(brevo["total"])}</b> on the list in total'
+              f' ({fmt_n(brevo["blacklisted"])} unsubscribed or blocked). Confirmation rate: '
+              f'{fmt_pct(brevo["new"] / g("signups") if g("signups") else None)} of form submissions. Source: Brevo API.</p>'
+              + table(['"I am a…" (confirmed, this period)', 'Subscribers'], [(E(str(k)), f'{v:,}') for k, v in brevo['roles']], 'No new confirmed subscribers in this period.'))
+    else:
+        bh = f'<p class="muted">Confirmed subscribers: {brevo or "not loaded."}</p>'
+    signup_html = (f'<div class="kpis" style="margin-top:0">{kpi("Form submissions", fmt_n(g("signups")), "people who sent the form (before confirming)")}'
+                   f'{kpi("Sign-up rate", fmt_pct(g("signup_rate")), "visitors who sent the form")}</div>'
+                   + table(['Page the form was sent from', 'Submissions', 'Page visitors', 'Conversion'], sp, nd)
+                   + table(['"I am a…" answer (submissions)', 'Submissions'], sr, '') + bh)
     return f'''<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow"><title>Private stats – {E(SITE["name"])}</title><style>{CSS}</style></head><body><div class="wrap">
 <header><div><h1>{E(SITE["name"][:5])}<span>{E(SITE["name"][5:])}</span> · private stats</h1>
@@ -316,6 +371,7 @@ def render(A, start, end, state, note, earn):
 <div class="card"><h2>Filter usage</h2>{table(["Filter", "Times switched on"], filt, nd)}{table(["Most-used combinations", "Times"], combos, "") if not empty else ""}
 <p class="muted">{"" if empty else f"Search box used {g('searches'):,} times (we never record what was typed). "}</p></div>
 <div class="card"><h2>Other outbound links</h2>{table(["Website", "Clicks"], [(E(h), f"{v:,}") for h, v in (g("outlinks") or [])], nd)}</div>
+<div class="card wide"><h2>Email sign-ups (Free MTD Ready Kit)</h2>{signup_html}</div>
 <div class="card wide"><h2>Affiliate earnings</h2>{earn_html}</div>
 </div>
 <p class="muted">Avg engaged time counts only seconds when the tab was visible and the visitor had scrolled, clicked or typed in the last minute, so it is usually lower than "time on page" in Google Analytics. Bots are excluded. Visitors are counted by GoatCounter's random session ID (resets after 8 hours), not cookies.</p>
@@ -353,7 +409,8 @@ def main():
             note = f'Could not read GoatCounter: {E(str(e))}'
     if state == 'live' and A and A['pageviews'] == 0 and A['events'] == 0:
         A, state, note = None, 'empty', f'Connected to {E(note)}, but nothing was recorded between {start:%d %b} and {end:%d %b %Y}.'
-    open(out, 'w').write(render(A, start, end, state, note, earnings(start, end) if state != 'sample' else None))
+    brevo = brevo_signups(start, end) if state != 'sample' else 'sample mode (Brevo not contacted).'
+    open(out, 'w').write(render(A, start, end, state, note, earnings(start, end) if state != 'sample' else None, brevo))
     print(f'Wrote {out} ({state})')
 
 if __name__ == '__main__':

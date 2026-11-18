@@ -1,0 +1,28 @@
+{
+ "_note": "Every date here comes from GOV.UK (sources below). Used by scripts/make_kit.py (PDF + .ics) and the reminder email template. Re-check sources before each tax year.",
+ "checked": "2026-11-18",
+ "sources": {
+  "quarterly": "https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/send-quarterly-updates",
+  "tax_return": "https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/submit-your-tax-return",
+  "payments": "https://www.gov.uk/understand-self-assessment-bill/payments-on-account",
+  "eligibility": "https://www.gov.uk/guidance/check-if-youre-eligible-for-making-tax-digital-for-income-tax",
+  "sign_up": "https://www.gov.uk/guidance/sign-up-for-making-tax-digital-for-income-tax"
+ },
+ "events": [
+  {"date": "2027-01-31", "kind": "return", "title": "2025 to 2026 Self Assessment tax return and payment due", "who": "Everyone in Self Assessment. If you start MTD in April 2027, this is the last return you send the old way.", "src": "tax_return"},
+  {"date": "2027-01-31", "kind": "payment", "title": "First payment on account for 2026 to 2027 (if you make them)", "who": "Anyone who makes payments on account", "src": "payments"},
+  {"date": "2027-02-07", "kind": "update", "title": "Quarterly update 3 for 2026 to 2027 (6 April 2026 to 5 January 2027)", "who": "Already using MTD (started April 2026)", "src": "quarterly"},
+  {"date": "2027-04-06", "kind": "start", "title": "MTD starts for qualifying income over £30,000 (based on your 2025 to 2026 return)", "who": "New joiners from April 2027", "src": "eligibility"},
+  {"date": "2027-05-07", "kind": "update", "title": "Quarterly update 4 for 2026 to 2027 (6 April 2026 to 5 April 2027)", "who": "Already using MTD (started April 2026)", "src": "quarterly"},
+  {"date": "2027-07-31", "kind": "payment", "title": "Second payment on account for 2026 to 2027 (if you make them)", "who": "Anyone who makes payments on account", "src": "payments"},
+  {"date": "2027-08-07", "kind": "update", "title": "Quarterly update 1 for 2027 to 2028 (6 April to 5 July 2027)", "who": "Everyone using MTD, including April 2027 joiners", "src": "quarterly"},
+  {"date": "2027-11-07", "kind": "update", "title": "Quarterly update 2 for 2027 to 2028 (6 April to 5 October 2027)", "who": "Everyone using MTD", "src": "quarterly"},
+  {"date": "2028-01-31", "kind": "return", "title": "2026 to 2027 tax return due, sent through MTD software if you started in April 2026", "who": "Everyone in Self Assessment", "src": "tax_return"},
+  {"date": "2028-01-31", "kind": "payment", "title": "Balancing payment for 2026 to 2027 and first payment on account for 2027 to 2028 (if you make them)", "who": "Anyone who owes tax or makes payments on account", "src": "payments"},
+  {"date": "2028-02-07", "kind": "update", "title": "Quarterly update 3 for 2027 to 2028 (6 April 2027 to 5 January 2028)", "who": "Everyone using MTD", "src": "quarterly"},
+  {"date": "2028-04-06", "kind": "start", "title": "MTD starts for qualifying income over £20,000 (based on your 2026 to 2027 return)", "who": "New joiners from April 2028", "src": "eligibility"},
+  {"date": "2028-05-07", "kind": "update", "title": "Quarterly update 4 for 2027 to 2028 (6 April 2027 to 5 April 2028)", "who": "Everyone using MTD", "src": "quarterly"},
+  {"date": "2028-07-31", "kind": "payment", "title": "Second payment on account for 2027 to 2028 (if you make them)", "who": "Anyone who makes payments on account", "src": "payments"},
+  {"date": "2029-01-31", "kind": "return", "title": "2027 to 2028 tax return due, sent through your MTD software", "who": "Everyone using MTD", "src": "tax_return"}
+ ]
+}

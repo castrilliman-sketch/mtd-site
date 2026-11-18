@@ -6,5 +6,6 @@
  "track_start_here": true,
  "track_filters": true,
  "track_time_on_page": true,
- "respect_do_not_track": true
+ "respect_do_not_track": true,
+ "track_signups": true
 }

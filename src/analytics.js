@@ -4,7 +4,8 @@
      out:<aff|site|link>:<product-slug or host>:<page>   outbound click
      start:<preset>:<page>                              Start-here button
      filter:<f1+f2|none>[:search]:<page>                filter state, debounced
-     time:<seconds>:<page>                              engaged seconds since last report (sent when tab hidden/closed) */
+     time:<seconds>:<page>                              engaged seconds since last report (sent when tab hidden/closed)
+     signup:<role|none>:<page>                          email sign-up form sent (fired by signup.js via window.mtdTrack; never name/email) */
 (function(){
  var s=document.currentScript||document.querySelector('script[data-mtd-provider]');if(!s)return;
  var P=s.getAttribute('data-mtd-provider'),ID=s.getAttribute('data-mtd-site'),O={};

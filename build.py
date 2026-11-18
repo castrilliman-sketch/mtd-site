@@ -10,6 +10,11 @@ _ACFG = os.environ.get('MTD_ANALYTICS_CONFIG', f'{ROOT}/config/analytics.json')
 ANALYTICS = {k: v for k, v in json.load(open(_ACFG)).items() if not k.startswith('_')}
 ANALYTICS_ON = bool(ANALYTICS.get('provider') and ANALYTICS.get('site_id'))
 AFF = {k: v for k, v in json.load(open(f'{ROOT}/config/affiliates.json')).items() if not k.startswith('_')}
+_ECFG = os.environ.get('MTD_EMAIL_CONFIG', f'{ROOT}/config/email.json')
+EMAIL = {k: v for k, v in json.load(open(_ECFG)).items() if not k.startswith('_')}
+EMAIL_ON = bool(EMAIL.get('provider') and EMAIL.get('form_action'))
+DL = json.load(open(f'{ROOT}/data/deadlines.json'))
+KIT_PDF, KIT_ICS = '/kit/mtd-ready-kit-2026-28.pdf', '/kit/mtd-deadlines-2026-28.ics'
 HM = json.load(open(f'{ROOT}/data/raw/hmrc-products.json'))
 VV = json.load(open(f'{ROOT}/data/vendor-verified.json'))
 CHECKED = VV['checked']
@@ -135,13 +140,13 @@ def head(title, desc, path, jsonld=(), noindex=False):
 <link rel="stylesheet" href="/assets/style.css">{ld}{analytics_tag()}</head><body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site"><div class="wrap"><a class="logo" href="/">{E(NAME[:5])}<span>{E(NAME[5:])}</span></a>
-<nav class="main" aria-label="Main"><a href="/#directory">Compare software</a><a href="/do-i-need-mtd/">Do I need MTD?</a><a href="/methodology/">How we check</a><a href="/about/">About</a></nav></div></header>
+<nav class="main" aria-label="Main"><a href="/#directory">Compare software</a><a href="/do-i-need-mtd/">Do I need MTD?</a><a href="/methodology/">How we check</a><a href="/about/">About</a><a class="navkit" href="/free-mtd-kit/">Free MTD kit</a></nav></div></header>
 <main id="main">'''
 
 def foot():
     return f'''</main><footer class="site"><div class="wrap"><div class="cols3">
 <div><strong>{E(NAME)}</strong><br>{E(SITE['tagline'])}.<br>HMRC list last read: {nice_date(HMRC_DATE)}.</div>
-<div><a href="/#directory">Compare all software</a><br><a href="/do-i-need-mtd/">Do I need MTD, and when?</a><br><a href="/methodology/">Methodology</a></div>
+<div><a href="/#directory">Compare all software</a><br><a href="/do-i-need-mtd/">Do I need MTD, and when?</a><br><a href="/methodology/">Methodology</a><br><a href="/free-mtd-kit/">Free MTD Ready Kit</a></div>
 <div><a href="/about/">About</a><br><a href="/affiliate-disclosure/">Affiliate disclosure</a><br><a href="/privacy/">Privacy</a></div></div>
 <p class="disclaimer"><strong>Not tax advice.</strong> This site gives general information only. It is not tax, legal or financial advice. Check your own position on <a href="https://www.gov.uk/guidance/check-if-youre-eligible-for-making-tax-digital-for-income-tax">GOV.UK</a> or with a qualified adviser before you act. HMRC does not recommend any software product and is not connected with this site. Prices change, so always confirm on the provider's own website. Some links may be affiliate links; see our <a href="/affiliate-disclosure/">disclosure</a>. Contains public sector information licensed under the <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">Open Government Licence v3.0</a>.</p>
 </div></footer></body></html>'''
@@ -168,6 +173,127 @@ DATES_HTML = '''<div class="dates">
 <div class="date"><strong>6 April 2027</strong>Qualifying income over £30,000 (2025 to 2026 tax year)</div>
 <div class="date"><strong>6 April 2028</strong>Qualifying income over £20,000 (2026 to 2027 tax year)</div></div>
 <p class="disclose">Source: <a href="https://www.gov.uk/guidance/check-if-youre-eligible-for-making-tax-digital-for-income-tax">GOV.UK, Find out if and when you need to use Making Tax Digital for Income Tax</a>. Qualifying income is your self-employment plus property income before expenses.</p>'''
+
+# ---------- email sign-up (Free MTD Ready Kit) ----------
+def next_deadline():
+    today = datetime.date.today()
+    for e in DL['events']:
+        if e['kind'] == 'update' and datetime.date.fromisoformat(e['date']) >= today:
+            return e
+    return None
+
+KIT_POINTS = [
+    ('Deadline calendar, 2026 to 2028', 'Every quarterly update, tax return and payment date on one page, plus a calendar file for Google, Apple or Outlook.'),
+    ('Getting-ready checklist', 'From "do I need it?" to your first quarterly update, in plain English.'),
+    ('Reminder emails', 'A short email 7 days before every HMRC deadline, so nothing slips.'),
+]
+CONSENT = ("We'll email you the kit, a reminder before each MTD deadline and occasional plain-English MTD tips. "
+           "Some tips may mention software we earn a commission from; we always say so. Unsubscribe in one click, any time. "
+           "We never sell or share your details.")
+
+def signup_form(uid, variant):
+    f = EMAIL.get('fields', {}); rv = EMAIL.get('role_values', {})
+    live = EMAIL_ON
+    dis = '' if live else ' disabled'
+    roles = ''.join(f'<label class="pill"><input type="radio" name="{E(f.get("role", "MTD_ROLE"))}" value="{E(rv.get(k, lbl))}" data-k="role" data-role="{k}"{dis}><span>{lbl}</span></label>'
+                    for k, lbl in [('landlord', 'Landlord'), ('sole_trader', 'Sole trader'), ('both', 'Both'), ('accountant', 'Accountant')])
+    hidden = ''
+    if live:
+        hp = EMAIL.get('honeypot_field', '')
+        for k, v in EMAIL.get('hidden_fields', {}).items():
+            if k == hp:
+                hidden += f'<div class="hp" aria-hidden="true"><label>Leave this empty <input type="text" name="{E(k)}" value="" tabindex="-1" autocomplete="off" data-hp></label></div>'
+            else:
+                hidden += f'<input type="hidden" name="{E(k)}" value="{E(str(v))}">'
+    action = f' action="{E(EMAIL["form_action"])}" method="post" data-live="1"' if live else ' action="#" onsubmit="return false" data-live="0"'
+    btn = 'Send me the free kit' if live else 'Opening soon'
+    soon = '' if live else '<p class="signup-soon"><strong>Sign-ups open very soon.</strong> The kit is ready; we\'re just switching on the email service. Nothing you type here is sent.</p>'
+    return f'''<form class="signup-form {variant}"{action} aria-labelledby="{uid}-h">
+{soon}<div class="sf-row"><label class="sf"><span>First name</span><input type="text" name="{E(f.get("first_name", "FIRSTNAME"))}" data-k="first_name" autocomplete="given-name" maxlength="60" required{dis}></label>
+<label class="sf"><span>Email address</span><input type="email" name="{E(f.get("email", "EMAIL"))}" autocomplete="email" maxlength="120" required{dis}></label></div>
+<fieldset class="roles"><legend>I am a… <span class="opt">(optional, so reminders fit your situation)</span></legend>{roles}</fieldset>
+{hidden}<button type="submit" class="btn big"{dis}>{btn}</button>
+<p class="consent">{CONSENT} <a href="/privacy/#email">Privacy</a>.</p>
+<p class="signup-msg" role="alert"></p>
+</form>
+<div class="signup-ok" hidden tabindex="-1"><strong>Nearly there, <span class="signup-name"></span>!</strong>
+<p>We've sent you an email. Click the <b>confirm</b> button in it and your kit arrives straight away. Can't see it in a couple of minutes? Check your spam or promotions folder.</p></div>'''
+
+def signup_script():
+    return '<script src="/assets/signup.js" defer></script>' if EMAIL_ON else ''
+
+def nd_line():
+    nd = next_deadline()
+    return f'<p class="nextdl">Next HMRC deadline: <b>{nice_date(nd["date"])}</b>, {E(nd["title"][0].lower() + nd["title"][1:])}.</p>' if nd else ''
+
+def signup_block(variant):
+    """variant: 'home' (full section after Start here), 'inline' (short box on guide/product pages)."""
+    uid = f'kit-{variant}'
+    if variant == 'inline':
+        return f'''<aside class="signup inline" id="{uid}"><div class="si-text"><p class="eyebrow">Free MTD Ready Kit</p>
+<h2 id="{uid}-h">Never miss an MTD deadline</h2>
+<p>Get the 2026 to 2028 deadline calendar, a getting-ready checklist and an email reminder 7 days before every HMRC deadline. Free. <a href="/free-mtd-kit/">What's in the kit</a></p></div>
+{signup_form(uid, 'compact')}</aside>{signup_script()}'''
+    pts = ''.join(f'<li><b>{E(a)}</b> {E(b)}</li>' for a, b in KIT_POINTS)
+    return f'''<section class="signup home" id="{uid}"><div class="wrap"><div class="sh-grid">
+<div class="sh-text"><p class="eyebrow">Free MTD Ready Kit</p><h2 id="{uid}-h">Never miss a Making Tax Digital deadline</h2>
+<p class="lead">Four quarterly updates a year, plus your tax return. From 2027 to 2028, four late-update penalty points mean a £200 penalty. Get every date, a checklist, and a reminder before each one.</p>
+<ul class="ticks">{pts}</ul>{nd_line()}
+<p class="disclose">Every date is from GOV.UK. <a href="/free-mtd-kit/">See what's inside</a></p></div>
+<div class="sh-form">{signup_form(uid, 'full')}</div>
+</div></div></section>{signup_script()}'''
+
+def kit_pages():
+    pts = ''.join(f'<div class="kp"><h3>{E(a)}</h3><p>{E(b)}</p></div>' for a, b in KIT_POINTS)
+    faq = [
+        ('Is it really free?', 'Yes. There\'s nothing to pay and no card details. The site is paid for by affiliate commissions, which we always label.'),
+        ('What emails will I get?', 'The kit straight away, then three short emails over the next fortnight to help you get ready, a reminder 7 days before each quarterly update and tax return deadline (around 5 or 6 a year), and occasional MTD news when HMRC changes something important.'),
+        ('Why do you ask "I am a…"?', 'It\'s optional. It lets us leave out reminders that don\'t apply to you, for example landlord-only points if you\'re a sole trader.'),
+        ('Will you pass my details to anyone?', 'No. We never sell or share your details. Our email service stores them for us under contract. If we ever offer to put you in touch with an accountant, that will be a separate request you choose to make.'),
+        ('Can I unsubscribe?', 'Yes, with one click at the bottom of every email. We then stop emailing you straight away.'),
+        ('Is this tax advice?', 'No. It\'s general information taken from GOV.UK, with links to every source. Check your own position on GOV.UK or with a qualified adviser.'),
+    ]
+    out = head(f'Free MTD Ready Kit: deadline calendar, checklist and reminders | {NAME}',
+               'Free Making Tax Digital for Income Tax kit: every deadline for 2026 to 2028, a getting-ready checklist, a calendar file and email reminders 7 days before each HMRC deadline. Sourced from GOV.UK.',
+               '/free-mtd-kit/', [faq_ld(faq), crumb_ld([('Home', '/'), ('Free MTD Ready Kit', '/free-mtd-kit/')])])
+    out += f'''<section class="kit-hero"><div class="wrap"><div class="kh-grid">
+<div class="kh-text"><p class="eyebrow">Free MTD Ready Kit · 2026 to 2028</p>
+<h1>Every MTD deadline, a clear checklist, and a reminder before each one</h1>
+<p class="lead">Making Tax Digital for Income Tax means four quarterly updates a year as well as your tax return. Get every date in one place and an email 7 days before each deadline. Free.</p>
+<ul class="ticks">{''.join(f'<li><b>{E(a)}</b> {E(b)}</li>' for a, b in KIT_POINTS)}</ul>
+{nd_line()}
+<p class="trust"><span>✓ Every date from GOV.UK</span> <span>✓ No card, no spam</span> <span>✓ Unsubscribe in one click</span></p></div>
+<div class="kh-form" id="get"><h2 id="kit-page-h">Get your free kit</h2>{signup_form('kit-page', 'full')}</div>
+</div></div></section>
+<div class="wrap" style="max-width:980px">
+<h2>What's in the kit</h2><div class="kps">{pts}</div>
+<div class="previews"><figure><img src="/assets/kit-preview-1.png" width="794" height="1123" alt="Kit page 1: when you start, what MTD means you do, penalties" loading="lazy"><figcaption>Page 1: your start date and what MTD involves</figcaption></figure>
+<figure><img src="/assets/kit-preview-2.png" width="794" height="1123" alt="Kit page 2: quarterly update calendar for 2026 to 2027 and 2027 to 2028" loading="lazy"><figcaption>Page 2: the quarterly update calendar</figcaption></figure></div>
+<p>The 5-page PDF also has every key date in order (updates, tax returns, payments on account and start dates), a getting-ready checklist, a routine for each quarter and year end, and links to every GOV.UK source. The calendar file adds each date to your calendar with an alert 7 days before.</p>
+<h2>Who it's for</h2>
+<ul><li><b>Landlords and sole traders</b> already using MTD since April 2026, or starting in April 2027 or April 2028.</li>
+<li><b>Anyone not sure yet</b> whether they need MTD. Page 1 shows the thresholds, and our <a href="/do-i-need-mtd/">plain-English guide</a> explains them.</li>
+<li><b>Accountants and bookkeepers</b> who want a clean calendar to share with clients.</li></ul>
+<h2>Questions</h2>{faq_html(faq)}
+<p style="margin:28px 0"><a class="btn big" href="#get">Get the free kit</a></p>
+</div>{signup_script()}'''
+    out += foot()
+    write('/free-mtd-kit/', out)
+    # Brevo: "confirmation page after clicking the validation link" -> /free-mtd-kit/confirmed/
+    out = head(f"You're subscribed: download your MTD Ready Kit | {NAME}", 'Download the Free MTD Ready Kit.', '/free-mtd-kit/confirmed/', noindex=True)
+    out += f'''<div class="wrap" style="max-width:760px"><h1>You're in. Here's your MTD Ready Kit</h1>
+<p class="lead">Thanks for confirming. We've also emailed you these links so you can find them later.</p>
+<p class="downloads"><a class="btn big" href="{KIT_PDF}" download>Download the kit (PDF)</a> <a class="btn big ghost" href="{KIT_ICS}" download>Add all deadlines to my calendar (.ics)</a></p>
+<p class="disclose">The calendar file works with Google Calendar (Settings, then Import), Apple Calendar and Outlook. Each date has an alert 7 days before.</p>
+<h2>What next</h2><ol><li>Check when you start: <a href="/do-i-need-mtd/">Do I need MTD, and when?</a></li><li>Find software that fits: <a href="/#directory">compare all {len(products)} HMRC-recognised products</a>.</li>
+<li>Look out for our next email in a couple of days: the 5 decisions to make before your first quarterly update.</li></ol></div>'''
+    out += foot(); write('/free-mtd-kit/confirmed/', out)
+    # Brevo: "confirmation page after submitting the form" (used when JavaScript is off) -> /free-mtd-kit/check-your-inbox/
+    out = head(f'Check your inbox | {NAME}', 'Confirm your email to get the Free MTD Ready Kit.', '/free-mtd-kit/check-your-inbox/', noindex=True)
+    out += '''<div class="wrap" style="max-width:760px"><h1>Check your inbox</h1>
+<p class="lead">We've sent you an email. Click the <b>confirm</b> button in it and your Free MTD Ready Kit arrives straight away.</p>
+<p>Can't see it after a couple of minutes? Check your spam or promotions folder, or <a href="/free-mtd-kit/">try again</a> in case of a typo.</p></div>'''
+    out += foot(); write('/free-mtd-kit/check-your-inbox/', out)
 
 # ---------- homepage ----------
 def home():
@@ -227,6 +353,7 @@ def home():
 </div>
 {DATES_HTML}
 </div></section>
+{signup_block('home')}
 <div class="wrap">
 <section id="directory"><h2>Compare all HMRC-recognised MTD software</h2>
 <p class="disclose">{'Some links on this site are affiliate links, marked as sponsored. If you sign up through one we may earn a commission. ' if any_aff else 'We may add affiliate links in future and will mark them clearly. '}This never decides which products we list or how they're ordered. <a href="/affiliate-disclosure/">How we make money</a>.</p>
@@ -332,6 +459,7 @@ def product_page(p):
 <ol><li>Check you need MTD and when: <a href="/do-i-need-mtd/">our plain-English guide</a>.</li>
 <li><a href="https://www.gov.uk/guidance/sign-up-for-making-tax-digital-for-income-tax" rel="noopener">Sign up for Making Tax Digital for Income Tax</a> on GOV.UK, if you haven't already.</li>
 <li>Choose your software, then <a href="https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/get-your-software-ready" rel="noopener">authorise it with HMRC</a>.</li></ol>
+{signup_block('inline')}
 </div>
 <aside><div class="card"><strong>{E(p['name'])}</strong><p>{price_html(p)}</p>{cta}<p>{cta_note}</p>
 {('<h3>Price-checked alternatives</h3><ul>' + alt_html + '</ul>') if alt_html else ''}
@@ -385,6 +513,7 @@ def guide():
 <tr><td>6 April to 5 April</td><td>1 April to 31 March</td><td>7 May (following tax year)</td></tr></tbody></table></div>
 <p>If you've had no income or expenses in a period, you still have to send the update. If you want calendar periods, choose that in your software before you send your first update, because you can't change it for the rest of the tax year afterwards.</p>
 <p class="disclose">Source: <a href="{G}use-making-tax-digital-for-income-tax/send-quarterly-updates">GOV.UK, Send quarterly updates</a>.</p>
+{signup_block('inline')}
 <h2>Penalties</h2>
 <p>Late quarterly updates earn penalty points, and reaching the points threshold means a £200 penalty. For the <strong>2026 to 2027 tax year</strong>, HMRC will not apply penalty points for late quarterly updates, but you must send them before you can submit your tax return, and late tax returns still get points.</p>
 <p class="disclose">Source: <a href="{G}use-making-tax-digital-for-income-tax/send-quarterly-updates">GOV.UK, Send quarterly updates</a>.</p>
@@ -440,6 +569,8 @@ def other_pages():
 <p>{f"Affiliate links are live for: {', '.join(E(p['name']) for p in live)}." if live else "No affiliate links are live yet. Every link goes to the provider's official website, as listed by HMRC."}</p>
 <h2>How affiliate links are marked</h2>
 <ul><li>Next to every affiliate button we say it's an affiliate link.</li><li>Affiliate links carry <code>rel="sponsored nofollow"</code>, so search engines know they're paid links.</li><li>A commission never decides whether a product is listed, how it's sorted, or what we say about it. Products we earn nothing from are shown in exactly the same way.</li></ul>
+<h2>Our emails</h2>
+<p>If you get our Free MTD Ready Kit, our emails may sometimes mention software we earn a commission from. When they do, we say so in the email, and the same rules apply: a commission never changes what we recommend.</p>
 <h2>Other ways we may earn in future</h2>
 <p>If we ever show sponsored placements or refer you to an accountant for a fee, we'll label it clearly on the page where it appears.</p>''', [('Home', '/'), ('Affiliate disclosure', '/affiliate-disclosure/')])
     simple('/privacy/', 'Privacy', 'Privacy information for this site.', '''
@@ -448,11 +579,29 @@ def other_pages():
     out += '<div class="wrap"><h1>Page not found</h1><p><a href="/">Go to the MTD software comparison</a></p></div>' + foot()
     write('/404.html', out)
 
+def email_privacy():
+    if not EMAIL_ON:
+        return ('<h2 id="email">Email sign-up</h2><p>Our Free MTD Ready Kit sign-up isn\'t switched on yet, so we don\'t collect any names or email addresses. '
+                'Before it opens, this section will explain exactly what we collect and why.</p>')
+    prov = {'brevo': ('Brevo (Sendinblue SAS, France)', 'https://www.brevo.com/legal/privacypolicy/', 'Brevo stores the list on servers in the European Union.'),
+            'mailerlite': ('MailerLite', 'https://www.mailerlite.com/legal/privacy-policy', ''),
+            'kit': ('Kit (ConvertKit LLC, USA)', 'https://kit.com/privacy', '')}.get(EMAIL['provider'], (EMAIL['provider'], '', ''))
+    pl = f'<a href="{prov[1]}" rel="noopener">{E(prov[0])}</a>' if prov[1] else E(prov[0])
+    track = (' Our emails contain standard measurement that tells us whether an email was opened and which links were clicked. We use this only to see which emails are useful and to stop emailing addresses that never open anything.'
+             if EMAIL.get('emails_track_opens_and_clicks', True) else '')
+    return f"""<h2 id="email">Email sign-up (Free MTD Ready Kit)</h2>
+<p>If you sign up for our Free MTD Ready Kit we collect your <strong>first name</strong>, <strong>email address</strong> and, only if you choose to tell us, whether you're a landlord, sole trader, both, or an accountant. We also keep a record of when you signed up and confirmed, so we can show you agreed.</p>
+<p><strong>What we use it for:</strong> to send you the kit, a reminder before each Making Tax Digital deadline, and occasional plain-English MTD tips. Some tips may mention software we earn a commission from, and we always say so. We use the "I am a…" answer only to send you reminders that fit your situation.{track}</p>
+<p><strong>Lawful basis:</strong> your consent, which you give by submitting the form and then clicking the confirmation link we email you (double opt-in). You can withdraw it at any time with the unsubscribe link in every email, or by contacting us.</p>
+<p><strong>Who handles it:</strong> {pl} sends our emails and stores the list on our behalf, under a data processing agreement. {prov[2]} We never sell your details or share them with software providers, accountants or advertisers.</p>
+<p><strong>How long we keep it:</strong> until you unsubscribe. After that we keep only your email address on a suppression list, so we don't email you again by mistake. If you never confirm your sign-up, you're not added to the list.</p>"""
+
 def privacy_body():
     op = '<p class="fillme">[D to add the site operator\'s name and contact details before launch.]</p>'
     if not ANALYTICS_ON:
-        return ("<p>This site doesn't use cookies, analytics or tracking at the moment, and doesn't ask for any personal information. "
-                "If that changes, we'll update this page first.</p><p>When you click through to a software provider, their own privacy policy applies.</p>" + op)
+        return ("<h2>Cookies and visitor statistics</h2><p>This site doesn't use cookies, analytics or tracking at the moment. "
+                "If that changes, we'll update this page first.</p>" + email_privacy() + "<h2>Other websites</h2><p>When you click through to a software provider, their own privacy policy applies.</p>"
+                "<h2>Your rights and contact</h2><p>You can ask us for a copy of your data, or to correct or delete it, and you can complain to the <a href=\"https://ico.org.uk/make-a-complaint/\" rel=\"noopener\">Information Commissioner's Office</a>.</p>" + op)
     prov = {'goatcounter': ('GoatCounter', 'https://www.goatcounter.com/help/privacy')}.get(ANALYTICS['provider'], (ANALYTICS['provider'], ''))
     pl = f'<a href="{prov[1]}" rel="noopener">{prov[0]}</a>' if prov[1] else E(prov[0])
     ev = []
@@ -460,6 +609,7 @@ def privacy_body():
     if ANALYTICS.get('track_start_here', True): ev.append('which "Start here" button you press (for example "I\'m a landlord")')
     if ANALYTICS.get('track_filters', True): ev.append('which comparison filters you switch on. If you type in the search box we only record <em>that</em> a search was used, never what you typed')
     if ANALYTICS.get('track_time_on_page', True): ev.append('roughly how long a page was open and in use (in seconds)')
+    if EMAIL_ON and ANALYTICS.get('track_signups', True): ev.append('that the email sign-up form was sent, which page it was on and which "I am a…" option was picked. Never your name or email address')
     return f"""<h2>Cookies</h2>
 <p>This site doesn't set cookies and doesn't store anything on your device to measure visits. The only exception is if you use the button below to turn analytics off: your browser then remembers that choice.</p>
 <h2>Visitor statistics</h2>
@@ -468,18 +618,18 @@ def privacy_body():
 <li>your browser and operating system type, screen size, and country or region (worked out from your IP address)</li>
 <li>a random visit ID so a reload isn't counted twice. Your IP address and full browser details are only held in the service's memory, for up to 8 hours, to create this ID. They are never saved</li></ul>
 <p>We also count a few actions on our pages:</p><ul>{''.join(f'<li>{x}</li>' for x in ev)}</ul>
-<p>We don't collect your name, email or anything you type. We only look at the results as totals, such as "120 visits to this page", and we don't use them for advertising or to identify anyone. {E(prov[0])} processes the data on our behalf.</p>
+<p>Visitor statistics never include your name, email or anything you type. We only look at the results as totals, such as "120 visits to this page", and we don't use them for advertising or to identify anyone. {E(prov[0])} processes the data on our behalf.</p>
 <p>Our lawful basis is legitimate interests: understanding how the site is used so we can improve it. You can object at any time:</p>
 <p><button type="button" class="btn ghost" id="mtd-optout">Turn off analytics for this browser</button> <span id="mtd-optout-status" class="disclose"></span></p>
 <p class="disclose">We also don't count visits if your browser sends a "Do Not Track" or "Global Privacy Control" signal.</p>
-<h2>Other websites</h2><p>When you click through to a software provider, their own privacy policy applies. If a link is an affiliate link, the provider may use its own cookies to record that you came from us. See our <a href="/affiliate-disclosure/">affiliate disclosure</a>.</p>
-<h2>Your rights and contact</h2><p>You can contact us about your data or complain to the <a href="https://ico.org.uk/make-a-complaint/" rel="noopener">Information Commissioner's Office</a>.</p>""" + op
+""" + email_privacy() + f"""<h2>Other websites</h2><p>When you click through to a software provider, their own privacy policy applies. If a link is an affiliate link, the provider may use its own cookies to record that you came from us. See our <a href="/affiliate-disclosure/">affiliate disclosure</a>.</p>
+<h2>Your rights and contact</h2><p>You can ask us for a copy of your data, or to correct or delete it, and you can complain to the <a href="https://ico.org.uk/make-a-complaint/" rel="noopener">Information Commissioner's Office</a>.</p>""" + op
 
 def seo_files():
-    urls = ['/', '/do-i-need-mtd/', '/methodology/', '/about/', '/affiliate-disclosure/', '/privacy/'] + [f"/software/{p['slug']}/" for p in CHECKEDP]
+    urls = ['/', '/do-i-need-mtd/', '/free-mtd-kit/', '/methodology/', '/about/', '/affiliate-disclosure/', '/privacy/'] + [f"/software/{p['slug']}/" for p in CHECKEDP]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'<url><loc>{BASE}{u}</loc><lastmod>{CHECKED}</lastmod></url>\n' for u in urls) + '</urlset>\n'
     write('/sitemap.xml', sm)
-    write('/robots.txt', f'User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n')
+    write('/robots.txt', f'User-agent: *\nAllow: /\nDisallow: /kit/\n\nSitemap: {BASE}/sitemap.xml\n')
 
 if __name__ == '__main__':
     if os.path.exists(DIST): shutil.rmtree(DIST)
@@ -487,11 +637,16 @@ if __name__ == '__main__':
     shutil.copy(f'{ROOT}/src/style.css', f'{DIST}/assets/style.css')
     shutil.copy(f'{ROOT}/src/directory.js', f'{DIST}/assets/directory.js')
     if ANALYTICS_ON: shutil.copy(f'{ROOT}/src/analytics.js', f'{DIST}/assets/analytics.js')
+    if EMAIL_ON: shutil.copy(f'{ROOT}/src/signup.js', f'{DIST}/assets/signup.js')
+    for i in (1, 2): shutil.copy(f'{ROOT}/src/kit-preview-{i}.png', f'{DIST}/assets/kit-preview-{i}.png')
+    os.makedirs(f'{DIST}/kit')
+    for f in (KIT_PDF, KIT_ICS): shutil.copy(ROOT + f, DIST + f)
     json.dump({'source': HM['source'], 'hmrc_retrieved': HMRC_DATE, 'vendor_checked': CHECKED, 'count': len(products), 'products': products},
               open(f'{ROOT}/data/products.json', 'w'), indent=1, ensure_ascii=False)
     os.makedirs(f'{DIST}/data'); shutil.copy(f'{ROOT}/data/products.json', f'{DIST}/data/products.json')
-    home(); guide(); other_pages(); seo_files()
+    home(); guide(); other_pages(); kit_pages(); seo_files()
     for p in products: product_page(p)
     missing = [k for k in VV['products'] if k not in {p['name'] for p in products}]
+    print('Email sign-up:', f"{EMAIL['provider']} ({EMAIL['form_action']})" if EMAIL_ON else 'OPENING SOON state (config/email.json has no provider/form_action)')
     print('Analytics:', f"{ANALYTICS['provider']} ({ANALYTICS['site_id']})" if ANALYTICS_ON else 'OFF (config/analytics.json has no provider/site_id)')
     print(f'Built {len(products)} product pages ({len(CHECKEDP)} vendor-checked, indexable). Unmatched vendor keys: {missing}')
