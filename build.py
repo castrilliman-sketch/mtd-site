@@ -118,6 +118,60 @@ def link_for(p):
         return p['affiliate_url'], 'sponsored nofollow noopener', True
     return p['website'] or p['hmrc_url'], 'noopener', False
 
+def outbound_cta(p, kind='visit', cls='btn', page='', label=None):
+    """Single affiliate-ready outbound button. Falls back to the official URL."""
+    href, rel, aff = link_for(p)
+    if label is None:
+        label = 'View deal' if aff else 'Visit site'
+    attrs = [f'class="{cls}"', f'href="{E(href)}"', f'rel="{rel}"', 'target="_blank"',
+             f'data-product="{E(p["slug"])}"', f'data-aff="{int(aff)}"', f'data-cta="{E(kind)}"']
+    if page:
+        attrs.append(f'data-page="{E(page)}"')
+    return f'<a {" ".join(attrs)}>{E(label)} ↗</a>'
+
+def card_price(p):
+    if p.get('price_text') and p['price_text'] != 'unknown':
+        return E(p['price_text'])
+    return 'Price not yet checked'
+
+def product_card(p, kind='visit'):
+    tags = []
+    if p['uk_property'] == 'yes': tags.append('Landlord')
+    if p['sole_trader'] == 'yes': tags.append('Self-employed')
+    if p['bridging'] == 'yes': tags.append('Spreadsheet')
+    if p['creates_records'] == 'yes': tags.append('App')
+    if p['free_version'] == 'yes': tags.append('Free version')
+    tag_html = ''.join(f'<span class="tag">{E(t)}</span>' for t in tags[:4])
+    return (
+        f'<article class="pcard">'
+        f'<h3><a href="/software/{E(p["slug"])}/">{E(p["name"])}</a></h3>'
+        f'<p class="pcard-price">{card_price(p)}</p>'
+        f'<p class="pcard-tags">{tag_html}</p>'
+        f'<div class="pcard-cta">{outbound_cta(p, kind=kind, cls="btn", page="home")}'
+        f'<a class="pcard-more" href="/software/{E(p["slug"])}/">Details</a></div>'
+        f'</article>'
+    )
+
+def finder_payload():
+    items = []
+    for p in CHECKEDP:
+        href, rel, aff = link_for(p)
+        items.append({
+            'slug': p['slug'], 'name': p['name'],
+            'price_text': p['price_text'] if p['price_text'] != 'unknown' else '',
+            'sort_price': p['sort_price'],
+            'free_version': p['free_version'], 'bridging': p['bridging'],
+            'creates_records': p['creates_records'], 'uk_property': p['uk_property'],
+            'sole_trader': p['sole_trader'], 'href': href, 'rel': rel, 'aff': aff,
+        })
+    return json.dumps({'total': len(products), 'products': items}, ensure_ascii=False)
+
+POPULAR_SLUGS = ['xero', 'quickbooks-intuit', 'freeagent', 'sage-sole-trader-and-landlord', 'zoho']
+
+def aff_row_note():
+    return '<p class="disclose">Some Visit site buttons may be affiliate links; we may earn a commission if you sign up. <a href="/affiliate-disclosure/">How we make money</a>.</p>'
+
+
 def yn(v, short=False):
     m = {'yes': ('Yes', 'y'), 'no': ('No', 'n'), 'in development': ('In development', 'd'), 'unknown': ('Unknown', 'u'),
          'paid plans only': ('Paid plans only', 'd')}
@@ -353,28 +407,57 @@ def home():
           'numberOfItems': len(CHECKEDP), 'itemListElement': [{'@type': 'ListItem', 'position': i + 1, 'url': f'{BASE}/software/{p["slug"]}/', 'name': p['name']} for i, p in enumerate(CHECKEDP)]}
     web = {'@context': 'https://schema.org', '@type': 'WebSite', 'name': NAME, 'url': BASE + '/', 'inLanguage': 'en-GB'}
     any_aff = any(link_for(p)[2] for p in products)
-    out = head(f'Compare all {n} HMRC-recognised Making Tax Digital products | {NAME}',
-               f'Compare all {n} HMRC-recognised Making Tax Digital for Income Tax products. Filter by free version, spreadsheet bridging, landlord, CIS and joint property. Plain English, prices checked at source.',
-               '/', [web, il, faq_ld(qas)])
-    out += f'''<section class="hero"><div class="wrap">
-<h1>Find the right Making Tax Digital software, in plain English</h1>
-<p class="lead">All {n} products HMRC recognises for Making Tax Digital for Income Tax, in one list you can filter. We've checked prices on the providers' own websites for {len(CHECKEDP)} of the best-known ones, and we tell you when a fact isn't known.</p>
-<p class="founders-cta"><a class="btn ghost" href="/founders-blog/">Founders Blog</a> <span>Why I built this site, by {E(OPERATOR)}</span></p>
-<h2 style="margin-top:1em">Start here</h2>
-<div class="steps">
-<div class="step"><b class="n">1</b><strong>Check if you need MTD</strong><p>It depends on your self-employment and property income before expenses.</p><a href="/do-i-need-mtd/">Do I need MTD, and when? →</a></div>
-<div class="step"><b class="n">2</b><strong>Tell us your situation</strong><div class="chips">
-<button class="chip" data-preset="uk_property">I'm a landlord</button>
-<button class="chip" data-preset="sole_trader">I'm self-employed</button>
-<button class="chip" data-preset="sole_trader,uk_property">Both</button>
-<button class="chip" data-preset="bridging">I use a spreadsheet</button>
-<button class="chip" data-preset="sole_trader,cis">I'm in CIS</button>
-<button class="chip" data-preset="free">Free options</button></div></div>
-<div class="step"><b class="n">3</b><strong>Compare, then check</strong><p>Open a product to see exactly what HMRC says it can do, then confirm the price on the provider's site before you sign up.</p></div>
+    popular = [BY[s] for s in POPULAR_SLUGS if s in BY]
+    popular_html = "".join(product_card(p, kind="popular") for p in popular)
+    out = head(f"Find your Making Tax Digital software in 30 seconds | {NAME}",
+               f"Compare all {n} HMRC-recognised Making Tax Digital for Income Tax products. Pick who you are and what you need to see matching software. Prices checked at source.",
+               "/", [web, il, faq_ld(qas)])
+    out += f'''<section class="hero funnel"><div class="wrap">
+<h1>Find your Making Tax Digital software in 30 seconds</h1>
+<p class="sub">{n} HMRC-recognised products. See matches for what you pick. <a href="/do-i-need-mtd/">Do I need MTD?</a></p>
+<h2 class="picks-h">Popular picks</h2>
+<div class="pcards row" id="popular">{popular_html}</div>
+{aff_row_note()}
+<form class="finder" id="finder" action="/#directory" method="get">
+<p class="finder-label">Find matches</p>
+<ol class="flow">
+<li class="step"><label for="f-who">I am a</label>
+<select id="f-who" name="who">
+<option value="">Anyone</option>
+<option value="landlord">Landlord</option>
+<option value="sole">Self-employed</option>
+<option value="both">Both</option>
+</select></li>
+<li class="arrow" aria-hidden="true">→</li>
+<li class="step"><label for="f-want">I want</label>
+<select id="f-want" name="want">
+<option value="">Any price</option>
+<option value="free">Free</option>
+<option value="low">Low cost</option>
+<option value="full">Full bookkeeping</option>
+</select></li>
+<li class="arrow" aria-hidden="true">→</li>
+<li class="step"><label for="f-keep">I keep records in</label>
+<select id="f-keep" name="keep">
+<option value="">Any method</option>
+<option value="spreadsheet">Spreadsheet</option>
+<option value="app">App</option>
+<option value="paper">Paper</option>
+</select></li>
+<li class="go"><button type="submit" class="btn big">Show my matches</button></li>
+</ol>
+<noscript><p class="disclose">To shortlist products, use the filters in the full list below.</p></noscript>
+</form>
+<div id="matches" class="matches" hidden>
+<h2 class="matches-h">Matches what you picked</h2>
+<p class="matches-note"></p>
+<div class="pcards"></div>
+{aff_row_note()}
+<p class="matches-more"><a href="#directory">Compare all {n} products</a></p>
 </div>
-{DATES_HTML}
+<script type="application/json" id="finder-data">{finder_payload()}</script>
+<p class="date-strip"><strong>MTD start dates:</strong> <span>6 Apr 2026 · over £50,000</span> <span>6 Apr 2027 · over £30,000</span> <span>6 Apr 2028 · over £20,000</span> <a href="/do-i-need-mtd/">Learn more</a></p>
 </div></section>
-{signup_block('home')}
 <div class="wrap">
 <section id="directory"><h2>Compare all HMRC-recognised MTD software</h2>
 <p class="disclose">{'Some links on this site are affiliate links, marked as sponsored. If you sign up through one we may earn a commission. ' if any_aff else 'We may add affiliate links in future and will mark them clearly. '}This never decides which products we list or how they're ordered. <a href="/affiliate-disclosure/">How we make money</a>.</p>
@@ -398,11 +481,16 @@ def home():
 </tr></thead><tbody>{''.join(rows)}</tbody></table></div>
 <p class="disclose">Free version, type, income sources, what it submits and CIS come from <a href="{FINDER}">HMRC's software finder</a> (read {nice_date(HMRC_DATE)}). "CIS on tax return" means HMRC lists the product as ready to report Construction Industry Scheme deductions on your tax return. Prices and joint-property support come from each provider's own website (checked {nice_date(CHECKED)}); "Unknown" means we haven't confirmed it yet. <a href="/methodology/">How we check</a>.</p>
 </section>
-<section><h2>Free options we've price-checked</h2>
+<details><summary>Free options we have price-checked</summary>
 <p>These are free, or have a free plan, according to the provider's own website. Free plans usually have limits, so read the note before you choose.</p>
-<ul>{free_list}</ul><p><a href="/guides/free-mtd-software/">Free MTD software: what each free plan includes, and the catches →</a></p></section>
+<ul>{free_list}</ul><p><a href="/guides/free-mtd-software/">Learn more: what each free plan includes, and the catches →</a></p>
+</details>
 <section><h2>Common questions</h2>{faq_html(qas)}</section>
-</div><script src="/assets/directory.js" defer></script>'''
+<p class="below-fold-cta"><a href="/founders-blog/">Why I built this site</a>, by {E(OPERATOR)}. <a href="/methodology/">How we check</a>.</p>
+</div>
+{signup_block('home')}
+<script src="/assets/directory.js" defer></script>
+<script src="/assets/funnel.js" defer></script>'''
     out += foot()
     write('/', out)
 
@@ -438,9 +526,8 @@ def product_page(p):
     app = {k: v for k, v in app.items() if v is not None}
     crumbs = [('Home', '/'), ('MTD software', '/#directory'), (p['name'], f"/software/{p['slug']}/")]
     out = head(title, desc, f"/software/{p['slug']}/", [app, crumb_ld(crumbs)], noindex=not p['vendor_checked'])
-    cta_label = f"Visit {p['name']}"
-    cta = f'<a class="btn" href="{E(href)}" rel="{rel}" target="_blank" data-product="{p['slug']}" data-aff="{int(aff)}">{E(cta_label)} ↗</a>'
-    cta_note = '<span class="disclose">Affiliate link: we may earn a commission if you sign up. <a href="/affiliate-disclosure/">Disclosure</a>.</span>' if aff else '<span class="disclose">Official website, as listed by HMRC.</span>'
+    cta = outbound_cta(p, kind='product', page='product', label=f"Visit {p['name']}")
+    cta_note = '<span class="disclose">Affiliate link: we may earn a commission if you sign up. <a href="/affiliate-disclosure/">Disclosure</a>.</span>' if aff else '<span class="disclose">Official website, as listed by HMRC. <a href="/affiliate-disclosure/">How we make money</a>.</span>'
     price_block = (f'<p><strong>{E(p["price_text"])}</strong></p>' + (f'<p>{E(p["price_note"])}</p>' if p.get('price_note') else '') +
                    f'<p class="disclose">Checked {nice_date(CHECKED)} on <a href="{E(p["price_source"])}" rel="noopener" target="_blank">the provider\'s pricing page</a>. Prices and offers change, so confirm before you buy.</p>') if p['price_text'] != 'unknown' or p.get('price_note') else \
         f'<p>We haven\'t checked this price yet. HMRC says: <strong>{"free version available" if p["free_version"] == "yes" else "paid version"}</strong>. See the provider\'s website for current pricing.</p>'
@@ -450,11 +537,15 @@ def product_page(p):
     alt_html = ''.join(f'<li><a href="/software/{a["slug"]}/">{E(a["name"])}</a>: {E(a["price_text"])}</li>' for a in alts[:5])
     tr_rows = ''.join(f'<tr><td>{E(k)}</td><td>{yn(v)}</td></tr>' for k, v in tr.items())
     acc = ', '.join(k for k, v in p['accessibility'].items() if v == 'yes') or 'None listed'
+    short = f"{E(p['name'])} is HMRC-recognised for Making Tax Digital for Income Tax."
+    if p['tax_return']:
+        short += " It can send quarterly updates and submit your tax return."
+    else:
+        short += " HMRC lists it for quarterly updates only."
     out += f'''<div class="wrap"><p class="breadcrumb"><a href="/">Home</a> › <a href="/#directory">MTD software</a> › {E(p['name'])}</p>
 <div class="cols"><div>
-<h1>{E(p['name'])} for Making Tax Digital for Income Tax</h1>
-<p class="lead">{summary}</p>
-{('<ul>' + ''.join(f'<li>{s}</li>' for s in suits) + '</ul>') if suits else ''}
+<h1>{E(p['name'])}</h1>
+<p class="lead">{short}</p>
 <div class="cta">{cta}{cta_note}</div>
 <div class="facts">
 <div class="fact"><small>On HMRC's list</small><b class="y">Yes</b> <a class="disclose" href="{E(p['hmrc_url'])}" rel="noopener" target="_blank">(HMRC entry)</a></div>
@@ -504,8 +595,9 @@ def guide():
                '/do-i-need-mtd/', [faq_ld(qas), crumb_ld([('Home', '/'), ('Do I need MTD?', '/do-i-need-mtd/')])])
     out += f'''<div class="wrap" style="max-width:820px"><p class="breadcrumb"><a href="/">Home</a> › Do I need MTD?</p>
 <h1>Do I need Making Tax Digital, and when?</h1>
-<p class="lead">Short answer: if you're a sole trader or landlord and your self-employment plus property income <em>before expenses</em> is over £50,000, you should already be using it. Over £30,000, you start in April 2027. Over £20,000, April 2028.</p>
-<p class="disclose">Every fact on this page comes from GOV.UK and is linked. Last checked {nice_date(CHECKED)}. This is general information, not tax advice.</p>
+<p class="lead">If you're a sole trader or landlord and your self-employment plus property income <em>before expenses</em> is over £50,000, you should already be using it. Over £30,000, April 2027. Over £20,000, April 2028.</p>
+<p class="cta"><a class="btn" href="/#finder">See matching software</a> <a class="btn ghost" href="/#directory">Compare all {len(products)} products</a></p>
+<p class="disclose">Every fact on this page comes from GOV.UK and is linked. Last checked {nice_date(CHECKED)}. <a href="/methodology/">How we check</a>.</p>
 <h2>Who needs to use it</h2>
 <p>According to HMRC, you need to use Making Tax Digital for Income Tax if <strong>all</strong> of these apply:</p>
 <ul><li>you're a sole trader or a landlord registered for Self Assessment</li><li>you get income from self-employment or property, or both</li><li>your qualifying income is over the threshold for the relevant tax year</li></ul>
@@ -960,6 +1052,7 @@ if __name__ == '__main__':
     os.makedirs(f'{DIST}/assets')
     shutil.copy(f'{ROOT}/src/style.css', f'{DIST}/assets/style.css')
     shutil.copy(f'{ROOT}/src/directory.js', f'{DIST}/assets/directory.js')
+    shutil.copy(f'{ROOT}/src/funnel.js', f'{DIST}/assets/funnel.js')
     shutil.copy(f'{ROOT}/src/unverified.js', f'{DIST}/assets/unverified.js')
     if ANALYTICS_ON: shutil.copy(f'{ROOT}/src/analytics.js', f'{DIST}/assets/analytics.js')
     if EMAIL_ON: shutil.copy(f'{ROOT}/src/signup.js', f'{DIST}/assets/signup.js')
