@@ -27,7 +27,7 @@ A quick reminder: **[UPDATE_NAME] is due on [WEEKDAY DATE]**.
 
 Next deadline after this one: [NEXT_DEADLINE].
 
-Daniel, PlainMTD
+Daniel, MTD Software Compare
 
 Source: [Send quarterly updates](https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/send-quarterly-updates) (GOV.UK) · *General information, not tax advice.*
 Daniel Wyatt · [Postal address to be added] · {{ unsubscribe }}

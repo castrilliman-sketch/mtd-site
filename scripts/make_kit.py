@@ -10,6 +10,13 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = json.load(open(f'{ROOT}/config/site.json'))
 D = json.load(open(f'{ROOT}/data/deadlines.json'))
 NAME = SITE['name']; OPERATOR = (SITE.get('operator_name') or '').strip() or 'Daniel Wyatt'; E = html.escape
+
+def logo_html():
+    if ' ' in NAME:
+        lead, _, accent = NAME.rpartition(' ')
+        return f'{E(lead)} <span>{E(accent)}</span>'
+    return f'<span>{E(NAME)}</span>'
+
 SRC = D['sources']
 def d(iso): return dt.date.fromisoformat(iso)
 def nice(x, wd=True): return (x.strftime('%a ') if wd else '') + f'{x.day} {x.strftime("%B %Y")}'
@@ -76,7 +83,7 @@ table.tight td{padding:3.5pt 6pt;line-height:1.3}tr.ty td{background:#14213d;col
 ul.cl{list-style:none;padding:0;margin:4pt 0}ul.cl li{display:flex;gap:7pt;margin:0 0 4pt;font-size:9.8pt;line-height:1.38}.tick{flex:0 0 12pt;height:12pt;border:1.5px solid #0b6e4f;border-radius:2pt;margin-top:2pt}
 a{color:#0b6e4f;word-break:break-all}.foot{font-size:8pt;color:#5b6475;border-top:1px solid #dfe3ea;margin-top:10pt;padding-top:5pt}
 ol.src li{margin-bottom:4pt;font-size:9pt}"""
-top = f'<div class="top"><div class="logo">{E(NAME[:5])}<span>{E(NAME[5:])}</span></div><div class="tag">Free MTD Ready Kit · 2026 to 2028 · checked {CHECKED}</div></div>'
+top = f'<div class="top"><div class="logo">{logo_html()}</div><div class="tag">Free MTD Ready Kit · 2026 to 2028 · checked {CHECKED}</div></div>'
 foot = f'<div class="foot">Prepared by {E(OPERATOR)}. General information from GOV.UK, not tax advice. HMRC does not endorse this kit or any software. Contains public sector information licensed under the Open Government Licence v3.0.</div>'
 H = f'''<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><title>Free MTD Ready Kit 2026 to 2028 | {E(NAME)}</title><style>{CSS}</style></head><body>
 <section class="page">{top}
@@ -164,8 +171,13 @@ open(f'{ROOT}/kit/mtd-deadlines-2026-28.ics', 'w', newline='').write('\r\n'.join
 
 # ---- PDF + previews
 from playwright.sync_api import sync_playwright
+import shutil as _shutil
+_chrome = _shutil.which('google-chrome') or _shutil.which('chromium') or _shutil.which('chromium-browser')
+_launch = {'args': ['--no-sandbox', '--disable-dev-shm-usage']}
+if _chrome:
+    _launch['executable_path'] = _chrome
 with sync_playwright() as p:
-    b = p.chromium.launch(); pg = b.new_page()
+    b = p.chromium.launch(**_launch); pg = b.new_page()
     pg.goto('file://' + f'{ROOT}/kit/kit.html'); pg.wait_for_timeout(300)
     pg.pdf(path=f'{ROOT}/kit/mtd-ready-kit-2026-28.pdf', format='A4', print_background=True, margin={'top': '14mm', 'bottom': '16mm', 'left': '14mm', 'right': '14mm'})
     pv = b.new_page(viewport={'width': 794, 'height': 1123}, device_scale_factor=1)

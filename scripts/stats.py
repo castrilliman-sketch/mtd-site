@@ -351,9 +351,15 @@ def render(A, start, end, state, note, earn, brevo=None):
                    f'{kpi("Sign-up rate", fmt_pct(g("signup_rate")), "visitors who sent the form")}</div>'
                    + table(['Page the form was sent from', 'Submissions', 'Page visitors', 'Conversion'], sp, nd)
                    + table(['"I am a…" answer (submissions)', 'Submissions'], sr, '') + bh)
+    _n = SITE["name"]
+    if " " in _n:
+        _lead, _accent = _n.rsplit(" ", 1)
+        LOGO = f'{E(_lead)} <span>{E(_accent)}</span>'
+    else:
+        LOGO = f'<span>{E(_n)}</span>'
     return f'''<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow"><title>Private stats – {E(SITE["name"])}</title><style>{CSS}</style></head><body><div class="wrap">
-<header><div><h1>{E(SITE["name"][:5])}<span>{E(SITE["name"][5:])}</span> · private stats</h1>
+<header><div><h1>{LOGO} · private stats</h1>
 <div class="muted">{start:%d %b %Y} – {end:%d %b %Y} (UK time) · generated {now:%d %b %Y, %H:%M} UK time · provider: {E(CFG.get("provider") or "not set")}</div></div>
 <div class="muted">Private: this file is not part of the published site.</div></header>
 {banner}

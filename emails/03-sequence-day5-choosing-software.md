@@ -20,10 +20,10 @@ HMRC recognises well over 100 products for MTD for Income Tax, and it doesn't re
 **Landlords:** use the "Landlord (UK property)" filter, and the "Joint property (confirmed)" filter if you own with someone else.
 **Sole traders:** use the "Sole trader" filter, and "CIS ready" if you work in construction.
 
-**[Compare all HMRC-recognised MTD software]([SITE_URL]/#directory)**
+**[Compare all HMRC-recognised MTD software](https://mtdsoftwarecompare.co.uk/#directory)**
 
-*How we make money: some "Visit" buttons on our site are affiliate links, clearly marked. If you sign up through one we may earn a commission, at no extra cost to you. It never changes which products we list or how we describe them. [Our affiliate disclosure]([SITE_URL]/affiliate-disclosure/).*
+*How we make money: some "Visit" buttons on our site are affiliate links, clearly marked. If you sign up through one we may earn a commission, at no extra cost to you. It never changes which products we list or how we describe them. [Our affiliate disclosure](https://mtdsoftwarecompare.co.uk/affiliate-disclosure/).*
 
-Daniel, PlainMTD
+Daniel, MTD Software Compare
 
 Source: [Choose the right software](https://www.gov.uk/guidance/choose-the-right-software-for-making-tax-digital-for-income-tax) (GOV.UK) · {{ unsubscribe }}

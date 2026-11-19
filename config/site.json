@@ -1,8 +1,8 @@
 {
- "name": "PlainMTD",
- "name_note": "Working title only. D to choose the final brand and domain.",
+ "name": "MTD Software Compare",
+ "name_note": "Brand matches the domain mtdsoftwarecompare.co.uk.",
  "tagline": "Plain-English comparison of HMRC-recognised Making Tax Digital software",
- "base_url": "https://example.co.uk",
+ "base_url": "https://mtdsoftwarecompare.co.uk",
  "operator_name": "Daniel Wyatt",
  "contact_email": ""
 }

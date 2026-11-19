@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /kit/
 
-Sitemap: https://example.co.uk/sitemap.xml
+Sitemap: https://mtdsoftwarecompare.co.uk/sitemap.xml

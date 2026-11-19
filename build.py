@@ -26,6 +26,14 @@ CONTACT_EMAIL = (SITE.get('contact_email') or '').strip()
 FINDER = 'https://www.tax.service.gov.uk/find-making-tax-digital-income-tax-software/'
 E = html.escape
 
+def logo_html():
+    """Wordmark: last word in the brand colour."""
+    if ' ' in NAME:
+        lead, _, accent = NAME.rpartition(' ')
+        return f'{E(lead)} <span>{E(accent)}</span>'
+    return f'<span>{E(NAME)}</span>'
+
+
 def contact_html():
     if CONTACT_EMAIL:
         addr = E(CONTACT_EMAIL)
@@ -151,7 +159,7 @@ def head(title, desc, path, jsonld=(), noindex=False, og_type='website'):
 <meta name="theme-color" content="#0b6e4f">
 <link rel="stylesheet" href="/assets/style.css">{ld}{analytics_tag()}</head><body>
 <a class="skip" href="#main">Skip to content</a>
-<header class="site"><div class="wrap"><a class="logo" href="/">{E(NAME[:5])}<span>{E(NAME[5:])}</span></a>
+<header class="site"><div class="wrap"><a class="logo" href="/">{logo_html()}</a>
 <nav class="main" aria-label="Main"><a href="/#directory">Compare software</a><a href="/do-i-need-mtd/">Do I need MTD?</a><a href="/guides/">Guides</a><a href="/methodology/">How we check</a><a href="/founders-blog/">Founders Blog</a><a href="/about/">About</a><a class="navkit" href="/free-mtd-kit/">Free MTD kit</a></nav></div></header>
 <main id="main">'''
 
@@ -345,7 +353,7 @@ def home():
           'numberOfItems': len(CHECKEDP), 'itemListElement': [{'@type': 'ListItem', 'position': i + 1, 'url': f'{BASE}/software/{p["slug"]}/', 'name': p['name']} for i, p in enumerate(CHECKEDP)]}
     web = {'@context': 'https://schema.org', '@type': 'WebSite', 'name': NAME, 'url': BASE + '/', 'inLanguage': 'en-GB'}
     any_aff = any(link_for(p)[2] for p in products)
-    out = head(f'MTD Software Compared: all {n} HMRC-recognised products | {NAME}',
+    out = head(f'Compare all {n} HMRC-recognised Making Tax Digital products | {NAME}',
                f'Compare all {n} HMRC-recognised Making Tax Digital for Income Tax products. Filter by free version, spreadsheet bridging, landlord, CIS and joint property. Plain English, prices checked at source.',
                '/', [web, il, faq_ld(qas)])
     out += f'''<section class="hero"><div class="wrap">
@@ -945,6 +953,7 @@ def seo_files():
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'<url><loc>{BASE}{u}</loc><lastmod>{lm}</lastmod></url>\n' for u, lm in urls) + '</urlset>\n'
     write('/sitemap.xml', sm)
     write('/robots.txt', f'User-agent: *\nAllow: /\nDisallow: /kit/\n\nSitemap: {BASE}/sitemap.xml\n')
+    write('/CNAME', 'mtdsoftwarecompare.co.uk\n')
 
 if __name__ == '__main__':
     if os.path.exists(DIST): shutil.rmtree(DIST)

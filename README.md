@@ -1,6 +1,6 @@
-# PlainMTD (working title) – MTD for Income Tax software directory, stage 1
+# MTD Software Compare – MTD for Income Tax software directory
 
-Local-only static site. Nothing is deployed.
+Static site for https://mtdsoftwarecompare.co.uk. The domain is not live yet; nothing has been published to it.
 
 ## Build & preview
     python3 build.py                      # writes ./dist (pure Python 3, no deps)
@@ -17,7 +17,7 @@ Local-only static site. Nothing is deployed.
 `config/affiliates.json` maps product slug -> tracked URL. Empty = official site, no `rel=sponsored`. When filled, the button becomes `rel="sponsored nofollow noopener"`, gets an inline disclosure, and the disclosure page lists it automatically.
 
 ## Before launch (D)
-- Choose brand/domain → `config/site.json` (`name`, `base_url`).
+- Brand and canonical URL are set in `config/site.json` (`MTD Software Compare`, `https://mtdsoftwarecompare.co.uk`). Register the domain and point DNS before publishing.
 - Add the public contact email in `config/site.json` (`contact_email`) and a postal address on the privacy page (still marked in yellow). The About page and operator name (Daniel Wyatt) are in place.
 - Founders Blog posts live in `data/blog/*.md` (YAML-like front matter + Markdown) and are built by `build.py`.
 

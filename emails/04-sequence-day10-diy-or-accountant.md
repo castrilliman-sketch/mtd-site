@@ -23,10 +23,10 @@ An agent can sign you up for MTD, send your quarterly updates and submit your ta
 
 **Tip:** ask any accountant you're considering what software they use and whether their fee covers the four quarterly updates as well as the tax return.
 
-*[Optional, only once a vetted accountant-matching service is live and disclosed: "Want help finding one? [Request an introduction]([SITE_URL]/accountant/). We'll only pass your details on if you ask us to, and we'll tell you if we're paid for the introduction."]*
+*[Optional, only once a vetted accountant-matching service is live and disclosed: "Want help finding one? [Request an introduction](https://mtdsoftwarecompare.co.uk/accountant/). We'll only pass your details on if you ask us to, and we'll tell you if we're paid for the introduction."]*
 
 That's the end of the welcome emails. From now on you'll hear from us 7 days before each deadline, and when HMRC changes something important.
 
-Daniel, PlainMTD
+Daniel, MTD Software Compare
 
 Sources: [Send quarterly updates](https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/send-quarterly-updates) (GOV.UK) · *General information, not tax advice.* · {{ unsubscribe }}

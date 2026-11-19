@@ -3,7 +3,7 @@
 Set up in Brevo either as the form's **Final confirmation email** (Forms > Settings) or as step 1 of the welcome automation
 (trigger: "Contact added to list" = the MTD Ready Kit list). Use one, not both.
 
-**From name:** PlainMTD  ·  **Subject:** Your Free MTD Ready Kit (calendar + checklist inside)
+**From name:** MTD Software Compare  ·  **Subject:** Your Free MTD Ready Kit (calendar + checklist inside)
 **Preview text:** Every MTD deadline to January 2029, plus the add-to-calendar file.
 
 ---
@@ -12,8 +12,8 @@ Hi {{ contact.FIRSTNAME }},
 
 Here's your Free MTD Ready Kit:
 
-- **[Download the kit (PDF, 5 pages)]([SITE_URL]/kit/mtd-ready-kit-2026-28.pdf)**: when you start, the quarterly update calendar for 2026 to 2027 and 2027 to 2028, every key date in order, and a getting-ready checklist.
-- **[Add every deadline to your calendar (.ics)]([SITE_URL]/kit/mtd-deadlines-2026-28.ics)**: works with Google, Apple and Outlook calendars, with an alert 7 days before each date.
+- **[Download the kit (PDF, 5 pages)](https://mtdsoftwarecompare.co.uk/kit/mtd-ready-kit-2026-28.pdf)**: when you start, the quarterly update calendar for 2026 to 2027 and 2027 to 2028, every key date in order, and a getting-ready checklist.
+- **[Add every deadline to your calendar (.ics)](https://mtdsoftwarecompare.co.uk/kit/mtd-deadlines-2026-28.ics)**: works with Google, Apple and Outlook calendars, with an alert 7 days before each date.
 
 **Three things worth knowing today**
 
@@ -23,11 +23,11 @@ Here's your Free MTD Ready Kit:
 
 We'll email you 7 days before each deadline. Over the next fortnight we'll also send three short emails to help you get set up: the decisions to make before your first update, how to choose software without overpaying, and how to decide whether to do it yourself.
 
-Not sure you need MTD at all? Our [plain-English guide]([SITE_URL]/do-i-need-mtd/) walks you through it, with a link to every GOV.UK source.
+Not sure you need MTD at all? Our [plain-English guide](https://mtdsoftwarecompare.co.uk/do-i-need-mtd/) walks you through it, with a link to every GOV.UK source.
 
 Best wishes,
 Daniel
-PlainMTD
+MTD Software Compare
 
-*General information from GOV.UK, not tax advice. PlainMTD is independent and not connected with HMRC.*
+*General information from GOV.UK, not tax advice. MTD Software Compare is independent and not connected with HMRC.*
 Daniel Wyatt · [Postal address to be added] · {{ unsubscribe }}
