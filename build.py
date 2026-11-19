@@ -456,7 +456,7 @@ def product_page(p):
 <div class="fact"><small>Sole traders</small><b>{yn(p['sole_trader'])}</b></div>
 <div class="fact"><small>Foreign property</small><b>{yn(p['foreign_property'])}</b></div>
 <div class="fact"><small>CIS on tax return</small><b>{yn(p['cis'])}</b></div>
-<div class="fact"><small>Joint property splits</small><b>{joint}</b></div>
+<div class="fact"><small>Joint property splits</small><b>{joint}</b> <a class="disclose" href="/guides/jointly-owned-property-mtd/">(guide)</a></div>
 <div class="fact"><small>Submits</small><b>{E(p['submits'])}</b></div>
 <div class="fact"><small>MTD for VAT too</small><b>{yn(p['vat'])}</b></div>
 <div class="fact"><small>HMRC Assist built in</small><b>{yn(p['hmrc_assist'])}</b></div>
@@ -532,7 +532,7 @@ def guide():
 <p class="disclose">Source: <a href="{G}use-making-tax-digital-for-income-tax/send-quarterly-updates">GOV.UK, Send quarterly updates</a>.</p>
 <h2>If you own property jointly</h2>
 <p>For jointly let property, HMRC lets you include either income and expenses, or income only, in your quarterly updates. If you leave out expenses, you report them after the tax year by resending your fourth quarterly update before you submit your tax return. Properties you own alone still need both income and expenses in every update.</p>
-<p class="disclose">Source: <a href="{G}use-making-tax-digital-for-income-tax/send-quarterly-updates">GOV.UK, Send quarterly updates</a>. See which software confirms joint-property support with the <a href="/?f=joint#directory">joint property filter</a>.</p>
+<p class="disclose">Source: <a href="{G}use-making-tax-digital-for-income-tax/send-quarterly-updates">GOV.UK, Send quarterly updates</a>. See which software confirms joint-property support with the <a href="/?f=joint#directory">joint property filter</a>, or read our <a href="/guides/jointly-owned-property-mtd/">full guide to jointly owned property under MTD</a>.</p>
 <h2>Who is exempt</h2>
 <ul><li><strong>Qualifying income of £20,000 or less:</strong> automatically exempt.</li>
 <li><strong>No National Insurance number</strong> before the start of the tax year: automatically exempt.</li>
@@ -618,6 +618,15 @@ def tok_free_plans_table():
                  f'({len(FREE_UNCHECKED)}, not yet checked by us). Limits are unknown here.</th></tr>')
     return (head + f'<tbody>{checked}</tbody><tbody>{label}{unchecked}</tbody></table></div>' + UNVERIFIED_DIALOG)
 
+def tok_joint_table():
+    rows = ''.join(
+        f'<tr><td><a href="/software/{p["slug"]}/">{E(p["name"])}</a></td>'
+        f'<td>{"Paid plans only" if p["joint_property"] == "paid plans only" else "Yes"}</td>'
+        f'<td><a href="{E(p["joint_source"])}" rel="noopener" target="_blank">Provider page</a></td></tr>'
+        for p in products if p['joint_property'] in ('yes', 'paid plans only') and p.get('joint_source'))
+    return ('<div class="tablewrap"><table><thead><tr><th>Software</th><th>Joint-ownership splits (provider says)</th><th>Source</th></tr></thead>'
+            f'<tbody>{rows}</tbody></table></div>')
+
 def _cnt(f): return str(sum(1 for p in FREE if f(p)))
 GUIDE_TOKENS = {
     'products_total': lambda: str(len(products)),
@@ -636,6 +645,8 @@ GUIDE_TOKENS = {
     'free_plans_table': tok_free_plans_table,
     'hmrc_date': lambda: nice_date(HMRC_DATE),
     'signup_inline': lambda: signup_block('inline'),
+    'joint_table': tok_joint_table,
+    'joint_n': lambda: str(sum(1 for p in products if p['joint_property'] in ('yes', 'paid plans only'))),
 }
 
 def load_guides():
@@ -829,7 +840,7 @@ def other_pages():
 <h2>Where the data comes from</h2>
 <ul><li><strong>Which products are listed, and their features:</strong> <a href="{FINDER}">HMRC's software finder for Making Tax Digital for Income Tax</a>, using the full list for sole traders and landlords. Last read on {nice_date(HMRC_DATE)}: {len(products)} products. This gives us whether there's a free version, whether it creates records or bridges to spreadsheets, which income sources it supports, what it can submit, MTD for VAT, HMRC Assist, accessibility features and the status of each tax-return item.</li>
 <li><strong>Prices:</strong> read by us on each provider's own pricing page. Each product page shows the date checked and links to the page. We note introductory offers separately from the regular price. So far we've checked {len(CHECKEDP)} products, starting with the best-known names and those people ask about most on forums.</li>
-<li><strong>Joint property support:</strong> shown as "Yes" only when the provider's own site says it splits income and expenses between joint owners. HMRC's finder doesn't record this.</li>
+<li><strong>Joint property support:</strong> shown as "Yes" only when the provider's own site says it splits income and expenses between joint owners. HMRC's finder doesn't record this. See <a href="/guides/jointly-owned-property-mtd/">our jointly owned property guide</a>.</li>
 <li><strong>CIS:</strong> "CIS on tax return" is HMRC's status for reporting Construction Industry Scheme deductions on your tax return. It doesn't mean the software files contractor CIS returns.</li>
 <li><strong>Thresholds and dates:</strong> taken directly from GOV.UK and linked wherever they appear.</li></ul>
 <h2>Order and independence</h2>
