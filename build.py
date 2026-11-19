@@ -608,6 +608,7 @@ def guide():
 <tr><td>£30,000</td><td>2025 to 2026</td><td>6 April 2027</td></tr>
 <tr><td>£20,000</td><td>2026 to 2027</td><td>6 April 2028</td></tr></tbody></table></div>
 <p>HMRC checks your Self Assessment tax return each year. If you're over the threshold it will write to you, but HMRC is clear that if you don't get a letter it is still your responsibility to check. Partnerships will need to join later; HMRC hasn't set the date yet.</p>
+<p>Starting in April 2027? See <a href="/guides/sign-up-mtd-april-2027/">how and when to sign up if you're over £30,000</a>, including whether HMRC signs you up and the key dates for your first year.</p>
 <p class="disclose">Source: <a href="{G}check-if-youre-eligible-for-making-tax-digital-for-income-tax">GOV.UK</a>. You can also use <a href="https://tax.service.gov.uk/guidance/check-if-you-need-to-use-making-tax-digital-for-income-tax">HMRC's own checker tool</a>.</p>
 <h2>What counts as qualifying income</h2>
 <p>Qualifying income is your <strong>total income from self-employment and property, before expenses</strong> (your turnover), based on the tax return for the earlier tax year. HMRC's own example: £25,000 of rental income plus £27,000 of self-employment income gives qualifying income of £52,000.</p>
