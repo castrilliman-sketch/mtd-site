@@ -101,7 +101,7 @@ H = f'''<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><title>Fre
 <tr><td>Send a quarterly update for each business (summaries, not tax returns)</td><td>4 times a year</td><td>7 Aug, 7 Nov, 7 Feb, 7 May</td></tr>
 <tr><td>Submit your tax return through the software, adding any other income</td><td>Once a year</td><td>31 January after the tax year</td></tr>
 <tr><td>Pay your tax (unchanged by MTD)</td><td>Once or twice a year</td><td>31 January, and 31 July if you make payments on account</td></tr></table>
-<div class="callout warn"><b>Penalties.</b> HMRC won't give penalty points for late quarterly updates in the 2026 to 2027 tax year, but you must still send them before you can submit your tax return. From 2027 to 2028, each late update earns a point and <b>4 points means a £200 penalty</b>. Late tax returns get points in every year.</div>
+<div class="callout warn"><b>Penalties.</b> If you need to use MTD from April 2026 or April 2027, HMRC won't give penalty points for late quarterly updates in your first tax year, but you must still send them before you can submit your tax return. After that, each late update earns a point and <b>4 points means a £200 penalty</b>. Late tax returns get points in every year.</div>
 <div class="callout"><b>Get reminders.</b> Import <b>mtd-deadlines-2026-28.ics</b> (sent with this kit) into Google, Apple or Outlook Calendar: every date below with an alert 7 days before. We'll also email you 7 days before each deadline.</div>
 {foot}</section>
 

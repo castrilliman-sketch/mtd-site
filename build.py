@@ -311,7 +311,7 @@ def signup_block(variant):
     pts = ''.join(f'<li><b>{E(a)}</b> {E(b)}</li>' for a, b in KIT_POINTS)
     return f'''<section class="signup home" id="{uid}"><div class="wrap"><div class="sh-grid">
 <div class="sh-text"><p class="eyebrow">Free MTD Ready Kit</p><h2 id="{uid}-h">Never miss a Making Tax Digital deadline</h2>
-<p class="lead">Four quarterly updates a year, plus your tax return. From 2027 to 2028, four late-update penalty points mean a £200 penalty. Get every date, a checklist, and a reminder before each one.</p>
+<p class="lead">Four quarterly updates a year, plus your tax return. After your first year, four late-submission penalty points mean a £200 penalty. Get every date, a checklist, and a reminder before each one.</p>
 <ul class="ticks">{pts}</ul>{nd_line()}
 <p class="disclose">Every date is from GOV.UK. <a href="/free-mtd-kit/">See what's inside</a></p></div>
 <div class="sh-form">{signup_form(uid, 'full')}</div>
@@ -399,7 +399,7 @@ def home():
         ("Does HMRC provide free software for Making Tax Digital?", "HMRC's guidance says you, or an agent, will need to use commercial software that works with Making Tax Digital for Income Tax. It also says free products are available for people with simple tax affairs, but they may have limits, such as a set number of transactions. <a href=\"https://www.gov.uk/guidance/choose-the-right-software-for-making-tax-digital-for-income-tax\">Source: GOV.UK</a>"),
         ("What is MTD bridging software?", "Bridging software connects to records you already keep, such as a spreadsheet, and sends your quarterly updates to HMRC. Some bridging products also submit your tax return; others only send the updates. Use the 'Bridging (spreadsheets)' filter above to see them, or read <a href=\"/guides/mtd-spreadsheets-bridging-software/\">our guide to spreadsheets and bridging software</a>."),
         ("Can I use more than one MTD product?", "Yes. HMRC says you can use more than one product, but only one product for each separate submission. For example, a landlord cannot use two products to send the same property quarterly update. If you combine products, make sure together they cover your quarterly updates and your tax return. <a href=\"https://www.gov.uk/guidance/choose-the-right-software-for-making-tax-digital-for-income-tax\">Source: GOV.UK</a>"),
-        ("When are MTD quarterly updates due?", "For both standard and calendar update periods, the deadlines are 7 August, 7 November, 7 February and 7 May (the following tax year). <a href=\"https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/send-quarterly-updates\">Source: GOV.UK</a>"),
+        ("When are MTD quarterly updates due?", "For both standard and calendar update periods, the deadlines are 7 August, 7 November, 7 February and 7 May (the following tax year). <a href=\"https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/send-quarterly-updates\">Source: GOV.UK</a>. For what happens if one is late, see <a href=\"/guides/mtd-late-quarterly-update-penalties/\">MTD penalty points explained</a>."),
         ("Does HMRC recommend any MTD software?", "No. HMRC says it does not recommend any product or software provider. Every product in this directory has been through HMRC's recognition process, and we show them in alphabetical order by default."),
         ("Why does a product say 'Quarterly updates only'?", "HMRC lists some products as able to send quarterly updates but not to submit your tax return. If you pick one of those, you'll need another product, or an agent, for the tax return after the year ends."),
     ]
@@ -588,7 +588,7 @@ def guide():
         ("What are the Making Tax Digital thresholds?", "Over £50,000 of qualifying income in the 2024 to 2025 tax year means you start from 6 April 2026. Over £30,000 in 2025 to 2026 means from 6 April 2027. Over £20,000 in 2026 to 2027 means from 6 April 2028."),
         ("Does my salary count towards the MTD threshold?", "No. Qualifying income is your self-employment and property income before expenses. Employment (PAYE) income, a share of partnership profit, dividends and pensions do not count."),
         ("What if my qualifying income is £20,000 or less?", "HMRC says you are automatically exempt and do not need to use Making Tax Digital for Income Tax. You still send a Self Assessment tax return as normal."),
-        ("Will I get a penalty for a late quarterly update in 2026 to 2027?", "HMRC says it will not apply penalty points for late quarterly updates during the 2026 to 2027 tax year. You still need to send them before you can submit your tax return, and late tax returns still get penalty points."),
+        ("Will I get a penalty for a late quarterly update in 2026 to 2027?", "HMRC says there are no penalty points for late quarterly updates in your first tax year if you need to use MTD from 6 April 2026 or 6 April 2027 (so 2026 to 2027, or 2027 to 2028). You still need to send them before you can submit your tax return, and late tax returns still get penalty points. See <a href=\"/guides/mtd-late-quarterly-update-penalties/\">how MTD penalty points work</a>."),
     ]
     out = head(f'Do I need Making Tax Digital, and when? Plain-English guide | {NAME}',
                'Who needs MTD for Income Tax, the £50,000, £30,000 and £20,000 thresholds, what counts as qualifying income, quarterly deadlines and exemptions, all sourced from GOV.UK.',
@@ -629,8 +629,9 @@ def guide():
 <p class="disclose">Source: <a href="{G}use-making-tax-digital-for-income-tax/send-quarterly-updates">GOV.UK, Send quarterly updates</a>.</p>
 {signup_block('inline')}
 <h2>Penalties</h2>
-<p>Late quarterly updates earn penalty points, and reaching the points threshold means a £200 penalty. For the <strong>2026 to 2027 tax year</strong>, HMRC will not apply penalty points for late quarterly updates, but you must send them before you can submit your tax return, and late tax returns still get points.</p>
-<p class="disclose">Source: <a href="{G}use-making-tax-digital-for-income-tax/send-quarterly-updates">GOV.UK, Send quarterly updates</a>.</p>
+<p>Late quarterly updates and late tax returns earn penalty points. At 4 points there's a £200 penalty, and another £200 for each further missed deadline. If you need to use MTD from 6 April 2026 or 6 April 2027, HMRC says there are <strong>no penalty points for late quarterly updates in your first tax year</strong>. You still need to send them before you can submit your tax return, and late tax returns still get points.</p>
+<p>Read <a href="/guides/mtd-late-quarterly-update-penalties/">how MTD penalty points, late payment penalties and appeals work</a>, with worked timelines.</p>
+<p class="disclose">Sources: <a href="{G}penalties-for-making-tax-digital-for-income-tax">GOV.UK, Penalties for Making Tax Digital for Income Tax</a>; <a href="{G}use-making-tax-digital-for-income-tax/send-quarterly-updates">GOV.UK, Send quarterly updates</a>.</p>
 <h2>If you own property jointly</h2>
 <p>For jointly let property, HMRC lets you include either income and expenses, or income only, in your quarterly updates. If you leave out expenses, you report them after the tax year by resending your fourth quarterly update before you submit your tax return. Properties you own alone still need both income and expenses in every update.</p>
 <p class="disclose">Source: <a href="{G}use-making-tax-digital-for-income-tax/send-quarterly-updates">GOV.UK, Send quarterly updates</a>. See which software confirms joint-property support with the <a href="/?f=joint#directory">joint property filter</a>, or read our <a href="/guides/jointly-owned-property-mtd/">full guide to jointly owned property under MTD</a>.</p>
@@ -643,7 +644,7 @@ def guide():
 <p class="disclose">Source: <a href="{G}find-out-if-you-can-get-an-exemption-from-making-tax-digital-for-income-tax">GOV.UK, Find out if you can get an exemption</a>.</p>
 <h2>Next step: pick your software</h2>
 <p>You'll need HMRC-recognised software. <a class="btn" href="/#directory">Compare all {len(products)} products</a></p>
-<p>Browse our <a href="/guides/">plain-English MTD guides</a>, including <a href="/guides/free-mtd-software/">which free MTD software options exist and their limits</a> and <a href="/guides/mtd-spreadsheets-bridging-software/">whether you can keep using spreadsheets</a>.</p>
+<p>Browse our <a href="/guides/">plain-English MTD guides</a>, including <a href="/guides/free-mtd-software/">which free MTD software options exist and their limits</a>, <a href="/guides/mtd-spreadsheets-bridging-software/">whether you can keep using spreadsheets</a> and <a href="/guides/mtd-late-quarterly-update-penalties/">how late-update penalty points work</a>.</p>
 <h2>Quick answers</h2>{faq_html(qas)}
 </div>'''
     out += foot()
