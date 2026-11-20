@@ -397,7 +397,7 @@ def home():
     free_list = ''.join(f'<li><a href="/software/{p["slug"]}/">{E(p["name"])}</a>: {E(p["price_text"])}{" – " + E(p["price_note"]) if p.get("price_note") else ""}</li>' for p in free_checked)
     qas = [
         ("Does HMRC provide free software for Making Tax Digital?", "HMRC's guidance says you, or an agent, will need to use commercial software that works with Making Tax Digital for Income Tax. It also says free products are available for people with simple tax affairs, but they may have limits, such as a set number of transactions. <a href=\"https://www.gov.uk/guidance/choose-the-right-software-for-making-tax-digital-for-income-tax\">Source: GOV.UK</a>"),
-        ("What is MTD bridging software?", "Bridging software connects to records you already keep, such as a spreadsheet, and sends your quarterly updates to HMRC. Some bridging products also submit your tax return; others only send the updates. Use the 'Bridging (spreadsheets)' filter above to see them."),
+        ("What is MTD bridging software?", "Bridging software connects to records you already keep, such as a spreadsheet, and sends your quarterly updates to HMRC. Some bridging products also submit your tax return; others only send the updates. Use the 'Bridging (spreadsheets)' filter above to see them, or read <a href=\"/guides/mtd-spreadsheets-bridging-software/\">our guide to spreadsheets and bridging software</a>."),
         ("Can I use more than one MTD product?", "Yes. HMRC says you can use more than one product, but only one product for each separate submission. For example, a landlord cannot use two products to send the same property quarterly update. If you combine products, make sure together they cover your quarterly updates and your tax return. <a href=\"https://www.gov.uk/guidance/choose-the-right-software-for-making-tax-digital-for-income-tax\">Source: GOV.UK</a>"),
         ("When are MTD quarterly updates due?", "For both standard and calendar update periods, the deadlines are 7 August, 7 November, 7 February and 7 May (the following tax year). <a href=\"https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/send-quarterly-updates\">Source: GOV.UK</a>"),
         ("Does HMRC recommend any MTD software?", "No. HMRC says it does not recommend any product or software provider. Every product in this directory has been through HMRC's recognition process, and we show them in alphabetical order by default."),
@@ -550,7 +550,7 @@ def product_page(p):
 <div class="facts">
 <div class="fact"><small>On HMRC's list</small><b class="y">Yes</b> <a class="disclose" href="{E(p['hmrc_url'])}" rel="noopener" target="_blank">(HMRC entry)</a></div>
 <div class="fact"><small>Free version (HMRC)</small><b>{yn(p['free_version'])}</b></div>
-<div class="fact"><small>Bridging / spreadsheets</small><b>{yn(p['bridging'])}</b></div>
+<div class="fact"><small>Bridging / spreadsheets</small><b>{yn(p['bridging'])}</b> <a class="disclose" href="/guides/mtd-spreadsheets-bridging-software/">(guide)</a></div>
 <div class="fact"><small>Landlords (UK property)</small><b>{yn(p['uk_property'])}</b></div>
 <div class="fact"><small>Sole traders</small><b>{yn(p['sole_trader'])}</b></div>
 <div class="fact"><small>Foreign property</small><b>{yn(p['foreign_property'])}</b></div>
@@ -643,7 +643,7 @@ def guide():
 <p class="disclose">Source: <a href="{G}find-out-if-you-can-get-an-exemption-from-making-tax-digital-for-income-tax">GOV.UK, Find out if you can get an exemption</a>.</p>
 <h2>Next step: pick your software</h2>
 <p>You'll need HMRC-recognised software. <a class="btn" href="/#directory">Compare all {len(products)} products</a></p>
-<p>Browse our <a href="/guides/">plain-English MTD guides</a>, including <a href="/guides/free-mtd-software/">which free MTD software options exist and their limits</a>.</p>
+<p>Browse our <a href="/guides/">plain-English MTD guides</a>, including <a href="/guides/free-mtd-software/">which free MTD software options exist and their limits</a> and <a href="/guides/mtd-spreadsheets-bridging-software/">whether you can keep using spreadsheets</a>.</p>
 <h2>Quick answers</h2>{faq_html(qas)}
 </div>'''
     out += foot()
@@ -728,6 +728,18 @@ def tok_joint_table():
     return ('<div class="tablewrap"><table><thead><tr><th>Software</th><th>Joint-ownership splits (provider says)</th><th>Source</th></tr></thead>'
             f'<tbody>{rows}</tbody></table></div>')
 
+BRIDGING = [p for p in products if p['bridging'] == 'yes']
+BRIDGING_CHECKED = [p for p in BRIDGING if p['vendor_checked'] and p['price_text'] != 'unknown' and 'per HMRC' not in p['price_text']]
+
+def tok_bridging_table():
+    rows = ''.join(
+        f'<tr><td><a href="/software/{p["slug"]}/">{E(p["name"])}</a></td><td>{E(p["price_text"])}</td><td>{E(p["price_note"] or "Not stated")}</td>'
+        f'<td>{_inc(p)}</td><td>{_tr(p)}</td><td>{_plink(p)} · <a href="{E(p["price_source"])}" rel="noopener" target="_blank">price source</a></td></tr>'
+        for p in BRIDGING_CHECKED)
+    return ('<div class="tablewrap"><table><thead><tr><th>Software</th><th>Price (provider)</th><th>What the provider says</th>'
+            '<th>Income types (HMRC)</th><th>Tax return (HMRC listing)</th><th>Links</th></tr></thead>'
+            f'<tbody>{rows}</tbody></table></div>')
+
 def _cnt(f): return str(sum(1 for p in FREE if f(p)))
 GUIDE_TOKENS = {
     'products_total': lambda: str(len(products)),
@@ -747,6 +759,12 @@ GUIDE_TOKENS = {
     'hmrc_date': lambda: nice_date(HMRC_DATE),
     'signup_inline': lambda: signup_block('inline'),
     'joint_table': tok_joint_table,
+    'bridging_table': tok_bridging_table,
+    'bridging_n': lambda: str(len(BRIDGING)),
+    'bridging_tr': lambda: str(sum(1 for p in BRIDGING if p['tax_return'])),
+    'bridging_no_tr': lambda: str(sum(1 for p in BRIDGING if not p['tax_return'])),
+    'bridging_free': lambda: str(sum(1 for p in BRIDGING if p['free_version'] == 'yes')),
+    'bridging_checked_n': lambda: str(len(BRIDGING_CHECKED)),
     'joint_n': lambda: str(sum(1 for p in products if p['joint_property'] in ('yes', 'paid plans only'))),
 }
 
