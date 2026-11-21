@@ -588,6 +588,7 @@ def guide():
         ("What are the Making Tax Digital thresholds?", "Over £50,000 of qualifying income in the 2024 to 2025 tax year means you start from 6 April 2026. Over £30,000 in 2025 to 2026 means from 6 April 2027. Over £20,000 in 2026 to 2027 means from 6 April 2028."),
         ("Does my salary count towards the MTD threshold?", "No. Qualifying income is your self-employment and property income before expenses. Employment (PAYE) income, a share of partnership profit, dividends and pensions do not count."),
         ("What if my qualifying income is £20,000 or less?", "HMRC says you are automatically exempt and do not need to use Making Tax Digital for Income Tax. You still send a Self Assessment tax return as normal."),
+        ("Can I apply for an exemption from MTD if I can't use a computer?", "GOV.UK says you can apply if you're digitally excluded: for example your age, health condition or disability stops you using a computer, tablet or smartphone, or you can't get internet access because of your location. Being unfamiliar with software, having few records, or the extra time or cost isn't enough on its own. You apply by phone or letter. See <a href=\"/guides/mtd-exemption-digitally-excluded/\">how MTD exemptions and digital exclusion work</a>."),
         ("Will I get a penalty for a late quarterly update in 2026 to 2027?", "HMRC says there are no penalty points for late quarterly updates in your first tax year if you need to use MTD from 6 April 2026 or 6 April 2027 (so 2026 to 2027, or 2027 to 2028). You still need to send them before you can submit your tax return, and late tax returns still get penalty points. See <a href=\"/guides/mtd-late-quarterly-update-penalties/\">how MTD penalty points work</a>."),
     ]
     out = head(f'Do I need Making Tax Digital, and when? Plain-English guide | {NAME}',
@@ -640,11 +641,11 @@ def guide():
 <li><strong>No National Insurance number</strong> before the start of the tax year: automatically exempt.</li>
 <li><strong>Partnerships:</strong> don't currently need to use it.</li>
 <li>Some people, for example those who are <strong>digitally excluded</strong>, can apply for an exemption.</li></ul>
-<p>If you're exempt you still send a Self Assessment tax return as normal.</p>
+<p>If you're exempt you still send a Self Assessment tax return as normal. Read <a href="/guides/mtd-exemption-digitally-excluded/">who is automatically exempt, and how to apply if you're digitally excluded</a>, including what HMRC won't accept and how appeals work.</p>
 <p class="disclose">Source: <a href="{G}find-out-if-you-can-get-an-exemption-from-making-tax-digital-for-income-tax">GOV.UK, Find out if you can get an exemption</a>.</p>
 <h2>Next step: pick your software</h2>
 <p>You'll need HMRC-recognised software. <a class="btn" href="/#directory">Compare all {len(products)} products</a></p>
-<p>Browse our <a href="/guides/">plain-English MTD guides</a>, including <a href="/guides/free-mtd-software/">which free MTD software options exist and their limits</a>, <a href="/guides/mtd-spreadsheets-bridging-software/">whether you can keep using spreadsheets</a> and <a href="/guides/mtd-late-quarterly-update-penalties/">how late-update penalty points work</a>.</p>
+<p>Browse our <a href="/guides/">plain-English MTD guides</a>, including <a href="/guides/free-mtd-software/">which free MTD software options exist and their limits</a>, <a href="/guides/mtd-spreadsheets-bridging-software/">whether you can keep using spreadsheets</a>, <a href="/guides/mtd-late-quarterly-update-penalties/">how late-update penalty points work</a> and <a href="/guides/mtd-exemption-digitally-excluded/">MTD exemptions and digital exclusion</a>.</p>
 <h2>Quick answers</h2>{faq_html(qas)}
 </div>'''
     out += foot()

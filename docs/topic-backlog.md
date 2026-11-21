@@ -8,6 +8,7 @@ Pick the most valuable uncovered topic. Mark done with the date. Base on real qu
 - [x] 2026-11-19 How and when to sign up for MTD for Income Tax if you start in April 2027 (£30k threshold), incl. whether HMRC signs you up (/guides/sign-up-mtd-april-2027/)
 - [x] 2026-11-20 MTD bridging software for spreadsheet users: options compared (/guides/mtd-spreadsheets-bridging-software/)
 - [x] 2026-11-20 Penalty points for late quarterly updates: first-year easement (April 2026 and April 2027 joiners) vs later years (/guides/mtd-late-quarterly-update-penalties/)
+- [x] 2026-11-21 Applying for a digital exclusion exemption, plus all automatic/temporary MTD exemptions (/guides/mtd-exemption-digitally-excluded/)
 
 ## Next up (rough priority)
 - [ ] MTD software for landlords with foreign property
@@ -15,4 +16,3 @@ Pick the most valuable uncovered topic. Mark done with the date. Base on real qu
 - [ ] MTD and CIS subcontractors: what the software must do
 - [ ] Rent plus a salary: what counts towards the threshold (worked examples from GOV.UK)
 - [ ] Switching MTD software mid-year
-- [ ] Applying for a digital exclusion exemption
