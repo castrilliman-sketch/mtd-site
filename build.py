@@ -553,7 +553,7 @@ def product_page(p):
 <div class="fact"><small>Bridging / spreadsheets</small><b>{yn(p['bridging'])}</b> <a class="disclose" href="/guides/mtd-spreadsheets-bridging-software/">(guide)</a></div>
 <div class="fact"><small>Landlords (UK property)</small><b>{yn(p['uk_property'])}</b></div>
 <div class="fact"><small>Sole traders</small><b>{yn(p['sole_trader'])}</b></div>
-<div class="fact"><small>Foreign property</small><b>{yn(p['foreign_property'])}</b></div>
+<div class="fact"><small>Foreign property</small><b>{yn(p['foreign_property'])}</b> <a class="disclose" href="/guides/mtd-foreign-property/">(guide)</a></div>
 <div class="fact"><small>CIS on tax return</small><b>{yn(p['cis'])}</b></div>
 <div class="fact"><small>Joint property splits</small><b>{joint}</b> <a class="disclose" href="/guides/jointly-owned-property-mtd/">(guide)</a></div>
 <div class="fact"><small>Submits</small><b>{E(p['submits'])}</b></div>
@@ -587,6 +587,7 @@ def guide():
         ("Do I need to use Making Tax Digital for Income Tax?", "You need to use it if you're a sole trader or landlord registered for Self Assessment, you get income from self-employment or property (or both), and your qualifying income is over the threshold for the relevant tax year."),
         ("What are the Making Tax Digital thresholds?", "Over £50,000 of qualifying income in the 2024 to 2025 tax year means you start from 6 April 2026. Over £30,000 in 2025 to 2026 means from 6 April 2027. Over £20,000 in 2026 to 2027 means from 6 April 2028."),
         ("Does my salary count towards the MTD threshold?", "No. Qualifying income is your self-employment and property income before expenses. Employment (PAYE) income, a share of partnership profit, dividends and pensions do not count."),
+        ("Does rent from a property abroad count towards the MTD threshold?", "If you were UK tax resident, yes: GOV.UK counts UK and foreign property income, before expenses, alongside self-employment income. If you weren't UK tax resident, foreign property income doesn't count. Under MTD your overseas lettings form one foreign property business with its own quarterly updates. See <a href=\"/guides/mtd-foreign-property/\">MTD and foreign property</a>."),
         ("What if my qualifying income is £20,000 or less?", "HMRC says you are automatically exempt and do not need to use Making Tax Digital for Income Tax. You still send a Self Assessment tax return as normal."),
         ("Can I apply for an exemption from MTD if I can't use a computer?", "GOV.UK says you can apply if you're digitally excluded: for example your age, health condition or disability stops you using a computer, tablet or smartphone, or you can't get internet access because of your location. Being unfamiliar with software, having few records, or the extra time or cost isn't enough on its own. You apply by phone or letter. See <a href=\"/guides/mtd-exemption-digitally-excluded/\">how MTD exemptions and digital exclusion work</a>."),
         ("Will I get a penalty for a late quarterly update in 2026 to 2027?", "HMRC says there are no penalty points for late quarterly updates in your first tax year if you need to use MTD from 6 April 2026 or 6 April 2027 (so 2026 to 2027, or 2027 to 2028). You still need to send them before you can submit your tax return, and late tax returns still get penalty points. See <a href=\"/guides/mtd-late-quarterly-update-penalties/\">how MTD penalty points work</a>."),
@@ -614,6 +615,7 @@ def guide():
 <h2>What counts as qualifying income</h2>
 <p>Qualifying income is your <strong>total income from self-employment and property, before expenses</strong> (your turnover), based on the tax return for the earlier tax year. HMRC's own example: £25,000 of rental income plus £27,000 of self-employment income gives qualifying income of £52,000.</p>
 <p><strong>It does not include</strong> employment (PAYE) income, your share of profit from a partnership as an individual partner, dividends (including from your own company), the State Pension or private pensions.</p>
+<p>If you were UK tax resident, rent from property abroad counts too; if you weren't, only UK property income and self-employment income on your UK return count. See <a href="/guides/mtd-foreign-property/">MTD and foreign property</a>.</p>
 <p class="disclose">Source: <a href="{G}work-out-your-qualifying-income-for-making-tax-digital-for-income-tax">GOV.UK, Work out your qualifying income</a>.</p>
 <h2>What you'll have to do</h2>
 <ol><li><strong>Keep digital records</strong> of your self-employment and property income and expenses in compatible software.</li>
@@ -645,7 +647,7 @@ def guide():
 <p class="disclose">Source: <a href="{G}find-out-if-you-can-get-an-exemption-from-making-tax-digital-for-income-tax">GOV.UK, Find out if you can get an exemption</a>.</p>
 <h2>Next step: pick your software</h2>
 <p>You'll need HMRC-recognised software. <a class="btn" href="/#directory">Compare all {len(products)} products</a></p>
-<p>Browse our <a href="/guides/">plain-English MTD guides</a>, including <a href="/guides/free-mtd-software/">which free MTD software options exist and their limits</a>, <a href="/guides/mtd-spreadsheets-bridging-software/">whether you can keep using spreadsheets</a>, <a href="/guides/mtd-late-quarterly-update-penalties/">how late-update penalty points work</a> and <a href="/guides/mtd-exemption-digitally-excluded/">MTD exemptions and digital exclusion</a>.</p>
+<p>Browse our <a href="/guides/">plain-English MTD guides</a>, including <a href="/guides/free-mtd-software/">which free MTD software options exist and their limits</a>, <a href="/guides/mtd-spreadsheets-bridging-software/">whether you can keep using spreadsheets</a>, <a href="/guides/mtd-late-quarterly-update-penalties/">how late-update penalty points work</a>, <a href="/guides/mtd-exemption-digitally-excluded/">MTD exemptions and digital exclusion</a> and <a href="/guides/mtd-foreign-property/">MTD for foreign property</a>.</p>
 <h2>Quick answers</h2>{faq_html(qas)}
 </div>'''
     out += foot()
@@ -742,6 +744,22 @@ def tok_bridging_table():
             '<th>Income types (HMRC)</th><th>Tax return (HMRC listing)</th><th>Links</th></tr></thead>'
             f'<tbody>{rows}</tbody></table></div>')
 
+FP = [p for p in products if p['foreign_property'] == 'yes']
+FP_CHECKED = [p for p in FP if p['vendor_checked'] and p['price_text'] != 'unknown' and 'per HMRC' not in p['price_text']]
+
+def tok_fp_table():
+    rows = ''.join(
+        f'<tr><td><a href="/software/{p["slug"]}/">{E(p["name"])}</a></td><td>{E(p["price_text"])}</td><td>{E(p["price_note"] or "Not stated")}</td>'
+        f'<td>{_inc(p)}</td><td>{_tr(p)}</td><td>{_ptype(p)}</td><td>{_plink(p)} · <a href="{E(p["price_source"])}" rel="noopener" target="_blank">price source</a></td></tr>'
+        for p in FP_CHECKED)
+    return ('<div class="tablewrap"><table><thead><tr><th>Software</th><th>Price (provider)</th><th>What the provider says about price</th>'
+            '<th>Income types (HMRC)</th><th>Tax return (HMRC listing)</th><th>Type</th><th>Links</th></tr></thead>'
+            f'<tbody>{rows}</tbody></table></div>')
+
+def tok_fp_not_listed():
+    ps = [p for p in products if p['vendor_checked'] and p['foreign_property'] != 'yes' and (p['uk_property'] == 'yes' or p['sole_trader'] == 'yes')]
+    return ', '.join(f'<a href="/software/{p["slug"]}/">{E(p["name"])}</a>' for p in ps)
+
 def _cnt(f): return str(sum(1 for p in FREE if f(p)))
 GUIDE_TOKENS = {
     'products_total': lambda: str(len(products)),
@@ -767,6 +785,17 @@ GUIDE_TOKENS = {
     'bridging_no_tr': lambda: str(sum(1 for p in BRIDGING if not p['tax_return'])),
     'bridging_free': lambda: str(sum(1 for p in BRIDGING if p['free_version'] == 'yes')),
     'bridging_checked_n': lambda: str(len(BRIDGING_CHECKED)),
+    'fp_n': lambda: str(len(FP)),
+    'fp_tr': lambda: str(sum(1 for p in FP if p['tax_return'])),
+    'fp_all3': lambda: str(sum(1 for p in FP if p['sole_trader'] == 'yes' and p['uk_property'] == 'yes')),
+    'fp_all3_tr': lambda: str(sum(1 for p in FP if p['sole_trader'] == 'yes' and p['uk_property'] == 'yes' and p['tax_return'])),
+    'fp_free': lambda: str(sum(1 for p in FP if p['free_version'] == 'yes')),
+    'fp_bridging': lambda: str(sum(1 for p in FP if p['bridging'] == 'yes')),
+    'uk_no_fp': lambda: str(sum(1 for p in products if p['uk_property'] == 'yes' and p['foreign_property'] != 'yes')),
+    'uk_n': lambda: str(sum(1 for p in products if p['uk_property'] == 'yes')),
+    'fp_checked_n': lambda: str(len(FP_CHECKED)),
+    'fp_table': tok_fp_table,
+    'fp_not_listed': tok_fp_not_listed,
     'joint_n': lambda: str(sum(1 for p in products if p['joint_property'] in ('yes', 'paid plans only'))),
 }
 

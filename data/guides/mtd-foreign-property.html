@@ -1,0 +1,108 @@
+<!--meta {
+ "title": "Making Tax Digital and foreign property: what counts, how quarterly updates work, and which software handles it",
+ "short": "MTD and foreign property",
+ "description": "How overseas rental income fits into Making Tax Digital for Income Tax: when it counts towards the threshold (UK resident vs non-resident), the separate foreign property business, records per property, quarterly update categories, the SA109 exemption, and which software lists foreign property. From GOV.UK and providers' own sites.",
+ "published": "2026-11-21",
+ "checked": "2026-11-21",
+ "faqs": [
+  ["Does rent from a property abroad count towards the MTD threshold?", "If you were UK tax resident, yes. GOV.UK says HMRC looks at your Self Assessment return and counts your self-employment income plus your UK and foreign property income, before expenses. Its example: a UK sole trader who rents out a property in France has both incomes counted. If you were not UK tax resident, GOV.UK says foreign property income does not count; only UK property income and self-employment income declared on your UK return do."],
+  ["Do I send a separate quarterly update for each overseas property?", "No. GOV.UK says all your foreign properties are legally treated as one 'foreign property business', including your share of any jointly let foreign properties. You keep separate digital records for each foreign property, and your software adds them together into one quarterly update."],
+  ["I have UK and overseas rentals. How many quarterly updates is that?", "GOV.UK says you send quarterly updates for each self-employment and property business you have. Your UK properties form one UK property business and your overseas properties form one foreign property business, so that's two updates each quarter (plus one for each self-employment, if you have any)."],
+  ["Can I use simpler categories for foreign property records?", "Yes. GOV.UK lists foreign income among the cases where you can choose simpler categorisation, and says the £90,000 turnover threshold does not apply to foreign property income. HMRC's quarterly update direction lists just two income categories (total rents and other receipts; premiums for the grant of a lease) and one expenses category for foreign property."],
+  ["I live abroad and let out my UK home. Do I need MTD?", "Your UK property income counts towards qualifying income even if you weren't UK resident, according to GOV.UK. But if your 2024 to 2025 return included the SA109 (residence) pages, GOV.UK says you're automatically exempt for 2026 to 2027, and you'll need MTD from 2027 to 2028 if your qualifying income is over £30,000 in 2025 to 2026."],
+  ["Does all MTD software handle foreign property?", "No. On HMRC's software finder (our copy taken {{hmrc_date}}), {{fp_n}} of {{products_total}} products list foreign property, compared with {{uk_n}} that list UK property. QuickBooks' own help page says it doesn't currently support foreign property businesses for MTD and points to its partner Hammock."],
+  ["Where does tax paid abroad go under MTD?", "GOV.UK's MTD guidance doesn't say. Landlord Vision's MTD FAQ says overseas tax paid is handled through Foreign Tax Credit Relief at the final declaration (the tax return), not in the quarterly updates. Quarterly updates are summaries of income and expenses, not tax returns."]
+ ]
+} -->
+<p class="lead">Short answer: if you're UK tax resident, rent from property abroad <strong>counts towards your MTD qualifying income</strong> alongside UK rent and self-employment income, before expenses. Under MTD, all your overseas lettings form <strong>one "foreign property business"</strong> that is separate from your UK property business, so it gets its <strong>own quarterly updates</strong>. You keep records for each foreign property, but send one update for all of them. Not every product handles this: {{fp_n}} of the {{products_total}} products on HMRC's software finder list foreign property.</p>
+<p class="disclose">GOV.UK pages and providers' own pages read on 21 November 2026, linked under each section. HMRC software finder data as captured {{hmrc_date}}.</p>
+
+<h2>Does foreign rent count towards the threshold?</h2>
+<p>It depends on where you were tax resident. GOV.UK describes this using the 2024 to 2025 tax year (the return HMRC used for the April 2026 start):</p>
+<div class="tablewrap"><table><thead><tr><th>Your position</th><th>What counts as qualifying income</th><th>What doesn't count</th><th>GOV.UK's example</th></tr></thead><tbody>
+<tr><td><strong>UK tax resident</strong></td><td>Self-employment income plus UK <strong>and foreign</strong> property income, before expenses</td><td>Salary (PAYE), your share of partnership profit, dividends, State Pension, private pensions</td><td>A sole trader in the UK who rents out a property in France: both incomes count</td></tr>
+<tr><td><strong>Not UK tax resident</strong></td><td>UK property income, self-employment income declared on your UK Self Assessment return, and income from a trade of dealing in or developing UK land</td><td>Foreign property income, and self-employment income not declared on your UK return</td><td>Someone tax resident in Spain who rents out a UK property and is a sole trader in Spain: only the UK rent counts</td></tr>
+</tbody></table></div>
+<p>The thresholds are the same as for everyone: over £50,000 (from 6 April 2026), over £30,000 (from 6 April 2027) and over £20,000 (from 6 April 2028). See <a href="/do-i-need-mtd/">Do I need MTD, and when?</a></p>
+<p><strong>An illustration (our numbers, using GOV.UK's rules):</strong> a UK resident with £18,000 of UK rent and £14,000 of rent from a flat abroad, both before expenses, has qualifying income of £32,000. On a 2025 to 2026 return, that's over the £30,000 threshold for April 2027. Had the same person been non-resident, only the £18,000 of UK rent would count.</p>
+<p>If you let a foreign property jointly, only your share counts, as with UK property (see our <a href="/guides/jointly-owned-property-mtd/">jointly owned property guide</a>).</p>
+<p class="disclose">Source: <a href="https://www.gov.uk/guidance/work-out-your-qualifying-income-for-making-tax-digital-for-income-tax" rel="noopener">GOV.UK, Work out your qualifying income</a> (section "How your tax residence in the 2024 to 2025 tax year affects your qualifying income"); <a href="https://www.gov.uk/guidance/check-if-youre-eligible-for-making-tax-digital-for-income-tax" rel="noopener">GOV.UK, Find out if and when you need to use MTD for Income Tax</a>.</p>
+
+<h2>The SA109 exemption (residence and remittance pages)</h2>
+<p>GOV.UK says that if your <strong>2024 to 2025 return included the SA109 supplementary page</strong>, you're automatically exempt from MTD for the <strong>2026 to 2027</strong> tax year, and don't need to contact HMRC. You'll need to use MTD from <strong>2027 to 2028</strong> if your qualifying income is over £30,000 in 2025 to 2026.</p>
+<p>If you didn't include the SA109 in 2024 to 2025 but reasonably expect to in your 2025 to 2026 or 2026 to 2027 return, GOV.UK says you can apply for an exemption. The reasons it lists for needing the SA109 include being:</p>
+<ul>
+<li>non-resident in the UK in that tax year</li>
+<li>UK resident and also tax resident in another country</li>
+<li>eligible for overseas workday relief, or expecting split year treatment</li>
+<li>eligible for the temporary repatriation facility or the foreign income and gains regime, and expecting to use it</li>
+<li>a former remittance basis user in some situations (for example, expecting to remit more than £10 of nominated income or gains)</li>
+<li>a non-UK resident foreign entertainer or sportsperson</li>
+</ul>
+<p>GOV.UK also says not to apply if you don't have a good reason to think one of these will apply. Our <a href="/guides/mtd-exemption-digitally-excluded/">MTD exemptions guide</a> covers how applications work.</p>
+<p class="disclose">Source: <a href="https://www.gov.uk/guidance/find-out-if-you-can-get-an-exemption-from-making-tax-digital-for-income-tax" rel="noopener">GOV.UK, Find out if you can get an exemption from Making Tax Digital for Income Tax</a> (updated 12 November 2026).</p>
+
+<h2>How records and quarterly updates work for foreign property</h2>
+<div class="tablewrap"><table><thead><tr><th></th><th>UK property business</th><th>Foreign property business</th></tr></thead><tbody>
+<tr><td>What it covers</td><td>All your UK lettings, including your share of joint lets</td><td>All your overseas lettings, including your share of joint lets</td></tr>
+<tr><td>Digital records</td><td>No need for separate records for each UK property</td><td><strong>Separate records for each foreign property</strong> (and for your share of each jointly let one)</td></tr>
+<tr><td>Quarterly updates</td><td>One per quarter for the whole UK business</td><td>One per quarter for the whole foreign business</td></tr>
+<tr><td>Income categories in the update</td><td>Total rent; other income from property; lease premiums; reverse premiums and inducements</td><td>Total rents and other receipts; lease premiums</td></tr>
+<tr><td>Expense categories in the update</td><td>Nine, from rent, rates and insurance to residential finance costs and travel</td><td>One: allowable property expenses</td></tr>
+<tr><td>Simpler categorisation</td><td>If UK property turnover is under £90,000 (residential landlords still separate out some items)</td><td>Allowed; GOV.UK says the £90,000 turnover threshold doesn't apply</td></tr>
+</tbody></table></div>
+<p>Each update covers the tax year so far, and you still send one if nothing happened in the period. The deadlines (7 August, 7 November, 7 February and 7 May) are the same for every business. So a landlord with UK and overseas rentals sends <strong>two updates each quarter</strong>, and a landlord who is also a sole trader sends three. For late updates, GOV.UK's penalty rules give one point per missed deadline however many businesses you have (see <a href="/guides/mtd-late-quarterly-update-penalties/">how MTD penalty points work</a>).</p>
+<p>For jointly let foreign property, HMRC's quarterly update direction lets you report income only in the quarterly updates and deal with expenses later, as for UK joint lets.</p>
+<p class="disclose">Sources: <a href="https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/create-digital-records" rel="noopener">GOV.UK, Create digital records</a>; <a href="https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/send-quarterly-updates" rel="noopener">GOV.UK, Send quarterly updates</a>; <a href="https://www.gov.uk/government/publications/update-notice-for-making-tax-digital-for-income-tax/making-tax-digital-for-income-tax-update-notice" rel="noopener">HMRC, Making Tax Digital for Income Tax: quarterly update direction</a>.</p>
+
+<h2>Software: how many products handle foreign property</h2>
+<p>From HMRC's software finder (our copy taken {{hmrc_date}}):</p>
+<div class="tablewrap"><table><thead><tr><th>Products on HMRC's finder that list…</th><th>Count</th></tr></thead><tbody>
+<tr><td>All products (sole trader or landlord view)</td><td>{{products_total}}</td></tr>
+<tr><td>Foreign property</td><td>{{fp_n}}</td></tr>
+<tr><td>Foreign property and the year-end tax return</td><td>{{fp_tr}}</td></tr>
+<tr><td>Foreign property, UK property and self-employment</td><td>{{fp_all3}} ({{fp_all3_tr}} of them also list the tax return)</td></tr>
+<tr><td>Foreign property with a free version</td><td>{{fp_free}}</td></tr>
+<tr><td>Foreign property as bridging software (connects to spreadsheets)</td><td>{{fp_bridging}}</td></tr>
+<tr><td>UK property but <strong>not</strong> foreign property</td><td>{{uk_no_fp}}</td></tr>
+</tbody></table></div>
+<p>Among the products we've checked on providers' own sites, HMRC's finder does <strong>not</strong> list foreign property for: {{fp_not_listed}}. A finder listing is what the provider has told HMRC; it can change.</p>
+<p>GOV.UK says you can use a different product for each income source, but only one product for each separate submission. So a product without foreign property doesn't have to rule itself out; it may mean using a second product for the foreign property business.</p>
+<p><a class="btn" href="/?f=foreign_property#directory">See all products listing foreign property</a></p>
+<p class="disclose">Sources: HMRC software finder (sole trader and landlord "view all" list); <a href="https://www.gov.uk/guidance/choose-the-right-software-for-making-tax-digital-for-income-tax" rel="noopener">GOV.UK, Choose the right software for MTD for Income Tax</a>.</p>
+
+<h2>What some providers say about foreign property</h2>
+<p>Statements from providers' own pages, read on 21 November 2026. We haven't tested these products, and this isn't a ranking.</p>
+<div class="tablewrap"><table><thead><tr><th>Product</th><th>HMRC finder lists foreign property?</th><th>What the provider's page says</th><th>Source</th></tr></thead><tbody>
+<tr><td><a href="/software/quickbooks-intuit/">QuickBooks</a></td><td>No</td><td>"QuickBooks does not currently support foreign property businesses for MTD IT." It says it has partnered with Hammock for customers with foreign property businesses. Its help page also says each QuickBooks account can only be connected to one primary income source for MTD.</td><td><a href="https://quickbooks.intuit.com/learn-support/en-uk/help-article/sole-proprietorship/set-making-tax-digital-income-tax-quickbooks/L4x3723oJ_GB_en_GB" rel="noopener" target="_blank">QuickBooks help</a></td></tr>
+<tr><td><a href="/software/hammock-for-landlords/">Hammock</a></td><td>Yes</td><td>Says UK property, foreign property and sole-trading income have to be reported separately, and that "Hammock and QuickBooks together cover all income streams required for MTD".</td><td><a href="https://www.usehammock.com/intuit-quickbooks/" rel="noopener" target="_blank">Hammock and QuickBooks page</a></td></tr>
+<tr><td><a href="/software/landlord-vision/">Landlord Vision</a></td><td>Yes</td><td>Reports UK and overseas property as separate property businesses, each with its own quarterly updates; says overseas tax paid is handled through Foreign Tax Credit Relief at the final declaration. Its help guide says you can enter values in another currency and it works out the amount in pounds.</td><td><a href="https://www.landlordvision.co.uk/making-tax-digital-faq.html" rel="noopener" target="_blank">MTD FAQ</a>; <a href="https://lvlearninglounge.userecho.com/knowledge-bases/2/articles/212-non-uk-properties-in-mtd" rel="noopener" target="_blank">help guide</a></td></tr>
+<tr><td><a href="/software/clear-books-free/">Clear Books</a></td><td>Yes</td><td>Foreign Property Free plan (£0) for one overseas property, including quarterly updates and year-end filing; Foreign Property plan at £5/month plus VAT for several overseas properties.</td><td><a href="https://www.clearbooks.co.uk/pricing/" rel="noopener" target="_blank">Clear Books pricing</a></td></tr>
+<tr><td><a href="/software/my-tax-digital-free/">My Tax Digital</a></td><td>Yes</td><td>Says it handles quarterly obligations for self-employment, UK property and foreign property (SA106).</td><td><a href="https://mytaxdigital.co.uk/" rel="noopener" target="_blank">mytaxdigital.co.uk</a></td></tr>
+<tr><td><a href="/software/zoho/">Zoho Books</a></td><td>Yes</td><td>Pricing page lists "Manage UK and foreign properties" (marked new), including mapping income and expenses against each property.</td><td><a href="https://www.zoho.com/uk/books/pricing/" rel="noopener" target="_blank">Zoho pricing</a></td></tr>
+</tbody></table></div>
+
+<h2>Foreign-property software we've price-checked</h2>
+<p>These {{fp_checked_n}} products list foreign property on HMRC's finder and have prices we've read on the provider's own site (checked 18 November 2026). "Tax return" is what HMRC's listing shows. Prices change, so check the provider's site.</p>
+{{fp_table}}
+
+<h2>What to check in software for foreign property</h2>
+<ul>
+<li><strong>A separate foreign property business.</strong> It should send foreign property updates separately from your UK property business.</li>
+<li><strong>Records per property.</strong> GOV.UK requires separate digital records for each foreign property, then one combined update.</li>
+<li><strong>Joint lets abroad.</strong> Whether it records your share, and whether it lets you send income-only updates for joint lets.</li>
+<li><strong>Currency.</strong> Whether you can enter amounts in the local currency and how it converts them. GOV.UK's MTD guidance doesn't cover this.</li>
+<li><strong>The tax return.</strong> Whether it lets you submit the year-end return, including any claim for tax paid abroad, or whether you'd need a second product.</li>
+<li><strong>Your other income sources.</strong> UK property and self-employment, if you have them. See also <a href="/guides/free-mtd-software/">free MTD software and the catches</a> and <a href="/guides/mtd-spreadsheets-bridging-software/">bridging software for spreadsheets</a>.</li>
+</ul>
+
+<h2>What GOV.UK doesn't say</h2>
+<ul>
+<li>How to convert foreign-currency amounts for quarterly updates: not covered in the MTD guidance pages.</li>
+<li>Where foreign tax paid fits into MTD: the MTD pages don't mention it. The quarterly update categories for foreign property don't include a foreign tax line.</li>
+<li>Whether a country breakdown is needed: the quarterly update direction lists only category totals for the foreign property business. Some software (for example Landlord Vision) asks you to set each property's country.</li>
+</ul>
+
+<p><a class="btn" href="/do-i-need-mtd/">Do I need MTD?</a> <a class="btn ghost" href="/guides/jointly-owned-property-mtd/">Jointly owned property</a></p>
+
+{{signup_inline}}
