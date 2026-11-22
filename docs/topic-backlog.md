@@ -10,9 +10,9 @@ Pick the most valuable uncovered topic. Mark done with the date. Base on real qu
 - [x] 2026-11-20 Penalty points for late quarterly updates: first-year easement (April 2026 and April 2027 joiners) vs later years (/guides/mtd-late-quarterly-update-penalties/)
 - [x] 2026-11-21 Applying for a digital exclusion exemption, plus all automatic/temporary MTD exemptions (/guides/mtd-exemption-digitally-excluded/)
 - [x] 2026-11-21 MTD for landlords with foreign property: what counts, the separate foreign property business, and which software lists it (/guides/mtd-foreign-property/)
+- [x] 2026-11-22 Standard vs calendar update periods: what the choice means, dates, when it locks, and which software lists calendar periods (/guides/mtd-standard-vs-calendar-update-periods/)
 
 ## Next up (rough priority)
-- [ ] Standard vs calendar update periods: what to pick before your first update
 - [ ] MTD and CIS subcontractors: what the software must do
 - [ ] Rent plus a salary: what counts towards the threshold (worked examples from GOV.UK)
 - [ ] Switching MTD software mid-year

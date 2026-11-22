@@ -383,7 +383,7 @@ def home():
             'name': E(p['name'].lower()), 'free': int(p['free_version'] == 'yes'), 'bridging': int(p['bridging'] == 'yes'),
             'uk_property': int(p['uk_property'] == 'yes'), 'sole_trader': int(p['sole_trader'] == 'yes'),
             'foreign_property': int(p['foreign_property'] == 'yes'), 'cis': int(p['cis'] == 'yes'), 'tax_return': int(p['tax_return']),
-            'joint': int(p['joint_property'] == 'yes'), 'checked': int(p['vendor_checked']), 'aud': aud,
+            'joint': int(p['joint_property'] == 'yes'), 'calendar': int(p['calendar_period'] == 'yes'), 'checked': int(p['vendor_checked']), 'aud': aud,
             's-name': E(p['name'].lower().strip('"#@')), 's-price': sp, 's-free': int(p['free_version'] != 'yes'),
             's-cis': {'yes': 0, 'in development': 1}.get(p['cis'], 2), 's-joint': {'yes': 0, 'paid plans only': 1}.get(p['joint_property'], 2),
         }
@@ -399,7 +399,7 @@ def home():
         ("Does HMRC provide free software for Making Tax Digital?", "HMRC's guidance says you, or an agent, will need to use commercial software that works with Making Tax Digital for Income Tax. It also says free products are available for people with simple tax affairs, but they may have limits, such as a set number of transactions. <a href=\"https://www.gov.uk/guidance/choose-the-right-software-for-making-tax-digital-for-income-tax\">Source: GOV.UK</a>"),
         ("What is MTD bridging software?", "Bridging software connects to records you already keep, such as a spreadsheet, and sends your quarterly updates to HMRC. Some bridging products also submit your tax return; others only send the updates. Use the 'Bridging (spreadsheets)' filter above to see them, or read <a href=\"/guides/mtd-spreadsheets-bridging-software/\">our guide to spreadsheets and bridging software</a>."),
         ("Can I use more than one MTD product?", "Yes. HMRC says you can use more than one product, but only one product for each separate submission. For example, a landlord cannot use two products to send the same property quarterly update. If you combine products, make sure together they cover your quarterly updates and your tax return. <a href=\"https://www.gov.uk/guidance/choose-the-right-software-for-making-tax-digital-for-income-tax\">Source: GOV.UK</a>"),
-        ("When are MTD quarterly updates due?", "For both standard and calendar update periods, the deadlines are 7 August, 7 November, 7 February and 7 May (the following tax year). <a href=\"https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/send-quarterly-updates\">Source: GOV.UK</a>. For what happens if one is late, see <a href=\"/guides/mtd-late-quarterly-update-penalties/\">MTD penalty points explained</a>."),
+        ("When are MTD quarterly updates due?", "For both standard and calendar update periods, the deadlines are 7 August, 7 November, 7 February and 7 May (the following tax year). <a href=\"https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/send-quarterly-updates\">Source: GOV.UK</a>. For what happens if one is late, see <a href=\"/guides/mtd-late-quarterly-update-penalties/\">MTD penalty points explained</a>. For how the two period types differ, see <a href=\"/guides/mtd-standard-vs-calendar-update-periods/\">standard vs calendar update periods</a>."),
         ("Does HMRC recommend any MTD software?", "No. HMRC says it does not recommend any product or software provider. Every product in this directory has been through HMRC's recognition process, and we show them in alphabetical order by default."),
         ("Why does a product say 'Quarterly updates only'?", "HMRC lists some products as able to send quarterly updates but not to submit your tax return. If you pick one of those, you'll need another product, or an agent, for the tax return after the year ends."),
     ]
@@ -471,6 +471,7 @@ def home():
 <label><input type="checkbox" data-f="cis"> CIS ready</label>
 <label><input type="checkbox" data-f="tax_return"> Files tax return too</label>
 <label><input type="checkbox" data-f="joint"> Joint property (confirmed)</label>
+<label><input type="checkbox" data-f="calendar"> Calendar update periods</label>
 <label><input type="checkbox" data-f="checked"> Price-checked</label>
 <select id="aud" aria-label="Who will use it"><option value="">For anyone</option><option value="i">For individuals</option><option value="a">For agents/accountants</option></select>
 </form>
@@ -566,7 +567,7 @@ def product_page(p):
 <p>HMRC lists {len(ready)} of {len(tr)} other income and tax-return items as ready now{f", {len(dev)} in development" if dev else ""}{f" and {len(no)} not included" if no else ""}. "In development" means the provider has told HMRC it will build it in time for the 2026 to 2027 tax return.</p>
 <div class="tablewrap"><table><thead><tr><th>Item</th><th>Status (HMRC)</th></tr></thead><tbody>{tr_rows}</tbody></table></div>
 <h2>Other details</h2>
-<p>Update periods: standard (6 April to 5 April) {yn(p['standard_period'])}; calendar (1 April to 31 March) {yn(p['calendar_period'])}. For individuals: {yn(p['individual'])}. For agents: {yn(p['agent'])}. Accessibility features listed: {E(acc)}. Language: {E(p['language'])}.</p>
+<p>Update periods: standard (6 April to 5 April) {yn(p['standard_period'])}; calendar (1 April to 31 March) {yn(p['calendar_period'])} (<a href="/guides/mtd-standard-vs-calendar-update-periods/">what's the difference?</a>). For individuals: {yn(p['individual'])}. For agents: {yn(p['agent'])}. Accessibility features listed: {E(acc)}. Language: {E(p['language'])}.</p>
 <h2>Getting started</h2>
 <ol><li>Check you need MTD and when: <a href="/do-i-need-mtd/">our plain-English guide</a>.</li>
 <li><a href="https://www.gov.uk/guidance/sign-up-for-making-tax-digital-for-income-tax" rel="noopener">Sign up for Making Tax Digital for Income Tax</a> on GOV.UK, if you haven't already.</li>
@@ -590,6 +591,7 @@ def guide():
         ("Does rent from a property abroad count towards the MTD threshold?", "If you were UK tax resident, yes: GOV.UK counts UK and foreign property income, before expenses, alongside self-employment income. If you weren't UK tax resident, foreign property income doesn't count. Under MTD your overseas lettings form one foreign property business with its own quarterly updates. See <a href=\"/guides/mtd-foreign-property/\">MTD and foreign property</a>."),
         ("What if my qualifying income is £20,000 or less?", "HMRC says you are automatically exempt and do not need to use Making Tax Digital for Income Tax. You still send a Self Assessment tax return as normal."),
         ("Can I apply for an exemption from MTD if I can't use a computer?", "GOV.UK says you can apply if you're digitally excluded: for example your age, health condition or disability stops you using a computer, tablet or smartphone, or you can't get internet access because of your location. Being unfamiliar with software, having few records, or the extra time or cost isn't enough on its own. You apply by phone or letter. See <a href=\"/guides/mtd-exemption-digitally-excluded/\">how MTD exemptions and digital exclusion work</a>."),
+        ("Should I use standard or calendar update periods?", "GOV.UK says standard update periods (ending on the 5th) are the default and fit accounts that follow the tax year, and calendar update periods (ending on the month-end) are for accounts that run 1 April to 31 March. The deadlines are the same for both, and the choice is fixed for the tax year once you send your first update. See <a href=\"/guides/mtd-standard-vs-calendar-update-periods/\">standard vs calendar update periods</a>."),
         ("Will I get a penalty for a late quarterly update in 2026 to 2027?", "HMRC says there are no penalty points for late quarterly updates in your first tax year if you need to use MTD from 6 April 2026 or 6 April 2027 (so 2026 to 2027, or 2027 to 2028). You still need to send them before you can submit your tax return, and late tax returns still get penalty points. See <a href=\"/guides/mtd-late-quarterly-update-penalties/\">how MTD penalty points work</a>."),
     ]
     out = head(f'Do I need Making Tax Digital, and when? Plain-English guide | {NAME}',
@@ -628,7 +630,7 @@ def guide():
 <tr><td>6 April to 5 October</td><td>1 April to 30 September</td><td>7 November</td></tr>
 <tr><td>6 April to 5 January</td><td>1 April to 31 December</td><td>7 February</td></tr>
 <tr><td>6 April to 5 April</td><td>1 April to 31 March</td><td>7 May (following tax year)</td></tr></tbody></table></div>
-<p>If you've had no income or expenses in a period, you still have to send the update. If you want calendar periods, choose that in your software before you send your first update, because you can't change it for the rest of the tax year afterwards.</p>
+<p>If you've had no income or expenses in a period, you still have to send the update. If you want calendar periods, choose that in your software before you send your first update, because you can't change it for the rest of the tax year afterwards. More on <a href="/guides/mtd-standard-vs-calendar-update-periods/">standard vs calendar update periods</a>, including which software lists calendar periods.</p>
 <p class="disclose">Source: <a href="{G}use-making-tax-digital-for-income-tax/send-quarterly-updates">GOV.UK, Send quarterly updates</a>.</p>
 {signup_block('inline')}
 <h2>Penalties</h2>
@@ -647,7 +649,7 @@ def guide():
 <p class="disclose">Source: <a href="{G}find-out-if-you-can-get-an-exemption-from-making-tax-digital-for-income-tax">GOV.UK, Find out if you can get an exemption</a>.</p>
 <h2>Next step: pick your software</h2>
 <p>You'll need HMRC-recognised software. <a class="btn" href="/#directory">Compare all {len(products)} products</a></p>
-<p>Browse our <a href="/guides/">plain-English MTD guides</a>, including <a href="/guides/free-mtd-software/">which free MTD software options exist and their limits</a>, <a href="/guides/mtd-spreadsheets-bridging-software/">whether you can keep using spreadsheets</a>, <a href="/guides/mtd-late-quarterly-update-penalties/">how late-update penalty points work</a>, <a href="/guides/mtd-exemption-digitally-excluded/">MTD exemptions and digital exclusion</a> and <a href="/guides/mtd-foreign-property/">MTD for foreign property</a>.</p>
+<p>Browse our <a href="/guides/">plain-English MTD guides</a>, including <a href="/guides/free-mtd-software/">which free MTD software options exist and their limits</a>, <a href="/guides/mtd-spreadsheets-bridging-software/">whether you can keep using spreadsheets</a>, <a href="/guides/mtd-late-quarterly-update-penalties/">how late-update penalty points work</a>, <a href="/guides/mtd-exemption-digitally-excluded/">MTD exemptions and digital exclusion</a>, <a href="/guides/mtd-foreign-property/">MTD for foreign property</a> and <a href="/guides/mtd-standard-vs-calendar-update-periods/">standard vs calendar update periods</a>.</p>
 <h2>Quick answers</h2>{faq_html(qas)}
 </div>'''
     out += foot()
@@ -760,6 +762,21 @@ def tok_fp_not_listed():
     ps = [p for p in products if p['vendor_checked'] and p['foreign_property'] != 'yes' and (p['uk_property'] == 'yes' or p['sole_trader'] == 'yes')]
     return ', '.join(f'<a href="/software/{p["slug"]}/">{E(p["name"])}</a>' for p in ps)
 
+CAL = [p for p in products if p['calendar_period'] == 'yes']
+
+def _listed(v):
+    return '<span class="y">Yes</span>' if v == 'yes' else '<span class="n">Not listed</span>'
+
+def tok_period_table():
+    rows = ''.join(
+        f'<tr><td><a href="/software/{p["slug"]}/">{E(p["name"])}</a></td><td>{E(p["price_text"])}</td>'
+        f'<td>{_listed(p["standard_period"])}</td><td>{_listed(p["calendar_period"])}</td><td>{_inc(p)}</td><td>{_tr(p)}</td>'
+        f'<td>{_plink(p)} · <a href="{E(p["price_source"])}" rel="noopener" target="_blank">price source</a></td></tr>'
+        for p in products if p['vendor_checked'] and p['price_text'] != 'unknown' and 'per HMRC' not in p['price_text'])
+    return ('<div class="tablewrap"><table><thead><tr><th>Software</th><th>Price (provider)</th><th>Standard periods (HMRC)</th>'
+            '<th>Calendar periods (HMRC)</th><th>Income types (HMRC)</th><th>Tax return (HMRC listing)</th><th>Links</th></tr></thead>'
+            f'<tbody>{rows}</tbody></table></div>')
+
 def _cnt(f): return str(sum(1 for p in FREE if f(p)))
 GUIDE_TOKENS = {
     'products_total': lambda: str(len(products)),
@@ -796,6 +813,12 @@ GUIDE_TOKENS = {
     'fp_checked_n': lambda: str(len(FP_CHECKED)),
     'fp_table': tok_fp_table,
     'fp_not_listed': tok_fp_not_listed,
+    'cal_n': lambda: str(len(CAL)),
+    'cal_no': lambda: str(len(products) - len(CAL)),
+    'cal_tr': lambda: str(sum(1 for p in CAL if p['tax_return'])),
+    'cal_free': lambda: str(sum(1 for p in CAL if p['free_version'] == 'yes')),
+    'cal_bridging': lambda: str(sum(1 for p in CAL if p['bridging'] == 'yes')),
+    'period_table': tok_period_table,
     'joint_n': lambda: str(sum(1 for p in products if p['joint_property'] in ('yes', 'paid plans only'))),
 }
 
