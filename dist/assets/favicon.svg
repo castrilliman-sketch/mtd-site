@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="MTD Software Compare">
+  <rect width="32" height="32" rx="6" fill="#0b6e4f"/>
+  <path fill="#fff" d="M8 24V8.2h3.05l4.95 11.15L21.0 8.2H24V24h-2.7V12.15L16.55 24h-1.1L10.7 12.15V24H8z"/>
+</svg>

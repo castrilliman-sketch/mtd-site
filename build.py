@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Build the static MTD software directory into ./dist. No dependencies beyond Python 3."""
-import json, re, html, shutil, os, datetime
+import json, re, html, shutil, os, datetime, sys
 from urllib.parse import urlsplit, urlunsplit, parse_qsl, urlencode
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.join(ROOT, 'scripts'))
+from seo_width import fit_title, fit_desc, title_px, TITLE_MAX_PX
 DIST = os.path.join(ROOT, 'dist')
 SITE = json.load(open(f'{ROOT}/config/site.json'))
 _ACFG = os.environ.get('MTD_ANALYTICS_CONFIG', f'{ROOT}/config/analytics.json')
@@ -166,7 +168,7 @@ def product_card(p, kind='visit'):
     tag_html = ''.join(f'<span class="tag">{E(t)}</span>' for t in tags[:4])
     return (
         f'<article class="pcard">'
-        f'<h3><a href="/software/{E(p["slug"])}/">{E(p["name"])}</a></h3>'
+        f'<p class="pcard-name"><a href="/software/{E(p["slug"])}/">{E(p["name"])}</a></p>'
         f'<p class="pcard-price">{card_price(p)}</p>'
         f'<p class="pcard-tags">{tag_html}</p>'
         f'<div class="pcard-cta">{outbound_cta(p, kind=kind, cls="btn", page="home")}'
@@ -185,7 +187,7 @@ def featured_card(p):
     if p['cis'] == 'yes': facts.append('CIS on tax return')
     if p['joint_property'] == 'yes': facts.append('Joint property splits')
     fl = ''.join(f'<li>{E(x)}</li>' for x in facts[:5])
-    return (f'<article class="pcard fcard"><h3><a href="/software/{E(p["slug"])}/">{E(p["name"])}</a></h3>'
+    return (f'<article class="pcard fcard"><p class="pcard-name"><a href="/software/{E(p["slug"])}/">{E(p["name"])}</a></p>'
             f'<p class="pcard-price">{card_price(p)}</p><ul class="ffacts">{fl}</ul>'
             f'<div class="pcard-cta">{outbound_cta(p, kind="featured", cls="btn", page="home")}'
             f'<a class="pcard-more" href="/software/{E(p["slug"])}/">Details<span class="sr"> about {E(p["name"])}</span></a></div>'
@@ -259,6 +261,7 @@ def verification_tags(path):
 
 def head(title, desc, path, jsonld=(), noindex=False, og_type='website'):
     canon = BASE + path
+    title, desc = fit_title(title), fit_desc(desc)
     ld = ''.join(f'<script type="application/ld+json">{json.dumps(j, ensure_ascii=False)}</script>' for j in jsonld)
     robots = '<meta name="robots" content="noindex,follow">' if noindex else '<meta name="robots" content="index,follow,max-snippet:-1">'
     return f'''<!doctype html><html lang="en-GB"><head><meta charset="utf-8">
@@ -268,6 +271,9 @@ def head(title, desc, path, jsonld=(), noindex=False, og_type='website'):
 <meta property="og:type" content="{E(og_type)}"><meta property="og:title" content="{E(title)}"><meta property="og:description" content="{E(desc)}"><meta property="og:url" content="{canon}"><meta property="og:site_name" content="{E(NAME)}"><meta property="og:locale" content="en_GB">
 <meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#0b6e4f">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/style.css">{ld}{analytics_tag()}</head><body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site"><div class="wrap"><a class="logo" href="/">{logo_html()}</a>
@@ -399,8 +405,8 @@ def kit_pages():
         ('Can I unsubscribe?', 'Yes, with one click at the bottom of every email. We then stop emailing you straight away.'),
         ('Is this tax advice?', 'No. It\'s general information taken from GOV.UK, with links to every source. Check your own position on GOV.UK or with a qualified adviser.'),
     ]
-    out = head(f'Free MTD Ready Kit: deadline calendar, checklist and reminders | {NAME}',
-               'Free Making Tax Digital for Income Tax kit: every deadline for 2026 to 2028, a getting-ready checklist, a calendar file and email reminders 7 days before each HMRC deadline. Sourced from GOV.UK.',
+    out = head(f'Free MTD kit: calendar and checklist | {NAME}',
+               'Free MTD kit: every Income Tax deadline for 2026 to 2028, a getting-ready checklist, a calendar file and reminders 7 days before each deadline.',
                '/free-mtd-kit/', [faq_ld(faq), crumb_ld([('Home', '/'), ('Free MTD Ready Kit', '/free-mtd-kit/')])])
     out += f'''<section class="kit-hero"><div class="wrap"><div class="kh-grid">
 <div class="kh-text"><p class="eyebrow">Free MTD Ready Kit · 2026 to 2028</p>
@@ -426,7 +432,7 @@ def kit_pages():
     out += foot()
     write('/free-mtd-kit/', out)
     # Brevo: "confirmation page after clicking the validation link" -> /free-mtd-kit/confirmed/
-    out = head(f"You're subscribed: download your MTD Ready Kit | {NAME}", 'Download the Free MTD Ready Kit.', '/free-mtd-kit/confirmed/', noindex=True)
+    out = head(f"Your MTD Ready Kit | {NAME}", 'Download the Free MTD Ready Kit.', '/free-mtd-kit/confirmed/', noindex=True)
     out += f'''<div class="wrap" style="max-width:760px"><h1>You're in. Here's your MTD Ready Kit</h1>
 <p class="lead">Thanks for confirming. We've also emailed you these links so you can find them later.</p>
 <p class="downloads"><a class="btn big" href="{KIT_PDF}" download>Download the kit (PDF)</a> <a class="btn big ghost" href="{KIT_ICS}" download>Add all deadlines to my calendar (.ics)</a></p>
@@ -491,12 +497,12 @@ def home():
     any_aff = any(link_for(p)[2] for p in products)
     popular = [BY[s] for s in POPULAR_SLUGS if s in BY]
     popular_html = "".join(product_card(p, kind="popular") for p in popular)
-    out = head(f"Find your Making Tax Digital software in 30 seconds | {NAME}",
-               f"Compare all {n} HMRC-recognised Making Tax Digital for Income Tax products. Pick who you are and what you need to see matching software. Prices checked at source.",
+    out = head(f"Find your MTD software in 30 seconds | {NAME}",
+               f"Compare {n} HMRC-recognised MTD software products. Pick who you are and what you need. Prices checked at source.",
                "/", [web, il, faq_ld(qas)])
     out += f'''<section class="hero funnel"><div class="wrap">
-<h1>Find your Making Tax Digital software in 30 seconds</h1>
-<p class="sub">{n} HMRC-recognised products. Answer three quick questions to see the ones that match you.</p>
+<h1>Find your MTD software in 30 seconds</h1>
+<p class="sub">Answer three quick questions and find your MTD software in 30 seconds. {n} HMRC-recognised products are listed below.</p>
 <p class="hero-cta"><a class="btn big" href="#finder">Find my software</a> <a class="hero-link" href="/do-i-need-mtd/">Do I need MTD?</a></p>
 <h2 class="picks-h">Popular picks</h2>
 <div class="pcards row" id="popular">{popular_html}</div>
@@ -600,8 +606,13 @@ def product_page(p):
     if p['free_version'] == 'yes': suits.append('HMRC says there is a free version. Check its limits on the provider site.')
     if p['agent'] == 'yes' and p['individual'] != 'yes': suits.append('HMRC lists it as agent software, aimed at accountants and bookkeepers rather than individuals.')
     if p['cis'] == 'yes': suits.append('It is ready to report Construction Industry Scheme (CIS) deductions on your tax return.')
-    title = f"{p['name']} for Making Tax Digital: price, free version and features | {NAME}"
-    desc = f"Is {p['name']} HMRC-recognised for MTD for Income Tax? Yes. See price{', checked ' + nice_date(p['price_checked']) if p['vendor_checked'] else ''}, free version, bridging, landlord, CIS and joint property support in plain English."
+    # Prefer a title that still includes the brand; only drop "for MTD" or the brand if the name is long.
+    candidates = []
+    if not re.search(r'\bMTD\b|Making Tax Digital', p['name'], re.I):
+        candidates.append(f"{p['name']} for MTD | {NAME}")
+    candidates += [f"{p['name']} | {NAME}", p['name']]
+    title = next((c for c in candidates if title_px(c) <= TITLE_MAX_PX), candidates[-1])
+    desc = f"Is {p['name']} HMRC-recognised for MTD? Yes. See price{', checked ' + nice_date(p['price_checked']) if p['vendor_checked'] else ''}, free version and key features in plain English."
     app = {'@context': 'https://schema.org', '@type': 'SoftwareApplication', 'name': p['name'], 'applicationCategory': 'FinanceApplication',
            'operatingSystem': p['compatible_with'] if p['compatible_with'] != 'unknown' else None, 'url': p['website'],
            'description': re.sub('<[^>]+>', '', summary)}
@@ -683,8 +694,8 @@ def guide():
         ("Should I use standard or calendar update periods?", "GOV.UK says standard update periods (ending on the 5th) are the default and fit accounts that follow the tax year, and calendar update periods (ending on the month-end) are for accounts that run 1 April to 31 March. The deadlines are the same for both, and the choice is fixed for the tax year once you send your first update. See <a href=\"/guides/mtd-standard-vs-calendar-update-periods/\">standard vs calendar update periods</a>."),
         ("Will I get a penalty for a late quarterly update in 2026 to 2027?", "HMRC says there are no penalty points for late quarterly updates in your first tax year if you need to use MTD from 6 April 2026 or 6 April 2027 (so 2026 to 2027, or 2027 to 2028). You still need to send them before you can submit your tax return, and late tax returns still get penalty points. See <a href=\"/guides/mtd-late-quarterly-update-penalties/\">how MTD penalty points work</a>."),
     ]
-    out = head(f'Do I need Making Tax Digital, and when? Plain-English guide | {NAME}',
-               'Who needs MTD for Income Tax, the £50,000, £30,000 and £20,000 thresholds, what counts as qualifying income, quarterly deadlines and exemptions, all sourced from GOV.UK.',
+    out = head(f'Do I need MTD, and when? | {NAME}',
+               'Who needs MTD for Income Tax, the £50,000, £30,000 and £20,000 thresholds, quarterly deadlines and exemptions. Sourced from GOV.UK.',
                '/do-i-need-mtd/', [faq_ld(qas), crumb_ld([('Home', '/'), ('Do I need MTD?', '/do-i-need-mtd/')])])
     out += f'''<div class="wrap" style="max-width:820px"><p class="breadcrumb"><a href="/">Home</a> › Do I need MTD?</p>
 <h1>Do I need Making Tax Digital, and when?</h1>
@@ -953,7 +964,7 @@ def guide_pages():
                'publisher': {'@type': 'Organization', 'name': NAME, 'url': BASE + '/'},
                'mainEntityOfPage': {'@type': 'WebPage', '@id': BASE + g['path']}, 'url': BASE + g['path']}
         ld = [art, crumb_ld(crumbs)] + ([faq_ld(g['qas'])] if g['qas'] else [])
-        out = head(f"{g['title']} | {NAME}", g['description'], g['path'], ld, og_type='article')
+        out = head(f"{g.get('meta_title') or g['short']} | {NAME}", g.get('meta_description') or g['description'], g['path'], ld, og_type='article')
         faqs = ('<h2>Quick answers</h2>' + faq_html(g['qas'])) if g['qas'] else ''
         out += f'''<article class="wrap" style="max-width:980px"><p class="breadcrumb"><a href="/">Home</a> › <a href="/guides/">Guides</a> › {E(g["short"])}</p>
 <h1>{E(g["title"])}</h1>
@@ -1316,6 +1327,9 @@ def seo_files():
 if __name__ == '__main__':
     if os.path.exists(DIST): shutil.rmtree(DIST)
     os.makedirs(f'{DIST}/assets')
+    shutil.copy(f'{ROOT}/src/favicon.ico', f'{DIST}/favicon.ico')
+    shutil.copy(f'{ROOT}/src/favicon.svg', f'{DIST}/assets/favicon.svg')
+    shutil.copy(f'{ROOT}/src/apple-touch-icon.png', f'{DIST}/assets/apple-touch-icon.png')
     shutil.copy(f'{ROOT}/src/style.css', f'{DIST}/assets/style.css')
     shutil.copy(f'{ROOT}/src/directory.js', f'{DIST}/assets/directory.js')
     shutil.copy(f'{ROOT}/src/funnel.js', f'{DIST}/assets/funnel.js')

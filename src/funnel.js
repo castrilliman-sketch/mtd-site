@@ -56,7 +56,7 @@
     if (p.free_version === 'yes') tags.push('Free version');
     var tagHtml = tags.slice(0, 4).map(function (t) { return '<span class="tag">' + escapeHtml(t) + '</span>'; }).join('');
     var label = p.aff ? 'View deal' : 'Visit site';
-    return '<article class="pcard"><h3><a href="/software/' + escapeHtml(p.slug) + '/">' + escapeHtml(p.name) + '</a>' + (p.featured ? ' <span class="tag f">Featured</span>' : '') + '</h3>' +
+    return '<article class="pcard"><p class="pcard-name"><a href="/software/' + escapeHtml(p.slug) + '/">' + escapeHtml(p.name) + '</a>' + (p.featured ? ' <span class="tag f">Featured</span>' : '') + '</p>' +
       '<p class="pcard-price">' + price + '</p><p class="pcard-tags">' + tagHtml + '</p>' +
       '<div class="pcard-cta"><a class="btn" href="' + escapeHtml(p.href) + '" rel="' + escapeHtml(p.rel) + '" target="_blank" data-product="' + escapeHtml(p.slug) + '" data-aff="' + (p.aff ? 1 : 0) + '" data-cta="match" data-page="home">' + label + ' ↗</a>' +
       '<a class="pcard-more" href="/software/' + escapeHtml(p.slug) + '/">Details<span class="sr"> about ' + escapeHtml(p.name) + '</span></a></div>' +
