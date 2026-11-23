@@ -15,4 +15,4 @@ Those dates and thresholds are on [GOV.UK](https://www.gov.uk/guidance/check-if-
 
 I built this site to close that gap. Here you'll get plain English, the facts checked against GOV.UK and the software providers' own websites, and a clear way to [compare your options](/#directory). You can look at every product HMRC recognises and filter the list if you are a landlord, self-employed, using a spreadsheet, in the Construction Industry Scheme, or looking for a free option. I use AI to gather and organise the details quickly, but a person always checks the results before anything goes on this site.
 
-Where I earn a commission, I'll always tell you, and it never decides what I recommend. This site gives general information, not personal tax advice.
+Where I earn a commission, or could, I'll always tell you. Those products are shown in a labelled Featured section, and the facts about every product are checked the same way.

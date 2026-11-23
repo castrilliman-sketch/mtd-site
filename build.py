@@ -109,7 +109,29 @@ for r in HM['products']:
     products.append(p)
 products.sort(key=lambda p: p['name'].lower().strip('"#@'))
 BY = {p['slug']: p for p in products}
+FEATURED_NAMES = json.load(open(f'{ROOT}/config/featured.json'))['products']
+_missing_feat = [n for n in FEATURED_NAMES if n not in {p['name'] for p in products}]
+assert not _missing_feat, f'config/featured.json names not on HMRC list: {_missing_feat}'
+for p in products: p['featured'] = p['name'] in FEATURED_NAMES
+FEATURED = [p for p in products if p['featured']]  # A-Z, same as products
 CHECKEDP = [p for p in products if p['vendor_checked']]
+CHECKEDP.sort(key=lambda p: not p['featured'])  # stable: featured first, A-Z within each group
+
+def dir_key(p):
+    """Default directory order: featured first, then price-checked, then A-Z."""
+    return (not p['featured'], not p['vendor_checked'], p['name'].lower().strip('"#@'))
+
+# ---------- product-page indexing (config/indexing.json) ----------
+IDX = {k: v for k, v in json.load(open(f'{ROOT}/config/indexing.json')).items() if not k.startswith('_')}
+_unknown_idx = [s for s in IDX.get('always_index', []) + IDX.get('release_for_indexing', []) + IDX.get('hold_noindex', []) if s not in BY]
+if _unknown_idx: raise SystemExit(f'config/indexing.json: unknown product slugs {_unknown_idx}')
+def _verified_with_notes(p):
+    v = VV['products'].get(p['name'], {})
+    return bool(v.get('price_text') and v['price_text'] != 'unknown' and v.get('price_source') and v.get('price_note'))
+INDEXABLE = {p['slug'] for p in products
+             if p['slug'] not in set(IDX.get('hold_noindex', []))
+             and (p['slug'] in set(IDX.get('always_index', []) + IDX.get('release_for_indexing', []))
+                  or (IDX.get('auto_index_verified', True) and _verified_with_notes(p)))}
 
 # ---------- helpers ----------
 def link_for(p):
@@ -153,6 +175,23 @@ def product_card(p, kind='visit'):
         f'</article>'
     )
 
+def featured_card(p):
+    facts = []
+    inc = incomes(p)
+    if inc: facts.append(', '.join(inc))
+    facts.append('Updates + tax return' if p['tax_return'] else 'Quarterly updates only')
+    if p['bridging'] == 'yes': facts.append('Works with spreadsheets')
+    if p['free_version'] == 'yes': facts.append('Free version (HMRC)')
+    if p['cis'] == 'yes': facts.append('CIS on tax return')
+    if p['joint_property'] == 'yes': facts.append('Joint property splits')
+    fl = ''.join(f'<li>{E(x)}</li>' for x in facts[:5])
+    return (f'<article class="pcard fcard"><h3><a href="/software/{E(p["slug"])}/">{E(p["name"])}</a></h3>'
+            f'<p class="pcard-price">{card_price(p)}</p><ul class="ffacts">{fl}</ul>'
+            f'<div class="pcard-cta">{outbound_cta(p, kind="featured", cls="btn", page="home")}'
+            f'<a class="pcard-more" href="/software/{E(p["slug"])}/">Details<span class="sr"> about {E(p["name"])}</span></a></div>'
+            + ('<p class="disclose aff-note">Affiliate link. <a href="/affiliate-disclosure/">Disclosure</a></p>' if link_for(p)[2] else '') +
+            '</article>')
+
 def finder_payload():
     items = []
     for p in CHECKEDP:
@@ -164,6 +203,7 @@ def finder_payload():
             'free_version': p['free_version'], 'bridging': p['bridging'],
             'creates_records': p['creates_records'], 'uk_property': p['uk_property'],
             'sole_trader': p['sole_trader'], 'href': href, 'rel': rel, 'aff': aff,
+            'featured': p['featured'],
         })
     return json.dumps({'total': len(products), 'products': items}, ensure_ascii=False)
 
@@ -208,6 +248,15 @@ def analytics_tag():
     return (f'\n<script src="/assets/analytics.js" defer data-mtd-provider="{E(ANALYTICS["provider"])}" '
             f'data-mtd-site="{E(ANALYTICS["site_id"])}" data-mtd-opts="{E(json.dumps(opts))}"></script>')
 
+VERIFY = {k: (v or '').strip() for k, v in json.load(open(f'{ROOT}/config/verification.json')).items() if not k.startswith('_')}
+def verification_tags(path):
+    """Google Search Console / Bing ownership meta tags (homepage only, only when set in config/verification.json)."""
+    if path != '/': return ''
+    t = ''
+    if VERIFY.get('google_site_verification'): t += f'\n<meta name="google-site-verification" content="{E(VERIFY["google_site_verification"])}">'
+    if VERIFY.get('bing_msvalidate'): t += f'\n<meta name="msvalidate.01" content="{E(VERIFY["bing_msvalidate"])}">'
+    return t
+
 def head(title, desc, path, jsonld=(), noindex=False, og_type='website'):
     canon = BASE + path
     ld = ''.join(f'<script type="application/ld+json">{json.dumps(j, ensure_ascii=False)}</script>' for j in jsonld)
@@ -215,7 +264,7 @@ def head(title, desc, path, jsonld=(), noindex=False, og_type='website'):
     return f'''<!doctype html><html lang="en-GB"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(title)}</title><meta name="description" content="{E(desc)}">
-<link rel="canonical" href="{canon}">{robots}
+<link rel="canonical" href="{canon}">{robots}{verification_tags(path)}
 <meta property="og:type" content="{E(og_type)}"><meta property="og:title" content="{E(title)}"><meta property="og:description" content="{E(desc)}"><meta property="og:url" content="{canon}"><meta property="og:site_name" content="{E(NAME)}"><meta property="og:locale" content="en_GB">
 <meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#0b6e4f">
@@ -405,9 +454,9 @@ def software_ld_item(p):
 def home():
     n = len(products)
     free_checked = [p for p in CHECKEDP if p['sort_price'] == 0 or p['free_version'] == 'yes']
-    rows = []
-    # Default order: price-checked products first, A-Z within each group (matches directory.js default).
-    for p in sorted(products, key=lambda p: (not p['vendor_checked'], p['name'].lower().strip('"#@'))):
+    rows = {True: [], False: []}
+    # Default order: featured group first, then 'Best of the rest'; price-checked first and A-Z within each group (matches directory.js).
+    for p in sorted(products, key=dir_key):
         href, rel, aff = link_for(p)
         inc = incomes(p)
         aud = ('i' if p['individual'] == 'yes' else '') + ('a' if p['agent'] == 'yes' else '')
@@ -416,12 +465,12 @@ def home():
             'name': E(p['name'].lower()), 'free': int(p['free_version'] == 'yes'), 'bridging': int(p['bridging'] == 'yes'),
             'uk_property': int(p['uk_property'] == 'yes'), 'sole_trader': int(p['sole_trader'] == 'yes'),
             'foreign_property': int(p['foreign_property'] == 'yes'), 'cis': int(p['cis'] == 'yes'), 'tax_return': int(p['tax_return']),
-            'joint': int(p['joint_property'] == 'yes'), 'calendar': int(p['calendar_period'] == 'yes'), 'checked': int(p['vendor_checked']), 'aud': aud,
+            'joint': int(p['joint_property'] == 'yes'), 'calendar': int(p['calendar_period'] == 'yes'), 'checked': int(p['vendor_checked']), 'aud': aud, 'group': 'featured' if p['featured'] else 'rest',
             's-name': E(p['name'].lower().strip('"#@')), 's-price': sp, 's-free': int(p['free_version'] != 'yes'),
             's-cis': {'yes': 0, 'in development': 1}.get(p['cis'], 2), 's-joint': {'yes': 0, 'paid plans only': 1}.get(p['joint_property'], 2),
         }
         attrs = ' '.join(f'data-{k}="{v}"' for k, v in data.items())
-        rows.append(f'''<tr {attrs}><td class="name" data-label="Software"><a href="/software/{p['slug']}/">{E(p['name'])}</a>{' <span class="tag v" title="Price checked on the provider site">price-checked</span>' if p['vendor_checked'] else ''}</td>
+        rows[p['featured']].append(f'''<tr {attrs}{' class="rest"' if not p['featured'] else ''}><td class="name" data-label="Software"><a href="/software/{p['slug']}/">{E(p['name'])}</a>{' <span class="tag f">Featured</span>' if p['featured'] else ''}{' <span class="tag v" title="Price checked on the provider site">price-checked</span>' if p['vendor_checked'] else ''}</td>
 <td data-label="Price (from)">{E(p['price_text']) if p['price_text'] != 'unknown' else dash('Price not yet checked')}</td><td data-label="Free version">{cell_yn(p['free_version'], 'Not listed by HMRC')}</td>
 <td data-label="Type">{' '.join(f'<span class="tag">{t}</span>' for t in types(p)) or dash('Not listed by HMRC')}</td>
 <td data-label="Income sources">{', '.join(inc) or dash('Not listed by HMRC')}</td>
@@ -433,11 +482,10 @@ def home():
         ("What is MTD bridging software?", "Bridging software connects to records you already keep, such as a spreadsheet, and sends your quarterly updates to HMRC. Some bridging products also submit your tax return; others only send the updates. Use the 'Bridging (spreadsheets)' filter above to see them, or read <a href=\"/guides/mtd-spreadsheets-bridging-software/\">our guide to spreadsheets and bridging software</a>."),
         ("Can I use more than one MTD product?", "Yes. HMRC says you can use more than one product, but only one product for each separate submission. For example, a landlord cannot use two products to send the same property quarterly update. If you combine products, make sure together they cover your quarterly updates and your tax return. <a href=\"https://www.gov.uk/guidance/choose-the-right-software-for-making-tax-digital-for-income-tax\">Source: GOV.UK</a>"),
         ("When are MTD quarterly updates due?", "For both standard and calendar update periods, the deadlines are 7 August, 7 November, 7 February and 7 May (the following tax year). <a href=\"https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/send-quarterly-updates\">Source: GOV.UK</a>. For what happens if one is late, see <a href=\"/guides/mtd-late-quarterly-update-penalties/\">MTD penalty points explained</a>. For how the two period types differ, see <a href=\"/guides/mtd-standard-vs-calendar-update-periods/\">standard vs calendar update periods</a>."),
-        ("Does HMRC recommend any MTD software?", "No. HMRC says it does not recommend any product or software provider. Every product in this directory has been through HMRC's recognition process, and we show them in alphabetical order by default."),
+        ("Does HMRC recommend any MTD software?", "No. HMRC says it does not recommend any product or software provider. Every product in this directory has been through HMRC's recognition process. We show our featured products first, because we may earn a commission from them (see our affiliate disclosure), then every other product under Best of the rest. Within each group, price-checked products come first, then A to Z."),
         ("Why does a product say 'Quarterly updates only'?", "HMRC lists some products as able to send quarterly updates but not to submit your tax return. If you pick one of those, you'll need another product, or an agent, for the tax return after the year ends."),
     ]
     il = {'@context': 'https://schema.org', '@type': 'ItemList', 'name': 'HMRC-recognised MTD for Income Tax software we have price-checked',
-          'itemListOrder': 'https://schema.org/ItemListOrderAscending',
           'numberOfItems': len(CHECKEDP), 'itemListElement': [{'@type': 'ListItem', 'position': i + 1, 'item': software_ld_item(p)} for i, p in enumerate(CHECKEDP)]}
     web = {'@context': 'https://schema.org', '@type': 'WebSite', 'name': NAME, 'url': BASE + '/', 'inLanguage': 'en-GB'}
     any_aff = any(link_for(p)[2] for p in products)
@@ -493,7 +541,12 @@ def home():
 </div></section>
 <div class="wrap">
 <section id="directory"><h2>Compare all HMRC-recognised MTD software</h2>
-<p class="disclose">{'Some links on this site are affiliate links, marked as sponsored. If you sign up through one we may earn a commission. ' if any_aff else 'We may add affiliate links in future and will mark them clearly. '}This never decides which products we list or how they're ordered. <a href="/affiliate-disclosure/">How we make money</a>.</p>
+<p class="disclose commercial"><strong>How this list is ordered:</strong> our featured products are ones whose providers run an affiliate programme we can join, so we may earn a commission if you sign up. That's why they're shown first: the featured section is commercial, not a purely editorial ranking. {'Affiliate links are marked next to the button. ' if any_aff else "Right now none of our links are affiliate links; every button goes to the provider's official website. "}Every HMRC-recognised product is still listed below, and the facts for every product are checked the same way. <a href="/affiliate-disclosure/">How we make money</a>.</p>
+<section class="featured" aria-labelledby="featured-h"><h3 id="featured-h">Featured MTD software</h3>
+<p class="featured-note">{len(FEATURED)} HMRC-recognised products we may earn a commission from, A to Z. Prices checked on each provider's own website.</p>
+<div class="pcards fcards">{''.join(featured_card(p) for p in FEATURED)}</div></section>
+<h3 id="rest-h" class="rest-h">Best of the rest</h3>
+<p class="rest-note">The other {n - len(FEATURED)} HMRC-recognised products, in the full table below with the featured products at the top. Filter, sort or search the whole list.</p>
 <form class="filters" role="search" onsubmit="return false">
 <input type="search" id="q" placeholder="Search by name, e.g. Xero" aria-label="Search software by name">
 <label><input type="checkbox" data-f="free"> Free version</label>
@@ -509,12 +562,13 @@ def home():
 <label class="pcf"><input type="checkbox" id="pcf" checked> Show price-checked first</label>
 <select id="aud" aria-label="Who will use it"><option value="">For anyone</option><option value="i">For individuals</option><option value="a">For agents/accountants</option></select>
 </form>
-<p class="count" id="count" aria-live="polite">{n} HMRC-recognised products. Price-checked products are listed first, then A to Z.</p>
+<p class="count" id="count" aria-live="polite">{n} HMRC-recognised products. Featured products first, then Best of the rest; price-checked first and A to Z within each.</p>
 <p class="legend"><span class="u" aria-hidden="true">–</span> means we haven't checked it yet, or HMRC doesn't list it. Hover or tap a dash for details.</p>
 <div class="tablewrap"><table class="dir" id="dir"><thead><tr>
 <th data-k="name"><button>Software</button></th><th data-k="price"><button>Price (from)</button></th><th data-k="free"><button>Free version</button></th>
 <th>Type</th><th>Income sources</th><th>Submits</th><th data-k="cis"><button>CIS on tax return</button></th><th data-k="joint"><button>Joint property</button></th>
-</tr></thead><tbody>{''.join(rows)}</tbody></table></div>
+</tr></thead><tbody class="g-featured"><tr class="grp" data-grp="featured"><th colspan="8" scope="colgroup">Featured ({len(rows[True])})</th></tr>{''.join(rows[True])}</tbody>
+<tbody class="g-rest"><tr class="grp" data-grp="rest"><th colspan="8" scope="colgroup">Best of the rest ({len(rows[False])})</th></tr>{''.join(rows[False])}</tbody></table></div>
 <p class="disclose">Free version, type, income sources, what it submits and CIS come from <a href="{FINDER}">HMRC's software finder</a> (read {nice_date(HMRC_DATE)}). "CIS on tax return" means HMRC lists the product as ready to report Construction Industry Scheme deductions on your tax return. Prices and joint-property support come from each provider's own website (checked {nice_date(CHECKED)}, or the later date shown on a product's page). <a href="/methodology/">How we check</a>.</p>
 </section>
 <details><summary>Free options we have price-checked</summary>
@@ -561,7 +615,7 @@ def product_page(p):
         if not price: app['offers'].pop('priceSpecification')
     app = {k: v for k, v in app.items() if v is not None}
     crumbs = [('Home', '/'), ('MTD software', '/#directory'), (p['name'], f"/software/{p['slug']}/")]
-    out = head(title, desc, f"/software/{p['slug']}/", [app, crumb_ld(crumbs)], noindex=not p['vendor_checked'])
+    out = head(title, desc, f"/software/{p['slug']}/", [app, crumb_ld(crumbs)], noindex=p['slug'] not in INDEXABLE)
     cta = outbound_cta(p, kind='product', page='product', label=f"Visit {p['name']}")
     cta_note = '<span class="disclose">Affiliate link: we may earn a commission if you sign up. <a href="/affiliate-disclosure/">Disclosure</a>.</span>' if aff else '<span class="disclose">Official website, as listed by HMRC. <a href="/affiliate-disclosure/">How we make money</a>.</span>'
     price_block = (f'<p><strong>{E(p["price_text"])}</strong></p>' + (f'<p>{E(p["price_note"])}</p>' if p.get('price_note') else '') +
@@ -569,8 +623,8 @@ def product_page(p):
         f'<p>We haven\'t checked this price yet. HMRC says: <strong>{"free version available" if p["free_version"] == "yes" else "paid version"}</strong>. See the provider\'s website for current pricing.</p>'
     joint = yn(p['joint_property']) + (f' <a class="disclose" href="{E(p["joint_source"])}" rel="noopener" target="_blank">(source)</a>' if p.get('joint_source') else '')
     alts = [a for a in CHECKEDP if a['slug'] != p['slug'] and set(incomes(a)) & set(inc)]
-    alts.sort(key=lambda a: (a['sort_price'] if a['sort_price'] is not None else 999, a['name']))
-    alt_html = ''.join(f'<li><a href="/software/{a["slug"]}/">{E(a["name"])}</a>: {card_price(a)}</li>' for a in alts[:5])
+    alts.sort(key=lambda a: (not a['featured'], a['sort_price'] if a['sort_price'] is not None else 999, a['name']))
+    alt_html = ''.join(f'<li><a href="/software/{a["slug"]}/">{E(a["name"])}</a>{" <span class=\"tag f\">Featured</span>" if a["featured"] else ""}: {card_price(a)}</li>' for a in alts[:5])
     tr_rows = ''.join(f'<tr><td>{E(k)}</td><td>{yn(v)}</td></tr>' for k, v in tr.items())
     acc = ', '.join(k for k, v in p['accessibility'].items() if v == 'yes') or 'None listed'
     short = f"{E(p['name'])} is HMRC-recognised for Making Tax Digital for Income Tax."
@@ -610,7 +664,7 @@ def product_page(p):
 {signup_block('inline')}
 </div>
 <aside><div class="card"><strong>{E(p['name'])}</strong><p>{price_html(p)}</p>{cta}<p>{cta_note}</p>
-{('<h3>Price-checked alternatives</h3><ul>' + alt_html + '</ul>') if alt_html else ''}
+{('<h3>Price-checked alternatives</h3><ul>' + alt_html + '</ul><p class="disclose">Featured products are listed first; <a href="/affiliate-disclosure/">we may earn a commission</a> from them.</p>') if alt_html else ''}
 <p><a href="/#directory">← Compare all {len(products)} products</a></p></div></aside>
 </div></div>'''
     out += foot()
@@ -1018,6 +1072,7 @@ def blog_pages():
 <h1>Founders Blog</h1>
 <p class="lead">Notes from {E(OPERATOR)} on why this site exists and how we compare Making Tax Digital software in plain English.</p>
 <ul class="post-list">{items}</ul>
+<p class="note-footer">Written by {E(OPERATOR)}, UK. Questions or corrections: {contact_html() if CONTACT_EMAIL else 'contact email coming soon'}. <a href="/about/">About {E(OPERATOR)}</a>.</p>
 </div>'''
     out += foot(); write('/founders-blog/', out)
     for p in POSTS:
@@ -1052,9 +1107,11 @@ def other_pages():
 <li><strong>CIS:</strong> "CIS on tax return" is HMRC's status for reporting Construction Industry Scheme deductions on your tax return. It doesn't mean the software files contractor CIS returns.</li>
 <li><strong>Thresholds and dates:</strong> taken directly from GOV.UK and linked wherever they appear.</li></ul>
 <h2>Order and independence</h2>
-<p>The directory is in alphabetical order by default, and you can re-sort it yourself. We never order, include or leave out a product because of a commission. Products without an affiliate deal get the same treatment as those with one.</p>
+<p>The directory shows our <strong>featured</strong> products first. These are products whose providers run an affiliate programme we can join, so featuring them is a commercial decision, not a purely editorial ranking. Every other HMRC-recognised product follows under <strong>Best of the rest</strong>. Within each group, price-checked products come first, then A to Z, and you can re-sort or filter the whole list yourself. A commission never decides whether a product is listed or what facts we show: every product's details come from HMRC and the provider's own website, checked the same way.</p>
 <h2>Which pages search engines see</h2>
-<p>Every HMRC-recognised product has a page. Pages for products we haven't price-checked yet are kept out of search results until we've added checked information, so we don't publish thin pages.</p>
+<p>Every HMRC-recognised product has a page, and every page stays linked from the directory. We release product pages to search engines gradually: until a page has information we've checked on the provider's own website, it's kept out of search results, so we don't publish thin pages.</p>
+<h2>Who checks</h2>
+<p>This site is run by {E(OPERATOR)} in the UK, for UK landlords and sole traders. AI helps gather and organise the details, and {E(OPERATOR)} checks the results before anything is published. <a href="/about/">About {E(OPERATOR)}</a>.</p>
 <h2>Keeping it up to date</h2>
 <p>We re-read HMRC's list and re-check prices regularly. If you spot something out of date, {('email ' + contact_html() + ' and we will correct it.') if CONTACT_EMAIL else 'a corrections email is coming soon.'}</p>''',
            [('Home', '/'), ('How we check', '/methodology/')])
@@ -1068,10 +1125,10 @@ def other_pages():
     about_body = f'''
 <p class="lead">I've spent 20 years working in finance in London, in debt purchasing, complaints handling and credit control for a consumer loan company, and I've also trained and managed teams of new starters. That means I've seen money matters from both sides: how businesses and regulators talk, and how hard that language can be for the people on the receiving end.</p>
 <p>I built this site to close that gap. Making Tax Digital is a big change for landlords and sole traders, and most of what's written about it is either jargon or a sales pitch. Here you'll get plain English, the facts checked against GOV.UK and the software providers' own websites, and a clear way to compare your options.</p>
-<p>I use AI to gather and organise the details quickly, but a person always checks the results before anything goes on this site. Where I earn a commission, I'll always tell you, and it never decides what I recommend.</p>
+<p>I use AI to gather and organise the details quickly, but a person always checks the results before anything goes on this site. Where I earn a commission, or could, I'll always tell you. Those products are shown in a labelled Featured section, and the facts about every product are checked the same way.</p>
 <p class="note-footer">This site gives general information, not personal tax advice.</p>
 <h2>What this site is</h2>
-<p>A plain-English, independent comparison of software HMRC recognises for Making Tax Digital for Income Tax, built from HMRC's own list and the providers' own websites.</p>
+<p>A plain-English, independent comparison of software HMRC recognises for Making Tax Digital for Income Tax, built from HMRC's own list and the providers' own websites. It's run by me, {E(OPERATOR)}, in the UK, and written for UK landlords and sole traders.</p>
 <h2>What this site isn't</h2>
 <p>It isn't HMRC, it isn't connected with any government body, and it doesn't give tax advice.</p>
 <h2>Contact</h2>
@@ -1085,7 +1142,7 @@ def other_pages():
 <h2>Right now</h2>
 <p>{f"Affiliate links are live for: {', '.join(E(p['name']) for p in live)}." if live else "No affiliate links are live yet. Every link goes to the provider's official website, as listed by HMRC."}</p>
 <h2>How affiliate links are marked</h2>
-<ul><li>Next to every affiliate button we say it's an affiliate link.</li><li>Affiliate links carry <code>rel="sponsored nofollow"</code>, so search engines know they're paid links.</li><li>A commission never decides whether a product is listed, how it's sorted, or what we say about it. Products we earn nothing from are shown in exactly the same way.</li></ul>
+<ul><li>Next to every affiliate button we say it's an affiliate link.</li><li>Affiliate links carry <code>rel="sponsored nofollow"</code>, so search engines know they're paid links.</li><li>Featured products are the ones we may earn a commission from, and they're shown first on the homepage and in "alternatives" lists. That placement is commercial. A commission never decides whether a product is listed or what facts we show about it: every product's facts are checked the same way, and every HMRC-recognised product stays in the full list.</li></ul>
 <h2>Our emails</h2>
 <p>If you get our Free MTD Ready Kit, our emails may sometimes mention software we earn a commission from. When they do, we say so in the email, and the same rules apply: a commission never changes what we recommend.</p>
 <h2>Other ways we may earn in future</h2>
@@ -1117,7 +1174,7 @@ def email_privacy():
 def privacy_body():
     op = (f'<p>This site is operated by {E(OPERATOR)}.</p>'
           + (f'<p>Email: {contact_html()}.</p>' if CONTACT_EMAIL else '<p>Contact email coming soon.</p>')
-          + '<p class="fillme">[Postal address to be added.]</p>')
+          + (f'<p>Please contact us by email. We reply to all privacy requests by email.</p>' if not SITE.get('postal_address') else f'<p>Post: {E(SITE["postal_address"])}</p>'))
     if not ANALYTICS_ON:
         return ("<h2>Cookies and visitor statistics</h2><p>This site doesn't use cookies, analytics or tracking at the moment. "
                 "If that changes, we'll update this page first.</p>" + email_privacy() + "<h2>Other websites</h2><p>When you click through to a software provider, their own privacy policy applies.</p>"
@@ -1150,7 +1207,7 @@ def seo_files():
             ('/about/', CHECKED), ('/founders-blog/', CHECKED), ('/affiliate-disclosure/', CHECKED), ('/privacy/', CHECKED)]
     urls += [(p['path'], p['date']) for p in POSTS]
     urls += [('/guides/', max([g['checked'] for g in GUIDES] + [CHECKED]))] + [(g['path'], g['checked']) for g in GUIDES]
-    urls += [(f"/software/{p['slug']}/", p['price_checked'] or CHECKED) for p in CHECKEDP]
+    urls += [(f"/software/{p['slug']}/", p['price_checked'] or CHECKED) for p in products if p['slug'] in INDEXABLE]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'<url><loc>{BASE}{u}</loc><lastmod>{lm}</lastmod></url>\n' for u, lm in urls) + '</urlset>\n'
     write('/sitemap.xml', sm)
     write('/robots.txt', f'User-agent: *\nAllow: /\nDisallow: /kit/\n\nSitemap: {BASE}/sitemap.xml\n')
@@ -1176,4 +1233,4 @@ if __name__ == '__main__':
     missing = [k for k in VV['products'] if k not in {p['name'] for p in products}]
     print('Email sign-up:', f"{EMAIL['provider']} ({EMAIL['form_action']})" if EMAIL_ON else 'OFF: mailto fallback to the contact email (config/email.json has no provider/form_action)')
     print('Analytics:', f"{ANALYTICS['provider']} ({ANALYTICS['site_id']})" if ANALYTICS_ON else 'OFF (config/analytics.json has no provider/site_id)')
-    print(f'Built {len(products)} product pages ({len(CHECKEDP)} vendor-checked, indexable). Unmatched vendor keys: {missing}')
+    print(f'Built {len(products)} product pages ({len(CHECKEDP)} vendor-checked; {len(INDEXABLE)} indexable, {len(products) - len(INDEXABLE)} noindex per config/indexing.json). Unmatched vendor keys: {missing}')

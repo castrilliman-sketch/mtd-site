@@ -14,12 +14,22 @@ Static site for https://mtdsoftwarecompare.co.uk. The domain is not live yet; no
 - `data/raw/pricing/*.txt` – rendered text of vendor pages used as evidence.
 - `data/products.json` – merged output (generated).
 
+## Search indexing of product pages (`config/indexing.json`)
+New domain, so product pages are released to Google gradually instead of all 179 at once. Every `/software/<slug>/` page stays live and linked from the homepage; pages that aren't released get `<meta name="robots" content="noindex,follow">` and are left out of `sitemap.xml`.
+- A product page is **indexable** if its slug is in `always_index` (the affiliate-programme products) or `release_for_indexing`, or if `auto_index_verified` is true and `data/vendor-verified.json` has a checked `price_text` + `price_source` + `price_note` for it.
+- `hold_noindex` forces a page to noindex (overrides everything).
+- To drip-feed more pages: add slugs (see `data/products.json`) to `release_for_indexing`, rebuild, push, then resubmit the sitemap in Search Console. Unknown slugs stop the build.
+- All non-product pages (home, Do I need MTD?, methodology, guides, about, privacy, disclosure, Founders Blog, free kit) are always indexable; the kit confirmation pages and 404 are noindex. `build.py` prints the indexable/noindex counts.
+
+## Search Console / Bing verification (`config/verification.json`)
+If verifying by HTML tag instead of DNS, paste only the `content` value into `google_site_verification` and/or `bing_msvalidate`; the tag is added to the homepage `<head>` only. Leave empty when verified by DNS TXT record.
+
 ## Affiliate links
 `config/affiliates.json` maps product slug -> tracked URL. Empty = official site, no `rel=sponsored`. When filled, the button becomes `rel="sponsored nofollow noopener"`, gets an inline disclosure, and the disclosure page lists it automatically.
 
 ## Before launch (D)
 - Brand and canonical URL are set in `config/site.json` (`MTD Software Compare`, `https://mtdsoftwarecompare.co.uk`). Register the domain and point DNS before publishing.
-- Public contact email is `customerservices@mtdsoftwarecompare.co.uk` in `config/site.json` (`contact_email`). A postal address on the privacy page is still marked in yellow. The About page and operator name (Daniel Wyatt) are in place.
+- Public contact email is `customerservices@mtdsoftwarecompare.co.uk` in `config/site.json` (`contact_email`). The privacy page asks people to contact by email; to show a business postal address instead, add `"postal_address": "..."` to `config/site.json` (never a home address unless D chooses to). The About page and operator name (Daniel Wyatt) are in place.
 - Founders Blog posts live in `data/blog/*.md` (YAML-like front matter + Markdown) and are built by `build.py`.
 
 ## Analytics & private stats (off until configured)

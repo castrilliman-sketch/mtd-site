@@ -1,0 +1,11 @@
+{
+ "_how_to_use": "Controls which /software/<slug>/ product pages Google may index. Every product page stays live and linked; pages not released get <meta name=\"robots\" content=\"noindex,follow\"> and are left out of sitemap.xml. A page is indexable if its slug is in always_index or release_for_indexing, OR (auto_index_verified is true AND data/vendor-verified.json has a checked price_text, price_source and price_note for it). Slugs in hold_noindex are always noindexed (overrides everything). To release more pages later (drip-feed), add their slugs to release_for_indexing and rebuild.",
+ "always_index": [
+  "zoho", "accounting-from-sage", "sage-sole-trader-and-landlord", "sage-sole-trader-and-landlord-free",
+  "tide-accounting", "xero", "quickbooks-intuit", "landlord-vision", "landlord-studio",
+  "patma-property-manager", "anna-self-assessment", "iris-kashflow"
+ ],
+ "release_for_indexing": [],
+ "auto_index_verified": true,
+ "hold_noindex": []
+}

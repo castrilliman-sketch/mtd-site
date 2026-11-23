@@ -66,7 +66,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "100PcMTD",
@@ -130,7 +131,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "123 e-Filing MTD for Income Tax",
@@ -194,7 +196,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "123 Sheets",
@@ -258,7 +261,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "123 Tax",
@@ -322,7 +326,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "@1TaxFiler",
@@ -386,7 +391,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "AATAX",
@@ -450,7 +456,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Ablegatio Ftax MTD for IT",
@@ -514,7 +521,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Abodient",
@@ -578,7 +586,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "AbraTax MTD for Income Tax",
@@ -642,7 +651,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Abridge (MTD for Excel/Sheets)",
@@ -706,7 +716,8 @@
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": true,
-   "sort_price": 3.25
+   "sort_price": 3.25,
+   "featured": false
   },
   {
    "name": "Absolute Excel Income Tax Filer",
@@ -770,7 +781,8 @@
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": true,
-   "sort_price": 3.33
+   "sort_price": 3.33,
+   "featured": false
   },
   {
    "name": "AccLedger",
@@ -834,7 +846,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Accounting from Sage",
@@ -884,21 +897,24 @@
    "software_type": "Web browser and Desktop application",
    "compatible_with": "Microsoft Windows, Mac OS, Linux",
    "language": "English",
-   "price_text": "unknown",
-   "price_note": null,
-   "price_from_gbp_month": null,
+   "price_text": "Start from £20/month excl. VAT",
+   "price_note": "Sage Accounting Start (for VAT-registered sole traders or small businesses), then Standard £43 and Plus £59 a month excl. VAT. Offer at check (23 Nov 2026): 90% off for 10 months (£2/month excl. 20% VAT), or skip the offer for a 30-day free trial.",
+   "price_from_gbp_month": 20,
    "price_from_gbp_year": null,
-   "price_source": null,
-   "price_checked": null,
+   "price_source": "https://www.sage.com/en-gb/sage-business-cloud/sage-accounting/",
+   "price_checked": "2026-11-23",
    "joint_property": "unknown",
    "joint_source": null,
    "affiliate_programme": {
-    "status": "unknown"
+    "status": "yes",
+    "note": "publisher affiliate via Impact.com. Not stated on Sage's official page. Official FAQ names Sage Business Cloud Accounting (SBCA) and Sage Intacct as commissionable; Accounting from Sage is Sage's SBCA product.",
+    "source": "https://www.sage.com/en-gb/support/affiliate-programme/"
    },
    "affiliate_url": "",
-   "vendor_checked": false,
+   "vendor_checked": true,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": 20,
+   "featured": true
   },
   {
    "name": "AccountsDesk",
@@ -962,7 +978,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "AccountsPortal",
@@ -1026,7 +1043,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Acctax (Online) Ltd",
@@ -1090,7 +1108,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Acorah Software Products Ltd (TaxCalc)",
@@ -1154,7 +1173,8 @@
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": true,
-   "sort_price": 9.33
+   "sort_price": 9.33,
+   "featured": false
   },
   {
    "name": "ActiveSoft-MTD",
@@ -1218,7 +1238,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Acxite",
@@ -1282,7 +1303,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Adminsoft Accounts",
@@ -1346,7 +1368,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Affordable MTD",
@@ -1410,7 +1433,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Ajaccts",
@@ -1474,7 +1498,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Aligned.tax MTD for Spreadsheets",
@@ -1538,7 +1563,8 @@
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": false,
-   "sort_price": 0
+   "sort_price": 0,
+   "featured": false
   },
   {
    "name": "Andica Accounting Software",
@@ -1602,7 +1628,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Andica MTD ITSA Software",
@@ -1666,7 +1693,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "ANNA Self Assessment",
@@ -1716,21 +1744,24 @@
    "software_type": "Web browser and Desktop application",
    "compatible_with": "Microsoft Windows, Mac OS, Linux",
    "language": "English",
-   "price_text": "unknown",
-   "price_note": null,
-   "price_from_gbp_month": null,
+   "price_text": "Free plan includes MTD filing",
+   "price_note": "ANNA's Free plan is £0/month ('pay for what you use') and lists 'MTD ITSA filing – free'. Optional Auto Accountant (prepares and files your MTD updates for you): first 4 months free, then £29/month. Paid business plans from £12.90 a month + VAT. Needs an ANNA account.",
+   "price_from_gbp_month": 0,
    "price_from_gbp_year": null,
-   "price_source": null,
-   "price_checked": null,
+   "price_source": "https://anna.money/pricing/",
+   "price_checked": "2026-11-23",
    "joint_property": "unknown",
    "joint_source": null,
    "affiliate_programme": {
-    "status": "unknown"
+    "status": "yes",
+    "note": "introducer / affiliate (cash commission; open to individuals) via In-house. Business account: £130 per sole trader, £175 per limited company (£200 after 20+ Ltd referrals in a calendar month). Auto Accountant: £100 Premium / £50 Self Assessment plan, paid after subscription (not during trial). Paid after AML checks and, where applicable, a £20 deposit. Official intro page and 12 June 2026 blog.",
+    "source": "https://anna.money/introducers/"
    },
    "affiliate_url": "",
-   "vendor_checked": false,
+   "vendor_checked": true,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": 0,
+   "featured": true
   },
   {
    "name": "ApariPro",
@@ -1794,7 +1825,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "ApariSolo",
@@ -1858,7 +1890,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "August",
@@ -1922,7 +1955,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Avona",
@@ -1986,7 +2020,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Aworka",
@@ -2050,7 +2085,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Bart",
@@ -2114,7 +2150,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Basetax – Making Tax Digital for Income Tax",
@@ -2178,7 +2215,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "BizHub365",
@@ -2242,7 +2280,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "bluQube Tax Connect",
@@ -2306,7 +2345,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Bookfolio",
@@ -2370,7 +2410,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Bosh",
@@ -2434,7 +2475,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Briefcase",
@@ -2498,7 +2540,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "CalCal easy calendar expense tracker",
@@ -2562,7 +2605,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Capium Limited — MTD for IT",
@@ -2626,7 +2670,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "CHM ITSA BRIDGE",
@@ -2690,7 +2735,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "CineLog",
@@ -2754,7 +2800,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "CIS Invoice",
@@ -2818,7 +2865,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Clear Books",
@@ -2884,7 +2932,8 @@
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": true,
-   "sort_price": 5
+   "sort_price": 5,
+   "featured": false
   },
   {
    "name": "Clear Books Free",
@@ -2948,7 +2997,8 @@
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": true,
-   "sort_price": 0
+   "sort_price": 0,
+   "featured": false
   },
   {
    "name": "Clients Assistant",
@@ -3012,7 +3062,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Coconut",
@@ -3078,7 +3129,8 @@
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": true,
-   "sort_price": 4.17
+   "sort_price": 4.17,
+   "featured": false
   },
   {
    "name": "Coconut Free",
@@ -3142,7 +3194,8 @@
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": true,
-   "sort_price": 0
+   "sort_price": 0,
+   "featured": false
   },
   {
    "name": "Cratebooks",
@@ -3206,7 +3259,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Crunch",
@@ -3270,7 +3324,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Cuppa",
@@ -3334,7 +3389,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Debbie",
@@ -3398,7 +3454,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Deductic MTD",
@@ -3462,7 +3519,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Distil",
@@ -3526,7 +3584,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "DIY Tax",
@@ -3590,7 +3649,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "DoneSE",
@@ -3654,7 +3714,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "DoneTax",
@@ -3718,7 +3779,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Duly Filed",
@@ -3782,7 +3844,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "EasyBooks",
@@ -3846,7 +3909,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "EasyInvoice",
@@ -3910,7 +3974,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "EasyTaxer.com",
@@ -3974,7 +4039,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Farmplan Business Manager",
@@ -4038,7 +4104,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "FileThat!",
@@ -4102,7 +4169,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Finaap MTD Income Tax",
@@ -4166,7 +4234,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Finantr",
@@ -4230,7 +4299,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Five Eyes Financial Intelligence",
@@ -4294,7 +4364,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "flonancial",
@@ -4358,7 +4429,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Forbes MTD",
@@ -4422,7 +4494,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "FreeAgent",
@@ -4488,7 +4561,8 @@
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": true,
-   "sort_price": 10
+   "sort_price": 10,
+   "featured": false
   },
   {
    "name": "FreeAgent for free with Mettle, NatWest & RBS",
@@ -4554,7 +4628,8 @@
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": true,
-   "sort_price": 0
+   "sort_price": 0,
+   "featured": false
   },
   {
    "name": "GetGround",
@@ -4618,7 +4693,8 @@
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": false,
-   "sort_price": 0
+   "sort_price": 0,
+   "featured": false
   },
   {
    "name": "#GoFile",
@@ -4682,7 +4758,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Graft",
@@ -4746,7 +4823,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Hammock for landlords",
@@ -4812,7 +4890,8 @@
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": true,
-   "sort_price": 8
+   "sort_price": 8,
+   "featured": false
   },
   {
    "name": "HyperTax",
@@ -4876,7 +4955,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "iFiler",
@@ -4940,7 +5020,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Invoice Guru",
@@ -5004,7 +5085,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "InvoiceFree.uk",
@@ -5068,7 +5150,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "IQ Books",
@@ -5132,7 +5215,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "IRIS Elements Cashbook",
@@ -5196,7 +5280,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "IRIS Kashflow",
@@ -5247,20 +5332,23 @@
    "compatible_with": "Microsoft Windows, Mac OS, Linux",
    "language": "English",
    "price_text": "Starter £13.50/month",
-   "price_note": "Intro offer at check: 90% off for 6 months (£1.35/month).",
+   "price_note": "Starter plan £13.50/month ('Ideal for sole traders, contractors and small businesses'). Offer at check (23 Nov 2026): 90% off for 6 months (£1.35/month). 14-day free trial. The page doesn't say whether VAT is added.",
    "price_from_gbp_month": 13.5,
    "price_from_gbp_year": null,
    "price_source": "https://www.kashflow.com/pricing/",
-   "price_checked": "2026-11-18",
+   "price_checked": "2026-11-23",
    "joint_property": "unknown",
    "joint_source": null,
    "affiliate_programme": {
-    "status": "unknown"
+    "status": "yes",
+    "note": "publisher affiliate via In-house. £2 per confirmed monthly paid subscription, recurring each month the user renews; £50 minimum payout; cheque or bank transfer. Cookie length not stated on the affiliate FAQ (a separate customer referrals help article mentions a 999-day cookie for referral links — that article is not the publisher programme page).",
+    "source": "https://www.kashflow.com/affiliates/"
    },
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": true,
-   "sort_price": 13.5
+   "sort_price": 13.5,
+   "featured": true
   },
   {
    "name": "Joy Pilot",
@@ -5324,7 +5412,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Keepr",
@@ -5388,7 +5477,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "KinderStart: Childminding App",
@@ -5452,7 +5542,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Kletta",
@@ -5516,7 +5607,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Landlord Studio",
@@ -5567,20 +5659,23 @@
    "compatible_with": "Microsoft Windows, Mac OS, Linux",
    "language": "English",
    "price_text": "Free up to 3 properties + £5 per MTD submission; Pro £12 + VAT/month",
-   "price_note": "MTD Go plan is free for up to 3 properties but charges £5 per MTD tax submission. Pro £12 + VAT/month includes MTD submissions.",
+   "price_note": "MTD Go plan is free for up to 3 properties but charges £5 per MTD tax submission. Pro £12 + VAT/month (£144 a year + VAT) includes free MTD submissions; 14-day free trial, no card needed.",
    "price_from_gbp_month": 0,
    "price_from_gbp_year": null,
    "price_source": "https://www.landlordstudio.com/uk/pricing",
-   "price_checked": "2026-11-18",
+   "price_checked": "2026-11-23",
    "joint_property": "unknown",
    "joint_source": null,
    "affiliate_programme": {
-    "status": "unknown"
+    "status": "yes",
+    "note": "publisher affiliate (Affiliate Referral Program) via FirstPromoter. One-time £40 GBP per qualifying UK customer (or $50 USD for US). Qualifying = new account via the link and a paid Pro or Pro Plus plan (annual not refunded after 30 days, or fourth monthly payment), within 12 months. 45-day cookie. PayPal; minimum £80 / $100. Open to individuals 18+. Terms updated 28 October 2026. Accountant Partner Programme is separate and for accountants only.",
+    "source": "https://www.landlordstudio.com/referral-terms"
    },
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": false,
-   "sort_price": 0
+   "sort_price": 0,
+   "featured": true
   },
   {
    "name": "Landlord Vision",
@@ -5630,21 +5725,24 @@
    "software_type": "Web browser",
    "compatible_with": "Microsoft Windows, Mac OS, Linux",
    "language": "English",
-   "price_text": "Starter from £7.99/month (intro)",
-   "price_note": "Starter plan (4 tenancies) shown at £7.99/month with '60% off for the 2 years', against £19.97. VAT basis not confirmed on the captured page.",
+   "price_text": "Starter from £7.99/month excl. VAT (intro)",
+   "price_note": "Starter plan (4 tenancies) £7.99/month with '60% off for the 2 years' and a 2-year price guarantee, against £19.97. Prices exclusive of VAT. Every plan includes full MTD functionality. 2-week free trial.",
    "price_from_gbp_month": 7.99,
    "price_from_gbp_year": null,
    "price_source": "https://www.landlordvision.co.uk/landlord-software-pricing.html",
-   "price_checked": "2026-11-18",
+   "price_checked": "2026-11-23",
    "joint_property": "unknown",
    "joint_source": null,
    "affiliate_programme": {
-    "status": "unknown"
+    "status": "yes",
+    "note": "publisher affiliate via FirstPromoter. 20% of each of the first 12 monthly qualifying payments, or 20% of the first annual payment only (no annual renewals). 1-year cookie. No minimum payout. Paid on the 30th to bank or PayPal. Free to join; manual approval. Terms updated 23 October 2026.",
+    "source": "https://www.landlordvision.co.uk/landlord-software-affiliate-programme.html"
    },
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": true,
-   "sort_price": 7.99
+   "sort_price": 7.99,
+   "featured": true
   },
   {
    "name": "LandlordFile",
@@ -5708,7 +5806,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "LandlordOS by Thrive Venture Labs",
@@ -5772,7 +5871,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Landmark Systems - KEYinfinity",
@@ -5836,7 +5936,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Landmark Systems - KEYPrime",
@@ -5900,7 +6001,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "LedgerlyPro",
@@ -5964,7 +6066,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Lendlord",
@@ -6028,7 +6131,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "LetCompliance",
@@ -6092,7 +6196,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "LetFile",
@@ -6156,7 +6261,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "LetSort",
@@ -6220,7 +6326,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "LimeBooks",
@@ -6284,7 +6391,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Lloyds Bank",
@@ -6348,7 +6456,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "MalgraBooks",
@@ -6412,7 +6521,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Maxim Money",
@@ -6476,7 +6586,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "MileClear by SOYO Studios",
@@ -6540,7 +6651,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Mint Books",
@@ -6604,7 +6716,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Monzo",
@@ -6668,7 +6781,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "MTD 4 Income Tax",
@@ -6732,7 +6846,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "MTD Companion for iPhone & iPad",
@@ -6796,7 +6911,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "MTD Companion for macOS",
@@ -6860,7 +6976,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "MTD Landlord Services",
@@ -6924,7 +7041,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "MTD Sheets",
@@ -6988,7 +7106,8 @@
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "MTDKit",
@@ -7052,7 +7171,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "MTDone",
@@ -7116,7 +7236,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "MTDsorted",
@@ -7180,7 +7301,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "My Business Finances, powered by Sage",
@@ -7244,7 +7366,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "My Job Goblin",
@@ -7308,7 +7431,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "My Tax Digital (Free)",
@@ -7372,7 +7496,8 @@
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": true,
-   "sort_price": 0
+   "sort_price": 0,
+   "featured": false
   },
   {
    "name": "My-Therapy-Suite",
@@ -7436,7 +7561,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "myFilerQ - Income Tax MTD",
@@ -7500,7 +7626,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "MyPetSitter",
@@ -7564,7 +7691,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "MYT",
@@ -7628,7 +7756,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Neevii",
@@ -7692,7 +7821,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Nexus by Landlord Studio",
@@ -7756,7 +7886,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "NJT Tax Return Manager",
@@ -7820,7 +7951,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Nomi",
@@ -7884,7 +8016,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Otis Tax",
@@ -7948,7 +8081,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "PA for Trades",
@@ -8012,7 +8146,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Pandle",
@@ -8076,7 +8211,8 @@
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": true,
-   "sort_price": 0
+   "sort_price": 0,
+   "featured": false
   },
   {
    "name": "PaTMa Property Manager",
@@ -8127,20 +8263,23 @@
    "compatible_with": "Microsoft Windows, Mac OS, Linux",
    "language": "English",
    "price_text": "Free for 1 unit; Pro £15/month",
-   "price_note": "Free plan covers 1 rental unit. Pro £15/month including VAT for 5 units (extra units £1.50/month). 14-day Pro trial.",
+   "price_note": "Free plan covers 1 rental unit. Pro £15/month for 5 units (extra units £1.50/unit/month). All prices include VAT. 14-day Pro trial, no card needed.",
    "price_from_gbp_month": 0,
    "price_from_gbp_year": null,
-   "price_source": "https://www.patma.co.uk/property-manager/solutions/mtd-making-tax-digital/",
-   "price_checked": "2026-11-18",
+   "price_source": "https://www.patma.co.uk/property-manager/pricing/",
+   "price_checked": "2026-11-23",
    "joint_property": "unknown",
    "joint_source": null,
    "affiliate_programme": {
-    "status": "unknown"
+    "status": "yes",
+    "note": "publisher affiliate via In-house. 25% of referred revenue for the first year (active paid subscriptions, excluding VAT); 90-day cookie. Referrals get £10/month off for the first three months. Commission notified one month after each quarter; affiliate invoices; paid within 10 days. Review in a couple of working days.",
+    "source": "https://www.patma.co.uk/affiliates/"
    },
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": false,
-   "sort_price": 0
+   "sort_price": 0,
+   "featured": true
   },
   {
    "name": "Powered Now",
@@ -8204,7 +8343,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Property Income eReturn",
@@ -8268,7 +8408,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Provestor for Landlords",
@@ -8332,7 +8473,8 @@
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": true,
-   "sort_price": 5.75
+   "sort_price": 5.75,
+   "featured": false
   },
   {
    "name": "PROXERA",
@@ -8396,7 +8538,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Quartax",
@@ -8460,7 +8603,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Quarterwise",
@@ -8524,7 +8668,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "QuickBooks (Intuit)",
@@ -8590,7 +8735,8 @@
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": true,
-   "sort_price": 10
+   "sort_price": 10,
+   "featured": true
   },
   {
    "name": "QuickFile Accounting Software",
@@ -8654,7 +8800,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Qyon Software Ltd",
@@ -8718,7 +8865,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "RentalBux",
@@ -8782,7 +8930,8 @@
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "RentalBux Free",
@@ -8846,7 +8995,8 @@
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": true,
-   "sort_price": 0
+   "sort_price": 0,
+   "featured": false
   },
   {
    "name": "RentFig",
@@ -8910,7 +9060,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Sage Sole Trader & Landlord",
@@ -8976,7 +9127,8 @@
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": true,
-   "sort_price": 7
+   "sort_price": 7,
+   "featured": true
   },
   {
    "name": "Sage Sole Trader & Landlord Free",
@@ -9042,7 +9194,8 @@
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": true,
-   "sort_price": 0
+   "sort_price": 0,
+   "featured": true
   },
   {
    "name": "Sage50",
@@ -9106,7 +9259,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Self Assessment Direct",
@@ -9170,7 +9324,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Simple File for Excel Users",
@@ -9234,7 +9389,8 @@
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": false,
-   "sort_price": 5
+   "sort_price": 5,
+   "featured": false
   },
   {
    "name": "Simple Tax Flow",
@@ -9298,7 +9454,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "SimplifyMTD",
@@ -9362,7 +9519,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "SliQ Invoicing",
@@ -9426,7 +9584,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "SmartPropertyManager.com",
@@ -9490,7 +9649,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Solar Accounts Online",
@@ -9554,7 +9714,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "SoleTax",
@@ -9618,7 +9779,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Starling",
@@ -9682,7 +9844,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "StrideBooks",
@@ -9746,7 +9909,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "suiteSheets",
@@ -9810,7 +9974,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "SumUp Accounting",
@@ -9874,7 +10039,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Tax Mouse",
@@ -9938,7 +10104,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "TaxBridge by Filr",
@@ -10002,7 +10169,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "TaxBridge UK MTD by Amelia GB",
@@ -10066,7 +10234,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "@Taxd MTD",
@@ -10130,7 +10299,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "TaxDash",
@@ -10194,7 +10364,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "TaxHeaven",
@@ -10258,7 +10429,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "TaxNav",
@@ -10322,7 +10494,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "TaxPig",
@@ -10386,7 +10559,8 @@
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": false,
-   "sort_price": 0
+   "sort_price": 0,
+   "featured": false
   },
   {
    "name": "Taxtool for Income Tax",
@@ -10450,7 +10624,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "TaxUpdates",
@@ -10514,7 +10689,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Taxzap",
@@ -10578,7 +10754,8 @@
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": false,
-   "sort_price": 9
+   "sort_price": 9,
+   "featured": false
   },
   {
    "name": "TELUS Farm Accounting",
@@ -10642,7 +10819,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Tide Accounting",
@@ -10692,21 +10870,24 @@
    "software_type": "Web browser and Desktop application",
    "compatible_with": "Microsoft Windows, Mac OS, Linux",
    "language": "English",
-   "price_text": "unknown",
-   "price_note": null,
-   "price_from_gbp_month": null,
+   "price_text": "Free for sole traders",
+   "price_note": "Tide's MTD for Income Tax features are built into its free business account ('Everything you need to stay MTD-compliant, completely free'), including automated quarterly submissions; you can connect another bank via Open Banking. Accounting add-on plans: £0.00/month for sole traders, then £5.99 + VAT/month and up. One-month free trial of Admin Extra.",
+   "price_from_gbp_month": 0,
    "price_from_gbp_year": null,
-   "price_source": null,
-   "price_checked": null,
+   "price_source": "https://www.tide.co/making-tax-digital/",
+   "price_checked": "2026-11-23",
    "joint_property": "unknown",
    "joint_source": null,
    "affiliate_programme": {
-    "status": "unknown"
+    "status": "yes",
+    "note": "publisher affiliate via Impact.com (Impact Radius). £50 CPA for each new Tide member successfully onboarded. Cookie length not stated on the public page. Application is free; comparison sites are invited. Sign-up is described as a form in the Tide app/web app after visiting the programme page.",
+    "source": "https://www.tide.co/affiliate-programme/"
    },
    "affiliate_url": "",
-   "vendor_checked": false,
+   "vendor_checked": true,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": 0,
+   "featured": true
   },
   {
    "name": "Tofflo",
@@ -10770,7 +10951,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "TradeKit",
@@ -10834,7 +11016,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "TradeKit Free",
@@ -10898,7 +11081,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "\"untied\"",
@@ -10962,7 +11146,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "VANTIX",
@@ -11026,7 +11211,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Varro",
@@ -11090,7 +11276,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "VitalTax",
@@ -11154,7 +11341,8 @@
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": true,
-   "sort_price": 2.5
+   "sort_price": 2.5,
+   "featured": false
   },
   {
    "name": "VoxaMTD",
@@ -11218,7 +11406,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "VT Software",
@@ -11282,7 +11471,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": false,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "WaterLily MTD Bridge",
@@ -11346,7 +11536,8 @@
    "affiliate_url": "",
    "vendor_checked": false,
    "tax_return": true,
-   "sort_price": null
+   "sort_price": null,
+   "featured": false
   },
   {
    "name": "Xero",
@@ -11412,7 +11603,8 @@
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": true,
-   "sort_price": 18
+   "sort_price": 18,
+   "featured": true
   },
   {
    "name": "Zoho",
@@ -11478,7 +11670,8 @@
    "affiliate_url": "",
    "vendor_checked": true,
    "tax_return": true,
-   "sort_price": 0
+   "sort_price": 0,
+   "featured": true
   }
  ]
 }

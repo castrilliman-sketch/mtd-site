@@ -1,6 +1,6 @@
 (function(){
  var t=document.getElementById('dir');if(!t)return;
- var rows=[].slice.call(t.tBodies[0].rows),q=document.getElementById('q'),cnt=document.getElementById('count');
+ var rows=[].slice.call(t.querySelectorAll('tbody tr[data-name]')),grps=[].slice.call(t.querySelectorAll('tr.grp')),q=document.getElementById('q'),cnt=document.getElementById('count');
  var boxes=[].slice.call(document.querySelectorAll('[data-f]')),aud=document.getElementById('aud');
  function apply(){
   var s=(q.value||'').toLowerCase().trim(),n=0;
@@ -11,6 +11,7 @@
    if(ok&&aud&&aud.value&&r.getAttribute('data-aud').indexOf(aud.value)<0)ok=false;
    r.hidden=!ok;if(ok)n++;
   });
+  grps.forEach(function(g){var k=g.getAttribute('data-grp');g.hidden=!rows.some(function(r){return !r.hidden&&r.getAttribute('data-group')===k})});
   cnt.textContent=n+' of '+rows.length+' HMRC-recognised products shown';
   var p=new URLSearchParams();if(s)p.set('q',s);on.forEach(function(f){p.append('f',f)});if(aud&&aud.value)p.set('aud',aud.value);if(pcf&&!pcf.checked)p.set('pcf','0');
   history.replaceState(null,'',p.toString()?'?'+p+'#directory':location.pathname);
@@ -25,7 +26,7 @@
   if(r===0&&sk!=='name')r=a.getAttribute('data-s-name').localeCompare(b.getAttribute('data-s-name'));
   return r;
  }
- function resort(){rows.sort(cmp);rows.forEach(function(r){t.tBodies[0].appendChild(r)})}
+ function resort(){rows.sort(cmp);rows.forEach(function(r){t.querySelector('tbody.g-'+r.getAttribute('data-group')).appendChild(r)})}
  [].slice.call(t.tHead.querySelectorAll('th[data-k]')).forEach(function(th){
   th.querySelector('button').addEventListener('click',function(){
    var k=th.getAttribute('data-k');sd=(sk===k&&th.getAttribute('aria-sort')==='ascending')?-1:1;sk=k;
