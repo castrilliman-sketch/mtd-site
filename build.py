@@ -1202,6 +1202,105 @@ def privacy_body():
 """ + email_privacy() + f"""<h2>Other websites</h2><p>When you click through to a software provider, their own privacy policy applies. If a link is an affiliate link, the provider may use its own cookies to record that you came from us. See our <a href="/affiliate-disclosure/">affiliate disclosure</a>.</p>
 <h2>Your rights and contact</h2><p>You can ask us for a copy of your data, or to correct or delete it, and you can complain to the <a href="https://ico.org.uk/make-a-complaint/" rel="noopener">Information Commissioner's Office</a>.</p>""" + op
 
+# Named crawlers get their own group (robots.txt uses the most specific matching
+# User-agent and ignores * in that case), so Allow/Disallow are repeated. /kit/
+# stays disallowed for everyone, including AI crawlers.
+AI_CRAWLERS = [
+    'OAI-SearchBot', 'ChatGPT-User', 'GPTBot',
+    'ClaudeBot', 'Claude-SearchBot', 'Claude-User',
+    'PerplexityBot', 'Perplexity-User',
+]
+SEARCH_CRAWLERS = ['Googlebot', 'Bingbot']
+
+def robots_txt():
+    rules = 'Allow: /\nDisallow: /kit/\n'
+    named = '\n'.join(f'User-agent: {ua}' for ua in AI_CRAWLERS + SEARCH_CRAWLERS)
+    return (
+        '# AI search and assistant crawlers, plus Googlebot and Bingbot, are welcome.\n'
+        '# The same rules apply to everyone: the site is open, except the kit files under /kit/.\n\n'
+        f'{named}\n{rules}\n'
+        f'User-agent: *\n{rules}\n'
+        f'Sitemap: {BASE}/sitemap.xml\n'
+    )
+
+def llms_submits_phrase(submits):
+    parts = [x.strip() for x in (submits or '').split(',') if x.strip() and x.strip().lower() != 'unknown']
+    if not parts:
+        return None
+    mapped = []
+    for x in parts:
+        xl = x.lower()
+        mapped.append('the tax return' if xl == 'tax return' else xl)
+    if len(mapped) == 1:
+        return f'Submits {mapped[0]}.'
+    return 'Submits ' + ', '.join(mapped[:-1]) + ' and ' + mapped[-1] + '.'
+
+def llms_product_note(p):
+    inc = incomes(p)
+    lead = 'HMRC-recognised Making Tax Digital for Income Tax software'
+    if inc:
+        joined = inc[0] if len(inc) == 1 else ', '.join(inc[:-1]) + ' and ' + inc[-1]
+        lead += ' for ' + joined
+    bits = [lead + '.']
+    if p.get('price_text') and p['price_text'] != 'unknown':
+        bits.append(p['price_text'] + '.')
+    typ = []
+    if p['creates_records'] == 'yes':
+        typ.append('creates digital records')
+    if p['bridging'] == 'yes':
+        typ.append('can be used as bridging software')
+    if typ:
+        bits.append(typ[0].capitalize() + (' and ' + typ[1] if len(typ) > 1 else '') + '.')
+    sub = llms_submits_phrase(p.get('submits'))
+    if sub:
+        bits.append(sub)
+    return ' '.join(bits)
+
+def llms_txt():
+    """Curated /llms.txt (llmstxt.org): key pages plus featured, indexable product pages."""
+    def item(title, path, note):
+        return f'- [{title}]({BASE}{path}): {note}'
+    lines = [
+        f'# {NAME}',
+        '',
+        f'> {SITE["tagline"]} for UK landlords and sole traders.',
+        '',
+        f'The site is run by {OPERATOR} in London. It is written for UK landlords and sole traders facing Making Tax Digital for Income Tax from 6 April 2026 (qualifying income over £50,000 in the 2024 to 2025 tax year), 6 April 2027 (over £30,000 in 2025 to 2026), or 6 April 2028 (over £20,000 in 2026 to 2027).',
+        '',
+        "It is a plain-English, independent comparison of software HMRC recognises for Making Tax Digital for Income Tax, built from HMRC's own list and the providers' own websites. Prices are checked on each provider's own pricing page. Some links may earn a commission. Featured products are ones whose providers run an affiliate programme, and they are shown first: that placement is commercial, not a purely editorial ranking. A commission never decides whether a product is listed or what facts are shown.",
+        '',
+        'This site gives general information only. It is not tax, legal or financial advice.',
+        '',
+        f'Contact: {CONTACT_EMAIL}' if CONTACT_EMAIL else 'Contact: see the About page.',
+        '',
+        '## Key pages',
+        '',
+        item('Home', '/', f'Compare all {len(products)} HMRC-recognised Making Tax Digital for Income Tax products. Pick who you are and what you need to see matching software. Prices checked at source.'),
+        item('Do I need Making Tax Digital, and when?', '/do-i-need-mtd/', 'Who needs MTD for Income Tax, the thresholds, quarterly deadlines and exemptions, all sourced from GOV.UK.'),
+        item('Making Tax Digital guides', '/guides/', "Plain-English guides to Making Tax Digital for Income Tax for landlords and sole traders, checked against GOV.UK and providers' own websites."),
+    ]
+    for g in GUIDES:
+        lines.append(item(g['title'], g['path'], g['description']))
+    lines += [
+        item('Free MTD Ready Kit', '/free-mtd-kit/', 'Free Making Tax Digital for Income Tax kit: every deadline for 2026 to 2028, a getting-ready checklist, a calendar file and email reminders 7 days before each HMRC deadline. Sourced from GOV.UK.'),
+        item('How we check', '/methodology/', 'Where the software data comes from, how prices are checked, what "unknown" means, and how the featured section is ordered.'),
+        item('About Daniel Wyatt', '/about/', f'Who runs {NAME} and why. {OPERATOR} on 20 years in London finance and a plain-English comparison of Making Tax Digital software.'),
+        item('Affiliate disclosure', '/affiliate-disclosure/', 'How this site makes money and how affiliate links are marked.'),
+        item('Privacy', '/privacy/', 'Privacy information for this site.'),
+        '',
+        '## Featured MTD software',
+        '',
+        f'These {len(FEATURED)} products are shown first on the homepage because their providers run an affiliate programme. Facts below are from HMRC and each provider\'s own website, checked the same way as every other product. Only indexable product pages are listed here.',
+        '',
+    ]
+    featured_listed = [p for p in FEATURED if p['slug'] in INDEXABLE]
+    for p in featured_listed:
+        lines.append(item(p['name'], f"/software/{p['slug']}/", llms_product_note(p)))
+    if not featured_listed:
+        lines.append('No featured product pages are currently released for indexing.')
+    lines.append('')
+    return '\n'.join(lines) + '\n'
+
 def seo_files():
     urls = [('/', CHECKED), ('/do-i-need-mtd/', CHECKED), ('/free-mtd-kit/', CHECKED), ('/methodology/', CHECKED),
             ('/about/', CHECKED), ('/founders-blog/', CHECKED), ('/affiliate-disclosure/', CHECKED), ('/privacy/', CHECKED)]
@@ -1210,7 +1309,8 @@ def seo_files():
     urls += [(f"/software/{p['slug']}/", p['price_checked'] or CHECKED) for p in products if p['slug'] in INDEXABLE]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'<url><loc>{BASE}{u}</loc><lastmod>{lm}</lastmod></url>\n' for u, lm in urls) + '</urlset>\n'
     write('/sitemap.xml', sm)
-    write('/robots.txt', f'User-agent: *\nAllow: /\nDisallow: /kit/\n\nSitemap: {BASE}/sitemap.xml\n')
+    write('/robots.txt', robots_txt())
+    write('/llms.txt', llms_txt())
     write('/CNAME', 'mtdsoftwarecompare.co.uk\n')
 
 if __name__ == '__main__':
