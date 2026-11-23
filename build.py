@@ -96,7 +96,7 @@ for r in HM['products']:
         'language': r['specs'].get('Language', 'unknown'),
         'price_text': v.get('price_text', 'unknown'), 'price_note': v.get('price_note'),
         'price_from_gbp_month': v.get('price_from_gbp_month'), 'price_from_gbp_year': v.get('price_from_gbp_year'),
-        'price_source': v.get('price_source'), 'price_checked': CHECKED if v else None,
+        'price_source': v.get('price_source'), 'price_checked': (v.get('price_checked') or CHECKED) if v else None,
         'joint_property': v.get('joint', 'unknown'), 'joint_source': v.get('joint_source'),
         'affiliate_programme': v.get('affiliate', {'status': 'unknown'}),
         'affiliate_url': AFF.get(slug, ''),
@@ -148,7 +148,8 @@ def product_card(p, kind='visit'):
         f'<p class="pcard-price">{card_price(p)}</p>'
         f'<p class="pcard-tags">{tag_html}</p>'
         f'<div class="pcard-cta">{outbound_cta(p, kind=kind, cls="btn", page="home")}'
-        f'<a class="pcard-more" href="/software/{E(p["slug"])}/">Details</a></div>'
+        f'<a class="pcard-more" href="/software/{E(p["slug"])}/">Details<span class="sr"> about {E(p["name"])}</span></a></div>'
+        + ('<p class="disclose aff-note">Affiliate link. <a href="/affiliate-disclosure/">Disclosure</a></p>' if link_for(p)[2] else '') +
         f'</article>'
     )
 
@@ -188,10 +189,17 @@ def types(p):
     if p['bridging'] == 'yes': t.append('Bridging')
     return t
 
+def dash(label):
+    """Subtle dash for an empty table cell, with an accessible label and hover title."""
+    return f'<span class="u dash" title="{E(label)}"><span aria-hidden="true">–</span><span class="sr">{E(label)}</span></span>'
+
 def price_html(p):
     if p['price_text'] == 'unknown':
         return '<span class="u">Not yet checked</span>'
     return E(p['price_text'])
+
+def cell_yn(v, label='Not yet checked'):
+    return dash(label) if v == 'unknown' else yn(v)
 
 def analytics_tag():
     """Nothing at all is added unless config/analytics.json has provider + site_id."""
@@ -265,7 +273,22 @@ CONSENT = ("We'll email you the kit, a reminder before each MTD deadline and occ
            "Some tips may mention software we earn a commission from; we always say so. Unsubscribe in one click, any time. "
            "We never sell or share your details.")
 
+def mailto_kit(uid, variant):
+    """Shown while no email provider is configured: an honest email-us link instead of a form that can't send."""
+    from urllib.parse import quote
+    if not CONTACT_EMAIL:
+        return '<p class="signup-soon"><strong>Sign-ups aren\'t open yet.</strong> Check back soon.</p>'
+    subj = quote('Please send me the Free MTD Ready Kit')
+    body = quote('Hi,\n\nPlease email me the Free MTD Ready Kit.\n\nI am a (landlord / sole trader / both / accountant): \n\nThanks')
+    return f'''<div class="signup-mailto {variant}" aria-labelledby="{uid}-h">
+<p class="signup-soon"><strong>Our automatic sign-up isn't switched on yet.</strong> Until it is, email us and we'll send you the kit by reply. Automatic deadline reminders will start when sign-up opens.</p>
+<p><a class="btn big" href="mailto:{E(CONTACT_EMAIL)}?subject={subj}&amp;body={body}">Email us for the free kit</a></p>
+<p class="consent">This opens your own email app with a message to {E(CONTACT_EMAIL)}. We'll use your email address only to reply with the kit; we won't add you to a mailing list. <a href="/privacy/#email">Privacy</a>.</p>
+</div>'''
+
 def signup_form(uid, variant):
+    if not EMAIL_ON:
+        return mailto_kit(uid, variant)
     f = EMAIL.get('fields', {}); rv = EMAIL.get('role_values', {})
     live = EMAIL_ON
     dis = '' if live else ' disabled'
@@ -369,12 +392,22 @@ def kit_pages():
 <p>Can't see it after a couple of minutes? Check your spam or promotions folder, or <a href="/free-mtd-kit/">try again</a> in case of a typo.</p></div>'''
     out += foot(); write('/free-mtd-kit/check-your-inbox/', out)
 
+def software_ld_item(p):
+    """SoftwareApplication for the homepage ItemList. Offers only when a price is verified in vendor-verified.json."""
+    it = {'@type': 'SoftwareApplication', 'name': p['name'], 'url': f'{BASE}/software/{p["slug"]}/',
+          'applicationCategory': 'FinanceApplication', 'operatingSystem': 'Web' if 'Web browser' in p['software_type'] else (p['compatible_with'] if p['compatible_with'] != 'unknown' else 'Web')}
+    price = p['price_from_gbp_month'] if p['price_from_gbp_month'] is not None else p['price_from_gbp_year']
+    if price is not None and p.get('price_source'):
+        it['offers'] = {'@type': 'Offer', 'price': f'{price:.2f}', 'priceCurrency': 'GBP', 'url': p['price_source'], 'description': p['price_text']}
+    return it
+
 # ---------- homepage ----------
 def home():
     n = len(products)
     free_checked = [p for p in CHECKEDP if p['sort_price'] == 0 or p['free_version'] == 'yes']
     rows = []
-    for p in products:
+    # Default order: price-checked products first, A-Z within each group (matches directory.js default).
+    for p in sorted(products, key=lambda p: (not p['vendor_checked'], p['name'].lower().strip('"#@'))):
         href, rel, aff = link_for(p)
         inc = incomes(p)
         aud = ('i' if p['individual'] == 'yes' else '') + ('a' if p['agent'] == 'yes' else '')
@@ -389,11 +422,11 @@ def home():
         }
         attrs = ' '.join(f'data-{k}="{v}"' for k, v in data.items())
         rows.append(f'''<tr {attrs}><td class="name" data-label="Software"><a href="/software/{p['slug']}/">{E(p['name'])}</a>{' <span class="tag v" title="Price checked on the provider site">price-checked</span>' if p['vendor_checked'] else ''}</td>
-<td data-label="Price (from)">{price_html(p)}</td><td data-label="Free version">{yn(p['free_version'])}</td>
-<td data-label="Type">{' '.join(f'<span class="tag">{t}</span>' for t in types(p)) or '<span class="u">Unknown</span>'}</td>
-<td data-label="Income sources">{', '.join(inc) or '<span class="u">Unknown</span>'}</td>
+<td data-label="Price (from)">{E(p['price_text']) if p['price_text'] != 'unknown' else dash('Price not yet checked')}</td><td data-label="Free version">{cell_yn(p['free_version'], 'Not listed by HMRC')}</td>
+<td data-label="Type">{' '.join(f'<span class="tag">{t}</span>' for t in types(p)) or dash('Not listed by HMRC')}</td>
+<td data-label="Income sources">{', '.join(inc) or dash('Not listed by HMRC')}</td>
 <td data-label="Submits">{'Updates + tax return' if p['tax_return'] else 'Quarterly updates only'}</td>
-<td data-label="CIS on tax return">{yn(p['cis'])}</td><td data-label="Joint property">{yn(p['joint_property'])}</td></tr>''')
+<td data-label="CIS on tax return">{cell_yn(p['cis'], 'Not listed by HMRC')}</td><td data-label="Joint property">{cell_yn(p['joint_property'], 'Joint property not yet checked')}</td></tr>''')
     free_list = ''.join(f'<li><a href="/software/{p["slug"]}/">{E(p["name"])}</a>: {E(p["price_text"])}{" – " + E(p["price_note"]) if p.get("price_note") else ""}</li>' for p in free_checked)
     qas = [
         ("Does HMRC provide free software for Making Tax Digital?", "HMRC's guidance says you, or an agent, will need to use commercial software that works with Making Tax Digital for Income Tax. It also says free products are available for people with simple tax affairs, but they may have limits, such as a set number of transactions. <a href=\"https://www.gov.uk/guidance/choose-the-right-software-for-making-tax-digital-for-income-tax\">Source: GOV.UK</a>"),
@@ -404,7 +437,8 @@ def home():
         ("Why does a product say 'Quarterly updates only'?", "HMRC lists some products as able to send quarterly updates but not to submit your tax return. If you pick one of those, you'll need another product, or an agent, for the tax return after the year ends."),
     ]
     il = {'@context': 'https://schema.org', '@type': 'ItemList', 'name': 'HMRC-recognised MTD for Income Tax software we have price-checked',
-          'numberOfItems': len(CHECKEDP), 'itemListElement': [{'@type': 'ListItem', 'position': i + 1, 'url': f'{BASE}/software/{p["slug"]}/', 'name': p['name']} for i, p in enumerate(CHECKEDP)]}
+          'itemListOrder': 'https://schema.org/ItemListOrderAscending',
+          'numberOfItems': len(CHECKEDP), 'itemListElement': [{'@type': 'ListItem', 'position': i + 1, 'item': software_ld_item(p)} for i, p in enumerate(CHECKEDP)]}
     web = {'@context': 'https://schema.org', '@type': 'WebSite', 'name': NAME, 'url': BASE + '/', 'inLanguage': 'en-GB'}
     any_aff = any(link_for(p)[2] for p in products)
     popular = [BY[s] for s in POPULAR_SLUGS if s in BY]
@@ -414,10 +448,10 @@ def home():
                "/", [web, il, faq_ld(qas)])
     out += f'''<section class="hero funnel"><div class="wrap">
 <h1>Find your Making Tax Digital software in 30 seconds</h1>
-<p class="sub">{n} HMRC-recognised products. See matches for what you pick. <a href="/do-i-need-mtd/">Do I need MTD?</a></p>
+<p class="sub">{n} HMRC-recognised products. Answer three quick questions to see the ones that match you.</p>
+<p class="hero-cta"><a class="btn big" href="#finder">Find my software</a> <a class="hero-link" href="/do-i-need-mtd/">Do I need MTD?</a></p>
 <h2 class="picks-h">Popular picks</h2>
 <div class="pcards row" id="popular">{popular_html}</div>
-{aff_row_note()}
 <form class="finder" id="finder" action="/#directory" method="get">
 <p class="finder-label">Find matches</p>
 <ol class="flow">
@@ -452,11 +486,10 @@ def home():
 <h2 class="matches-h">Matches what you picked</h2>
 <p class="matches-note"></p>
 <div class="pcards"></div>
-{aff_row_note()}
 <p class="matches-more"><a href="#directory">Compare all {n} products</a></p>
 </div>
 <script type="application/json" id="finder-data">{finder_payload()}</script>
-<p class="date-strip"><strong>MTD start dates:</strong> <span>6 Apr 2026 · over £50,000</span> <span>6 Apr 2027 · over £30,000</span> <span>6 Apr 2028 · over £20,000</span> <a href="/do-i-need-mtd/">Learn more</a></p>
+<p class="date-strip"><strong>MTD start dates:</strong> <span>6 Apr 2026 · over £50,000</span> <span>6 Apr 2027 · over £30,000</span> <span>6 Apr 2028 · over £20,000</span> <a href="/do-i-need-mtd/">See the start dates explained</a></p>
 </div></section>
 <div class="wrap">
 <section id="directory"><h2>Compare all HMRC-recognised MTD software</h2>
@@ -472,15 +505,17 @@ def home():
 <label><input type="checkbox" data-f="tax_return"> Files tax return too</label>
 <label><input type="checkbox" data-f="joint"> Joint property (confirmed)</label>
 <label><input type="checkbox" data-f="calendar"> Calendar update periods</label>
-<label><input type="checkbox" data-f="checked"> Price-checked</label>
+<label><input type="checkbox" data-f="checked"> Price-checked only</label>
+<label class="pcf"><input type="checkbox" id="pcf" checked> Show price-checked first</label>
 <select id="aud" aria-label="Who will use it"><option value="">For anyone</option><option value="i">For individuals</option><option value="a">For agents/accountants</option></select>
 </form>
-<p class="count" id="count" aria-live="polite">{n} HMRC-recognised products</p>
+<p class="count" id="count" aria-live="polite">{n} HMRC-recognised products. Price-checked products are listed first, then A to Z.</p>
+<p class="legend"><span class="u" aria-hidden="true">–</span> means we haven't checked it yet, or HMRC doesn't list it. Hover or tap a dash for details.</p>
 <div class="tablewrap"><table class="dir" id="dir"><thead><tr>
-<th data-k="name" aria-sort="ascending"><button>Software</button></th><th data-k="price"><button>Price (from)</button></th><th data-k="free"><button>Free version</button></th>
+<th data-k="name"><button>Software</button></th><th data-k="price"><button>Price (from)</button></th><th data-k="free"><button>Free version</button></th>
 <th>Type</th><th>Income sources</th><th>Submits</th><th data-k="cis"><button>CIS on tax return</button></th><th data-k="joint"><button>Joint property</button></th>
 </tr></thead><tbody>{''.join(rows)}</tbody></table></div>
-<p class="disclose">Free version, type, income sources, what it submits and CIS come from <a href="{FINDER}">HMRC's software finder</a> (read {nice_date(HMRC_DATE)}). "CIS on tax return" means HMRC lists the product as ready to report Construction Industry Scheme deductions on your tax return. Prices and joint-property support come from each provider's own website (checked {nice_date(CHECKED)}); "Unknown" means we haven't confirmed it yet. <a href="/methodology/">How we check</a>.</p>
+<p class="disclose">Free version, type, income sources, what it submits and CIS come from <a href="{FINDER}">HMRC's software finder</a> (read {nice_date(HMRC_DATE)}). "CIS on tax return" means HMRC lists the product as ready to report Construction Industry Scheme deductions on your tax return. Prices and joint-property support come from each provider's own website (checked {nice_date(CHECKED)}, or the later date shown on a product's page). <a href="/methodology/">How we check</a>.</p>
 </section>
 <details><summary>Free options we have price-checked</summary>
 <p>These are free, or have a free plan, according to the provider's own website. Free plans usually have limits, so read the note before you choose.</p>
@@ -512,7 +547,7 @@ def product_page(p):
     if p['agent'] == 'yes' and p['individual'] != 'yes': suits.append('HMRC lists it as agent software, aimed at accountants and bookkeepers rather than individuals.')
     if p['cis'] == 'yes': suits.append('It is ready to report Construction Industry Scheme (CIS) deductions on your tax return.')
     title = f"{p['name']} for Making Tax Digital: price, free version and features | {NAME}"
-    desc = f"Is {p['name']} HMRC-recognised for MTD for Income Tax? Yes. See price{', checked ' + nice_date(CHECKED) if p['vendor_checked'] else ''}, free version, bridging, landlord, CIS and joint property support in plain English."
+    desc = f"Is {p['name']} HMRC-recognised for MTD for Income Tax? Yes. See price{', checked ' + nice_date(p['price_checked']) if p['vendor_checked'] else ''}, free version, bridging, landlord, CIS and joint property support in plain English."
     app = {'@context': 'https://schema.org', '@type': 'SoftwareApplication', 'name': p['name'], 'applicationCategory': 'FinanceApplication',
            'operatingSystem': p['compatible_with'] if p['compatible_with'] != 'unknown' else None, 'url': p['website'],
            'description': re.sub('<[^>]+>', '', summary)}
@@ -530,12 +565,12 @@ def product_page(p):
     cta = outbound_cta(p, kind='product', page='product', label=f"Visit {p['name']}")
     cta_note = '<span class="disclose">Affiliate link: we may earn a commission if you sign up. <a href="/affiliate-disclosure/">Disclosure</a>.</span>' if aff else '<span class="disclose">Official website, as listed by HMRC. <a href="/affiliate-disclosure/">How we make money</a>.</span>'
     price_block = (f'<p><strong>{E(p["price_text"])}</strong></p>' + (f'<p>{E(p["price_note"])}</p>' if p.get('price_note') else '') +
-                   f'<p class="disclose">Checked {nice_date(CHECKED)} on <a href="{E(p["price_source"])}" rel="noopener" target="_blank">the provider\'s pricing page</a>. Prices and offers change, so confirm before you buy.</p>') if p['price_text'] != 'unknown' or p.get('price_note') else \
+                   f'<p class="disclose">Checked {nice_date(p["price_checked"])} on <a href="{E(p["price_source"])}" rel="noopener" target="_blank">the provider\'s pricing page</a>. Prices and offers change, so confirm before you buy.</p>') if p['price_text'] != 'unknown' or p.get('price_note') else \
         f'<p>We haven\'t checked this price yet. HMRC says: <strong>{"free version available" if p["free_version"] == "yes" else "paid version"}</strong>. See the provider\'s website for current pricing.</p>'
     joint = yn(p['joint_property']) + (f' <a class="disclose" href="{E(p["joint_source"])}" rel="noopener" target="_blank">(source)</a>' if p.get('joint_source') else '')
     alts = [a for a in CHECKEDP if a['slug'] != p['slug'] and set(incomes(a)) & set(inc)]
     alts.sort(key=lambda a: (a['sort_price'] if a['sort_price'] is not None else 999, a['name']))
-    alt_html = ''.join(f'<li><a href="/software/{a["slug"]}/">{E(a["name"])}</a>: {E(a["price_text"])}</li>' for a in alts[:5])
+    alt_html = ''.join(f'<li><a href="/software/{a["slug"]}/">{E(a["name"])}</a>: {card_price(a)}</li>' for a in alts[:5])
     tr_rows = ''.join(f'<tr><td>{E(k)}</td><td>{yn(v)}</td></tr>' for k, v in tr.items())
     acc = ', '.join(k for k, v in p['accessibility'].items() if v == 'yes') or 'None listed'
     short = f"{E(p['name'])} is HMRC-recognised for Making Tax Digital for Income Tax."
@@ -1063,8 +1098,9 @@ def other_pages():
 
 def email_privacy():
     if not EMAIL_ON:
-        return ('<h2 id="email">Email sign-up</h2><p>Our Free MTD Ready Kit sign-up isn\'t switched on yet, so we don\'t collect any names or email addresses. '
-                'Before it opens, this section will explain exactly what we collect and why.</p>')
+        return ('<h2 id="email">Email sign-up</h2><p>Our automatic Free MTD Ready Kit sign-up isn\'t switched on yet, so we don\'t run a mailing list and the site doesn\'t collect any names or email addresses. '
+                'If you email us to ask for the kit, we use your email address and anything you write only to reply to you. We don\'t add you to a list. '
+                'Before automatic sign-up opens, this section will explain exactly what we collect and why.</p>')
     prov = {'brevo': ('Brevo (Sendinblue SAS, France)', 'https://www.brevo.com/legal/privacypolicy/', 'Brevo stores the list on servers in the European Union.'),
             'mailerlite': ('MailerLite', 'https://www.mailerlite.com/legal/privacy-policy', ''),
             'kit': ('Kit (ConvertKit LLC, USA)', 'https://kit.com/privacy', '')}.get(EMAIL['provider'], (EMAIL['provider'], '', ''))
@@ -1114,7 +1150,7 @@ def seo_files():
             ('/about/', CHECKED), ('/founders-blog/', CHECKED), ('/affiliate-disclosure/', CHECKED), ('/privacy/', CHECKED)]
     urls += [(p['path'], p['date']) for p in POSTS]
     urls += [('/guides/', max([g['checked'] for g in GUIDES] + [CHECKED]))] + [(g['path'], g['checked']) for g in GUIDES]
-    urls += [(f"/software/{p['slug']}/", CHECKED) for p in CHECKEDP]
+    urls += [(f"/software/{p['slug']}/", p['price_checked'] or CHECKED) for p in CHECKEDP]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'<url><loc>{BASE}{u}</loc><lastmod>{lm}</lastmod></url>\n' for u, lm in urls) + '</urlset>\n'
     write('/sitemap.xml', sm)
     write('/robots.txt', f'User-agent: *\nAllow: /\nDisallow: /kit/\n\nSitemap: {BASE}/sitemap.xml\n')
@@ -1138,6 +1174,6 @@ if __name__ == '__main__':
     home(); guide(); other_pages(); blog_pages(); guide_pages(); kit_pages(); seo_files()
     for p in products: product_page(p)
     missing = [k for k in VV['products'] if k not in {p['name'] for p in products}]
-    print('Email sign-up:', f"{EMAIL['provider']} ({EMAIL['form_action']})" if EMAIL_ON else 'OPENING SOON state (config/email.json has no provider/form_action)')
+    print('Email sign-up:', f"{EMAIL['provider']} ({EMAIL['form_action']})" if EMAIL_ON else 'OFF: mailto fallback to the contact email (config/email.json has no provider/form_action)')
     print('Analytics:', f"{ANALYTICS['provider']} ({ANALYTICS['site_id']})" if ANALYTICS_ON else 'OFF (config/analytics.json has no provider/site_id)')
     print(f'Built {len(products)} product pages ({len(CHECKEDP)} vendor-checked, indexable). Unmatched vendor keys: {missing}')

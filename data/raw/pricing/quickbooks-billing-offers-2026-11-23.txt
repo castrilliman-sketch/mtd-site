@@ -1,0 +1,1572 @@
+{
+ "metadata" : {
+ "id" : "db3b65ea-4b32-460d-8d88-85071e33f59d",
+ "generatedAt" : 1795161619778
+ },
+ "campaigns" : {
+ "default" : {
+ "default" : {
+ "QBOA" : {
+ "IAS_CORE" : {
+ "MONTHLY" : {
+ "FREE" : {
+ "offer_id" : "20137259"
+ }
+ }
+ },
+ "IAS_ACCELERATE" : {
+ "MONTHLY" : {
+ "PAID" : {
+ "offer_id" : "20137260"
+ }
+ }
+ },
+ "QBOA_STANDARD" : {
+ "MONTHLY" : {
+ "FREE" : {
+ "offer_id" : "20137441"
+ }
+ }
+ }
+ },
+ "BOOKS_CLOSE" : {
+ "BOOKS_CLOSE_STANDARD" : {
+ "MONTHLY" : {
+ "PAID" : {
+ "offer_id" : "20059476"
+ }
+ }
+ }
+ },
+ "TSHEETS" : {
+ "QB_TSHEETS_PREMIUM" : {
+ "MONTHLY" : {
+ "TRIAL" : {
+ "offer_id" : "20021810"
+ },
+ "PAID" : {
+ "offer_id" : "20021808"
+ }
+ }
+ },
+ "QB_TSHEETS_ELITE" : {
+ "MONTHLY" : {
+ "TRIAL" : {
+ "offer_id" : "20021811"
+ },
+ "PAID" : {
+ "offer_id" : "20021809"
+ }
+ }
+ }
+ },
+ "PAYROLL" : {
+ "PR_PREMIUM" : {
+ "MONTHLY" : {
+ "TRIAL" : {
+ "offer_id" : "20057990"
+ },
+ "PAID" : {
+ "offer_id" : "20059344"
+ }
+ }
+ },
+ "PR_CORE" : {
+ "MONTHLY" : {
+ "TRIAL" : {
+ "offer_id" : "20057989"
+ },
+ "PAID" : {
+ "offer_id" : "20059342"
+ }
+ }
+ },
+ "PR_ELITE" : {
+ "MONTHLY" : {
+ "TRIAL" : {
+ "offer_id" : "20057991"
+ },
+ "PAID" : {
+ "offer_id" : "20059343"
+ }
+ }
+ }
+ },
+ "QBO" : {
+ "QBO_ST_PLUS" : {
+ "ANNUAL" : {
+ "TRIAL" : {
+ "offer_id" : "20059771"
+ },
+ "PAID" : {
+ "offer_id" : "20059785"
+ }
+ },
+ "MONTHLY" : {
+ "TRIAL" : {
+ "offer_id" : "20059769"
+ },
+ "PAID" : {
+ "offer_id" : "20059786"
+ }
+ }
+ },
+ "QBO_PLUS" : {
+ "ANNUAL" : {
+ "TRIAL" : {
+ "offer_id" : "20138319"
+ },
+ "PAID" : {
+ "offer_id" : "20138440"
+ }
+ },
+ "MONTHLY" : {
+ "TRIAL" : {
+ "offer_id" : "20138273"
+ },
+ "PAID" : {
+ "offer_id" : "20138395"
+ }
+ }
+ },
+ "QBO_ADVANCED" : {
+ "ANNUAL" : {
+ "TRIAL" : {
+ "offer_id" : "20138329"
+ },
+ "PAID" : {
+ "offer_id" : "20138439"
+ }
+ },
+ "MONTHLY" : {
+ "TRIAL" : {
+ "offer_id" : "20138326"
+ },
+ "PAID" : {
+ "offer_id" : "20138394"
+ }
+ }
+ },
+ "QBO_SIMPLE_START" : {
+ "ANNUAL" : {
+ "TRIAL" : {
+ "offer_id" : "20138270"
+ },
+ "PAID" : {
+ "offer_id" : "20138442"
+ }
+ },
+ "MONTHLY" : {
+ "TRIAL" : {
+ "offer_id" : "20138275"
+ },
+ "PAID" : {
+ "offer_id" : "20138397"
+ }
+ }
+ },
+ "QBO_ESSENTIALS" : {
+ "ANNUAL" : {
+ "TRIAL" : {
+ "offer_id" : "20138330"
+ },
+ "PAID" : {
+ "offer_id" : "20138441"
+ }
+ },
+ "MONTHLY" : {
+ "TRIAL" : {
+ "offer_id" : "20138321"
+ },
+ "PAID" : {
+ "offer_id" : "20138396"
+ }
+ }
+ }
+ }
+ }
+ }
+ },
+ "offerDefinitions" : {
+ "20059343" : {
+ "region" : "GB",
+ "name" : "PAYROLL Pr Elite GB Deep Discount High Monthly Paid 90 PCT 6 Months 15 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "13.50",
+ "type" : "PAID",
+ "pricingCategory" : "Deep Discount High",
+ "isListPriceOffer" : false,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "15",
+ "basePriceWhole" : "15",
+ "basePriceCents" : "00",
+ "productCode" : "PAYROLL",
+ "featureSetCode" : "PR_ELITE",
+ "frequency" : "MONTHLY",
+ "perWorkerCharge" : "3",
+ "perWorkerChargeFrequency" : "MONTHLY",
+ "billingRateUnit" : "MONTH",
+ "discountPrice" : "1.50",
+ "discountPriceWhole" : "1",
+ "discountPriceCents" : "50",
+ "discountPercentage" : "90",
+ "discountDuration" : 6,
+ "discountUnit" : "MONTHS",
+ "product" : [ {
+ "code" : "PAYROLL",
+ "featureSet" : {
+ "code" : "PR_ELITE"
+ },
+ "charge" : [ {
+ "name" : "Payroll Elite Worker Charge",
+ "type" : "RECURRINGPERRESOURCE",
+ "price" : "3",
+ "discountAmount" : "0.0",
+ "priceAfterDiscount" : "3",
+ "frequency" : "MONTHLY"
+ }, {
+ "name" : "QuickBooks Online Payroll Elite",
+ "type" : "RECURRING",
+ "price" : "15",
+ "discountAmount" : "13.5",
+ "priceAfterDiscount" : "1.50",
+ "frequency" : "MONTHLY",
+ "discount" : [ {
+ "valueType" : "Percent",
+ "value" : "90",
+ "unit" : "MONTHS",
+ "duration" : "6"
+ } ]
+ } ]
+ } ],
+ "associatedCMOffers" : [ {
+ "offerId" : "21d28100-f647-11f0-a46c-0df142477466",
+ "startDate" : "2026-01-21T21:22:00.000UTC",
+ "endDate" : "2027-02-01T07:45:00.000UTC",
+ "priorityScore" : 15,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "QBOPR"
+ }
+ } ]
+ },
+ "20021808" : {
+ "region" : "GB",
+ "name" : "TSHEETS Premium GB Monthly Paid 16 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "0",
+ "type" : "PAID",
+ "pricingCategory" : "List Price",
+ "isListPriceOffer" : true,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "16",
+ "basePriceWhole" : "16",
+ "basePriceCents" : "00",
+ "productCode" : "TSHEETS",
+ "featureSetCode" : "QB_TSHEETS_PREMIUM",
+ "frequency" : "MONTHLY",
+ "perWorkerCharge" : "6",
+ "perWorkerChargeFrequency" : "MONTHLY",
+ "billingRateUnit" : "MONTH",
+ "product" : [ {
+ "code" : "TSHEETS",
+ "featureSet" : {
+ "code" : "QB_TSHEETS_PREMIUM"
+ },
+ "charge" : [ {
+ "name" : "QuickBooks Time Premium Per-User Fee for 1 User",
+ "type" : "RECURRINGPERRESOURCE",
+ "price" : "6",
+ "discountAmount" : "0.0",
+ "priceAfterDiscount" : "6",
+ "frequency" : "MONTHLY"
+ }, {
+ "name" : "QuickBooks Time Premium",
+ "type" : "RECURRING",
+ "price" : "16",
+ "discountAmount" : "0.0",
+ "priceAfterDiscount" : "16",
+ "frequency" : "MONTHLY"
+ } ]
+ } ],
+ "associatedCMOffers" : [ {
+ "offerId" : "de924c70-df9e-11ed-8294-3f871962f53b",
+ "startDate" : "2023-04-20T09:08:00.000UTC",
+ "endDate" : "2027-07-31T22:59:00.000UTC",
+ "priorityScore" : 5,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "TIME"
+ }
+ } ]
+ },
+ "20059344" : {
+ "region" : "GB",
+ "name" : "PAYROLL Pr Premium GB Deep Discount High Monthly Paid 90 PCT 6 Months 10 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "9",
+ "type" : "PAID",
+ "pricingCategory" : "Deep Discount High",
+ "isListPriceOffer" : false,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "10",
+ "basePriceWhole" : "10",
+ "basePriceCents" : "00",
+ "productCode" : "PAYROLL",
+ "featureSetCode" : "PR_PREMIUM",
+ "frequency" : "MONTHLY",
+ "perWorkerCharge" : "2",
+ "perWorkerChargeFrequency" : "MONTHLY",
+ "billingRateUnit" : "MONTH",
+ "discountPrice" : "1",
+ "discountPriceWhole" : "1",
+ "discountPriceCents" : "00",
+ "discountPercentage" : "90",
+ "discountDuration" : 6,
+ "discountUnit" : "MONTHS",
+ "product" : [ {
+ "code" : "PAYROLL",
+ "featureSet" : {
+ "code" : "PR_PREMIUM"
+ },
+ "charge" : [ {
+ "name" : "QuickBooks Online Payroll Premium",
+ "type" : "RECURRING",
+ "price" : "10",
+ "discountAmount" : "9.0",
+ "priceAfterDiscount" : "1",
+ "frequency" : "MONTHLY",
+ "discount" : [ {
+ "valueType" : "Percent",
+ "value" : "90",
+ "unit" : "MONTHS",
+ "duration" : "6"
+ } ]
+ }, {
+ "name" : "Payroll Premium Worker Charge",
+ "type" : "RECURRINGPERRESOURCE",
+ "price" : "2",
+ "discountAmount" : "0.0",
+ "priceAfterDiscount" : "2",
+ "frequency" : "MONTHLY"
+ } ]
+ } ],
+ "associatedCMOffers" : [ {
+ "offerId" : "21d28100-f647-11f0-a46c-0df142477466",
+ "startDate" : "2026-01-21T21:22:00.000UTC",
+ "endDate" : "2027-02-01T07:45:00.000UTC",
+ "priorityScore" : 15,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "QBOPR"
+ }
+ } ]
+ },
+ "20059785" : {
+ "region" : "GB",
+ "name" : "QBO St Plus GB Deep Discount High Annually Paid 90 PCT 1 Year 108 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "97.20",
+ "type" : "PAID",
+ "pricingCategory" : "Deep Discount High",
+ "isListPriceOffer" : false,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "108",
+ "basePriceWhole" : "108",
+ "basePriceCents" : "00",
+ "productCode" : "QBO",
+ "featureSetCode" : "QBO_ST_PLUS",
+ "frequency" : "ANNUAL",
+ "billingRateUnit" : "YEAR",
+ "discountPrice" : "10.80",
+ "discountPriceWhole" : "10",
+ "discountPriceCents" : "80",
+ "discountPercentage" : "90",
+ "discountDuration" : 12,
+ "discountUnit" : "MONTHS",
+ "associatedCMOffers" : [ {
+ "offerId" : "78295b00-d2f6-11f1-9b7f-37d38bd4c6fe",
+ "startDate" : "2026-11-20T08:00:00.000UTC",
+ "endDate" : "2026-12-02T07:59:00.000UTC",
+ "priorityScore" : 15,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "QBO"
+ }
+ } ]
+ },
+ "20059786" : {
+ "region" : "GB",
+ "name" : "QBO St Plus GB Deep Discount High Monthly Paid 90 PCT 6 Months 10 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "9",
+ "type" : "PAID",
+ "pricingCategory" : "Deep Discount High",
+ "isListPriceOffer" : false,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "10",
+ "basePriceWhole" : "10",
+ "basePriceCents" : "00",
+ "productCode" : "QBO",
+ "featureSetCode" : "QBO_ST_PLUS",
+ "frequency" : "MONTHLY",
+ "billingRateUnit" : "MONTH",
+ "discountPrice" : "1",
+ "discountPriceWhole" : "1",
+ "discountPriceCents" : "00",
+ "discountPercentage" : "90",
+ "discountDuration" : 6,
+ "discountUnit" : "MONTHS",
+ "associatedCMOffers" : [ {
+ "offerId" : "78295b00-d2f6-11f1-9b7f-37d38bd4c6fe",
+ "startDate" : "2026-11-20T08:00:00.000UTC",
+ "endDate" : "2026-12-02T07:59:00.000UTC",
+ "priorityScore" : 15,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "QBO"
+ }
+ } ]
+ },
+ "20138329" : {
+ "region" : "GB",
+ "name" : "QBO Advanced GB Annual Trial 1382.4.0 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "0",
+ "type" : "TRIAL",
+ "pricingCategory" : "List Price",
+ "isListPriceOffer" : true,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "1382.40",
+ "basePriceWhole" : "1382",
+ "basePriceCents" : "40",
+ "productCode" : "QBO",
+ "featureSetCode" : "QBO_ADVANCED",
+ "frequency" : "ANNUAL",
+ "billingRateUnit" : "YEAR",
+ "associatedCMOffers" : [ {
+ "offerId" : "56301e20-d21b-11f1-a5b5-1770725776f6",
+ "startDate" : "2026-11-02T08:00:00.000UTC",
+ "endDate" : "2027-08-01T06:59:00.000UTC",
+ "priorityScore" : 10,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "QBO"
+ }
+ } ]
+ },
+ "20059342" : {
+ "region" : "GB",
+ "name" : "PAYROLL Pr Core GB Deep Discount High Monthly Paid 90 PCT 6 Months 5 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "4.50",
+ "type" : "PAID",
+ "pricingCategory" : "Deep Discount High",
+ "isListPriceOffer" : false,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "5",
+ "basePriceWhole" : "5",
+ "basePriceCents" : "00",
+ "productCode" : "PAYROLL",
+ "featureSetCode" : "PR_CORE",
+ "frequency" : "MONTHLY",
+ "perWorkerCharge" : "1.50",
+ "perWorkerChargeFrequency" : "MONTHLY",
+ "billingRateUnit" : "MONTH",
+ "discountPrice" : "0.50",
+ "discountPriceWhole" : "0",
+ "discountPriceCents" : "50",
+ "discountPercentage" : "90",
+ "discountDuration" : 6,
+ "discountUnit" : "MONTHS",
+ "product" : [ {
+ "code" : "PAYROLL",
+ "featureSet" : {
+ "code" : "PR_CORE"
+ },
+ "charge" : [ {
+ "name" : "QuickBooks Online Payroll Core",
+ "type" : "RECURRING",
+ "price" : "5",
+ "discountAmount" : "4.5",
+ "priceAfterDiscount" : "0.50",
+ "frequency" : "MONTHLY",
+ "discount" : [ {
+ "valueType" : "Percent",
+ "value" : "90",
+ "unit" : "MONTHS",
+ "duration" : "6"
+ } ]
+ }, {
+ "name" : "Payroll Core Worker Charge",
+ "type" : "RECURRINGPERRESOURCE",
+ "price" : "1.50",
+ "discountAmount" : "0.0",
+ "priceAfterDiscount" : "1.50",
+ "frequency" : "MONTHLY"
+ } ]
+ } ],
+ "associatedCMOffers" : [ {
+ "offerId" : "21d28100-f647-11f0-a46c-0df142477466",
+ "startDate" : "2026-01-21T21:22:00.000UTC",
+ "endDate" : "2027-02-01T07:45:00.000UTC",
+ "priorityScore" : 15,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "QBOPR"
+ }
+ } ]
+ },
+ "20137441" : {
+ "region" : "GB",
+ "name" : "PAYROLL Pr elite QBO Advanced QBOA Standard Bundle GB Free For Life Monthly Total 0 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "0",
+ "type" : "FREE",
+ "pricingCategory" : "List Price",
+ "isListPriceOffer" : true,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "0",
+ "basePriceWhole" : "0",
+ "basePriceCents" : "00",
+ "productCode" : "QBOA",
+ "featureSetCode" : "QBOA_STANDARD",
+ "frequency" : "MONTHLY",
+ "billingRateUnit" : "MONTH",
+ "associatedCMOffers" : [ {
+ "offerId" : "69b3b080-d99e-11f1-9857-89e032039637",
+ "startDate" : "2026-11-06T04:53:00.000UTC",
+ "endDate" : "2027-08-01T06:59:00.000UTC",
+ "priorityScore" : 15,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "offerProductType" : "QBOA",
+ "promotionType" : null
+ }
+ } ]
+ },
+ "20138275" : {
+ "region" : "GB",
+ "name" : "QBO Simple Start GB Monthly Trial 18.0 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "0",
+ "type" : "TRIAL",
+ "pricingCategory" : "List Price",
+ "isListPriceOffer" : true,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "18",
+ "basePriceWhole" : "18",
+ "basePriceCents" : "00",
+ "productCode" : "QBO",
+ "featureSetCode" : "QBO_SIMPLE_START",
+ "frequency" : "MONTHLY",
+ "billingRateUnit" : "MONTH",
+ "associatedCMOffers" : [ {
+ "offerId" : "56301e20-d21b-11f1-a5b5-1770725776f6",
+ "startDate" : "2026-11-02T08:00:00.000UTC",
+ "endDate" : "2027-08-01T06:59:00.000UTC",
+ "priorityScore" : 10,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "QBO"
+ }
+ } ]
+ },
+ "20138330" : {
+ "region" : "GB",
+ "name" : "QBO Essentials GB Annual Trial 432.0 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "0",
+ "type" : "TRIAL",
+ "pricingCategory" : "List Price",
+ "isListPriceOffer" : true,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "432",
+ "basePriceWhole" : "432",
+ "basePriceCents" : "00",
+ "productCode" : "QBO",
+ "featureSetCode" : "QBO_ESSENTIALS",
+ "frequency" : "ANNUAL",
+ "billingRateUnit" : "YEAR",
+ "associatedCMOffers" : [ {
+ "offerId" : "56301e20-d21b-11f1-a5b5-1770725776f6",
+ "startDate" : "2026-11-02T08:00:00.000UTC",
+ "endDate" : "2027-08-01T06:59:00.000UTC",
+ "priorityScore" : 10,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "QBO"
+ }
+ } ]
+ },
+ "20138396" : {
+ "region" : "GB",
+ "name" : "QBO Essentials GB Deep Discount High Monthly Paid 90 PCT 6 Months 40 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "36",
+ "type" : "PAID",
+ "pricingCategory" : "Deep Discount High",
+ "isListPriceOffer" : false,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "40",
+ "basePriceWhole" : "40",
+ "basePriceCents" : "00",
+ "productCode" : "QBO",
+ "featureSetCode" : "QBO_ESSENTIALS",
+ "frequency" : "MONTHLY",
+ "billingRateUnit" : "MONTH",
+ "discountPrice" : "4",
+ "discountPriceWhole" : "4",
+ "discountPriceCents" : "00",
+ "discountPercentage" : "90",
+ "discountDuration" : 6,
+ "discountUnit" : "MONTHS",
+ "associatedCMOffers" : [ {
+ "offerId" : "78295b00-d2f6-11f1-9b7f-37d38bd4c6fe",
+ "startDate" : "2026-11-20T08:00:00.000UTC",
+ "endDate" : "2026-12-02T07:59:00.000UTC",
+ "priorityScore" : 15,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "QBO"
+ }
+ } ]
+ },
+ "20138397" : {
+ "region" : "GB",
+ "name" : "QBO Simple Start GB Deep Discount High Monthly Paid 90 PCT 6 Months 18 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "16.20",
+ "type" : "PAID",
+ "pricingCategory" : "Deep Discount High",
+ "isListPriceOffer" : false,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "18",
+ "basePriceWhole" : "18",
+ "basePriceCents" : "00",
+ "productCode" : "QBO",
+ "featureSetCode" : "QBO_SIMPLE_START",
+ "frequency" : "MONTHLY",
+ "billingRateUnit" : "MONTH",
+ "discountPrice" : "1.80",
+ "discountPriceWhole" : "1",
+ "discountPriceCents" : "80",
+ "discountPercentage" : "90",
+ "discountDuration" : 6,
+ "discountUnit" : "MONTHS",
+ "associatedCMOffers" : [ {
+ "offerId" : "78295b00-d2f6-11f1-9b7f-37d38bd4c6fe",
+ "startDate" : "2026-11-20T08:00:00.000UTC",
+ "endDate" : "2026-12-02T07:59:00.000UTC",
+ "priorityScore" : 15,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "QBO"
+ }
+ } ]
+ },
+ "20021809" : {
+ "region" : "GB",
+ "name" : "TSHEETS Elite GB Monthly Paid 30 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "0",
+ "type" : "PAID",
+ "pricingCategory" : "List Price",
+ "isListPriceOffer" : true,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "30",
+ "basePriceWhole" : "30",
+ "basePriceCents" : "00",
+ "productCode" : "TSHEETS",
+ "featureSetCode" : "QB_TSHEETS_ELITE",
+ "frequency" : "MONTHLY",
+ "perWorkerCharge" : "8",
+ "perWorkerChargeFrequency" : "MONTHLY",
+ "billingRateUnit" : "MONTH",
+ "product" : [ {
+ "code" : "TSHEETS",
+ "featureSet" : {
+ "code" : "QB_TSHEETS_ELITE"
+ },
+ "charge" : [ {
+ "name" : "QuickBooks Time Elite Per-User Fee for 1 User",
+ "type" : "RECURRINGPERRESOURCE",
+ "price" : "8",
+ "discountAmount" : "0.0",
+ "priceAfterDiscount" : "8",
+ "frequency" : "MONTHLY"
+ }, {
+ "name" : "QuickBooks Time Elite",
+ "type" : "RECURRING",
+ "price" : "30",
+ "discountAmount" : "0.0",
+ "priceAfterDiscount" : "30",
+ "frequency" : "MONTHLY"
+ } ]
+ } ],
+ "associatedCMOffers" : [ {
+ "offerId" : "de924c70-df9e-11ed-8294-3f871962f53b",
+ "startDate" : "2023-04-20T09:08:00.000UTC",
+ "endDate" : "2027-07-31T22:59:00.000UTC",
+ "priorityScore" : 5,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "TIME"
+ }
+ } ]
+ },
+ "20138273" : {
+ "region" : "GB",
+ "name" : "QBO Plus GB Monthly Trial 60.0 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "0",
+ "type" : "TRIAL",
+ "pricingCategory" : "List Price",
+ "isListPriceOffer" : true,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "60",
+ "basePriceWhole" : "60",
+ "basePriceCents" : "00",
+ "productCode" : "QBO",
+ "featureSetCode" : "QBO_PLUS",
+ "frequency" : "MONTHLY",
+ "billingRateUnit" : "MONTH",
+ "associatedCMOffers" : [ {
+ "offerId" : "56301e20-d21b-11f1-a5b5-1770725776f6",
+ "startDate" : "2026-11-02T08:00:00.000UTC",
+ "endDate" : "2027-08-01T06:59:00.000UTC",
+ "priorityScore" : 10,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "QBO"
+ }
+ } ]
+ },
+ "20138394" : {
+ "region" : "GB",
+ "name" : "QBO Advanced GB Deep Discount High Monthly Paid 90 PCT 6 Months 128 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "115.20",
+ "type" : "PAID",
+ "pricingCategory" : "Deep Discount High",
+ "isListPriceOffer" : false,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "128",
+ "basePriceWhole" : "128",
+ "basePriceCents" : "00",
+ "productCode" : "QBO",
+ "featureSetCode" : "QBO_ADVANCED",
+ "frequency" : "MONTHLY",
+ "billingRateUnit" : "MONTH",
+ "discountPrice" : "12.80",
+ "discountPriceWhole" : "12",
+ "discountPriceCents" : "80",
+ "discountPercentage" : "90",
+ "discountDuration" : 6,
+ "discountUnit" : "MONTHS",
+ "associatedCMOffers" : [ {
+ "offerId" : "78295b00-d2f6-11f1-9b7f-37d38bd4c6fe",
+ "startDate" : "2026-11-20T08:00:00.000UTC",
+ "endDate" : "2026-12-02T07:59:00.000UTC",
+ "priorityScore" : 15,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "QBO"
+ }
+ } ]
+ },
+ "20138395" : {
+ "region" : "GB",
+ "name" : "QBO Plus GB Deep Discount High Monthly Paid 90 PCT 6 Months 60 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "54",
+ "type" : "PAID",
+ "pricingCategory" : "Deep Discount High",
+ "isListPriceOffer" : false,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "60",
+ "basePriceWhole" : "60",
+ "basePriceCents" : "00",
+ "productCode" : "QBO",
+ "featureSetCode" : "QBO_PLUS",
+ "frequency" : "MONTHLY",
+ "billingRateUnit" : "MONTH",
+ "discountPrice" : "6",
+ "discountPriceWhole" : "6",
+ "discountPriceCents" : "00",
+ "discountPercentage" : "90",
+ "discountDuration" : 6,
+ "discountUnit" : "MONTHS",
+ "associatedCMOffers" : [ {
+ "offerId" : "78295b00-d2f6-11f1-9b7f-37d38bd4c6fe",
+ "startDate" : "2026-11-20T08:00:00.000UTC",
+ "endDate" : "2026-12-02T07:59:00.000UTC",
+ "priorityScore" : 15,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "QBO"
+ }
+ } ]
+ },
+ "20137260" : {
+ "region" : "GB",
+ "name" : "PAYROLL Pr elite QBO Advanced QBOA Ias accelerate Bundle GB Paid Monthly Total 0 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "0",
+ "type" : "PAID",
+ "pricingCategory" : "List Price",
+ "isListPriceOffer" : true,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "0",
+ "basePriceWhole" : "0",
+ "basePriceCents" : "00",
+ "productCode" : "QBOA",
+ "featureSetCode" : "IAS_ACCELERATE",
+ "frequency" : "MONTHLY",
+ "billingRateUnit" : "MONTH",
+ "associatedCMOffers" : [ {
+ "offerId" : "69b3b080-d99e-11f1-9857-89e032039637",
+ "startDate" : "2026-11-06T04:53:00.000UTC",
+ "endDate" : "2027-08-01T06:59:00.000UTC",
+ "priorityScore" : 15,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "offerProductType" : "QBOA",
+ "promotionType" : null
+ }
+ } ]
+ },
+ "20138270" : {
+ "region" : "GB",
+ "name" : "QBO Simple Start GB Annual Trial 194.4.0 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "0",
+ "type" : "TRIAL",
+ "pricingCategory" : "List Price",
+ "isListPriceOffer" : true,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "194.40",
+ "basePriceWhole" : "194",
+ "basePriceCents" : "40",
+ "productCode" : "QBO",
+ "featureSetCode" : "QBO_SIMPLE_START",
+ "frequency" : "ANNUAL",
+ "billingRateUnit" : "YEAR",
+ "associatedCMOffers" : [ {
+ "offerId" : "56301e20-d21b-11f1-a5b5-1770725776f6",
+ "startDate" : "2026-11-02T08:00:00.000UTC",
+ "endDate" : "2027-08-01T06:59:00.000UTC",
+ "priorityScore" : 10,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "QBO"
+ }
+ } ]
+ },
+ "20021810" : {
+ "region" : "GB",
+ "name" : "TSHEETS Premium GB Monthly Trial 16 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "0",
+ "type" : "TRIAL",
+ "pricingCategory" : "List Price",
+ "isListPriceOffer" : true,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "16",
+ "basePriceWhole" : "16",
+ "basePriceCents" : "00",
+ "productCode" : "TSHEETS",
+ "featureSetCode" : "QB_TSHEETS_PREMIUM",
+ "frequency" : "MONTHLY",
+ "perWorkerCharge" : "6",
+ "perWorkerChargeFrequency" : "MONTHLY",
+ "billingRateUnit" : "MONTH",
+ "product" : [ {
+ "code" : "TSHEETS",
+ "featureSet" : {
+ "code" : "QB_TSHEETS_PREMIUM"
+ },
+ "charge" : [ {
+ "name" : "QuickBooks Time Premium Per-User Fee for 1 User",
+ "type" : "RECURRINGPERRESOURCE",
+ "price" : "6",
+ "discountAmount" : "0.0",
+ "priceAfterDiscount" : "6",
+ "frequency" : "MONTHLY"
+ }, {
+ "name" : "QuickBooks Time Premium",
+ "type" : "RECURRING",
+ "price" : "16",
+ "discountAmount" : "0.0",
+ "priceAfterDiscount" : "16",
+ "frequency" : "MONTHLY"
+ } ]
+ } ],
+ "associatedCMOffers" : [ {
+ "offerId" : "de924c70-df9e-11ed-8294-3f871962f53b",
+ "startDate" : "2023-04-20T09:08:00.000UTC",
+ "endDate" : "2027-07-31T22:59:00.000UTC",
+ "priorityScore" : 5,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "TIME"
+ }
+ } ]
+ },
+ "20021811" : {
+ "region" : "GB",
+ "name" : "TSHEETS Elite GB Monthly Trial 30 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "0",
+ "type" : "TRIAL",
+ "pricingCategory" : "List Price",
+ "isListPriceOffer" : true,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "30",
+ "basePriceWhole" : "30",
+ "basePriceCents" : "00",
+ "productCode" : "TSHEETS",
+ "featureSetCode" : "QB_TSHEETS_ELITE",
+ "frequency" : "MONTHLY",
+ "perWorkerCharge" : "8",
+ "perWorkerChargeFrequency" : "MONTHLY",
+ "billingRateUnit" : "MONTH",
+ "product" : [ {
+ "code" : "TSHEETS",
+ "featureSet" : {
+ "code" : "QB_TSHEETS_ELITE"
+ },
+ "charge" : [ {
+ "name" : "QuickBooks Time Elite Per-User Fee for 1 User",
+ "type" : "RECURRINGPERRESOURCE",
+ "price" : "8",
+ "discountAmount" : "0.0",
+ "priceAfterDiscount" : "8",
+ "frequency" : "MONTHLY"
+ }, {
+ "name" : "QuickBooks Time Elite",
+ "type" : "RECURRING",
+ "price" : "30",
+ "discountAmount" : "0.0",
+ "priceAfterDiscount" : "30",
+ "frequency" : "MONTHLY"
+ } ]
+ } ],
+ "associatedCMOffers" : [ {
+ "offerId" : "de924c70-df9e-11ed-8294-3f871962f53b",
+ "startDate" : "2023-04-20T09:08:00.000UTC",
+ "endDate" : "2027-07-31T22:59:00.000UTC",
+ "priorityScore" : 5,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "TIME"
+ }
+ } ]
+ },
+ "20059476" : {
+ "region" : "GB",
+ "name" : "BOOKS_CLOSE Standard GB Monthly Paid 0 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "0",
+ "type" : "PAID",
+ "pricingCategory" : "List Price",
+ "isListPriceOffer" : true,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "0",
+ "basePriceWhole" : "0",
+ "basePriceCents" : "00",
+ "productCode" : "BOOKS_CLOSE",
+ "featureSetCode" : "BOOKS_CLOSE_STANDARD",
+ "frequency" : "MONTHLY",
+ "billingRateUnit" : "MONTH",
+ "associatedCMOffers" : [ {
+ "offerId" : "8e0fa010-2f94-11f1-91f2-9763bdbf095e",
+ "startDate" : "2026-04-03T19:36:00.000UTC",
+ "endDate" : "2027-08-01T06:59:00.000UTC",
+ "priorityScore" : 10,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "QBOA"
+ }
+ } ]
+ },
+ "20057991" : {
+ "region" : "GB",
+ "name" : "PAYROLL Pr Elite GB Monthly Trial 15 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "0",
+ "type" : "TRIAL",
+ "pricingCategory" : "List Price",
+ "isListPriceOffer" : true,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "15",
+ "basePriceWhole" : "15",
+ "basePriceCents" : "00",
+ "productCode" : "PAYROLL",
+ "featureSetCode" : "PR_ELITE",
+ "frequency" : "MONTHLY",
+ "perWorkerCharge" : "3",
+ "perWorkerChargeFrequency" : "MONTHLY",
+ "billingRateUnit" : "MONTH",
+ "product" : [ {
+ "code" : "PAYROLL",
+ "featureSet" : {
+ "code" : "PR_ELITE"
+ },
+ "charge" : [ {
+ "name" : "Payroll Elite Worker Charge",
+ "type" : "RECURRINGPERRESOURCE",
+ "price" : "3",
+ "discountAmount" : "0.0",
+ "priceAfterDiscount" : "3",
+ "frequency" : "MONTHLY"
+ }, {
+ "name" : "QuickBooks Online Payroll Elite",
+ "type" : "RECURRING",
+ "price" : "15",
+ "discountAmount" : "0.0",
+ "priceAfterDiscount" : "15",
+ "frequency" : "MONTHLY"
+ } ]
+ } ],
+ "associatedCMOffers" : [ {
+ "offerId" : "6cda92a0-c573-11f0-bd93-0732035873a8",
+ "startDate" : "2025-11-19T18:11:00.000UTC",
+ "endDate" : "2027-08-01T06:59:00.000UTC",
+ "priorityScore" : 5,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "QBOPR"
+ }
+ } ]
+ },
+ "20138439" : {
+ "region" : "GB",
+ "name" : "QBO Advanced GB Deep Discount High Annually Paid 90 PCT 1 Year 1382.4 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "1244.16",
+ "type" : "PAID",
+ "pricingCategory" : "Deep Discount High",
+ "isListPriceOffer" : false,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "1382.40",
+ "basePriceWhole" : "1382",
+ "basePriceCents" : "40",
+ "productCode" : "QBO",
+ "featureSetCode" : "QBO_ADVANCED",
+ "frequency" : "ANNUAL",
+ "billingRateUnit" : "YEAR",
+ "discountPrice" : "138.24",
+ "discountPriceWhole" : "138",
+ "discountPriceCents" : "24",
+ "discountPercentage" : "90",
+ "discountDuration" : 12,
+ "discountUnit" : "MONTHS",
+ "associatedCMOffers" : [ {
+ "offerId" : "78295b00-d2f6-11f1-9b7f-37d38bd4c6fe",
+ "startDate" : "2026-11-20T08:00:00.000UTC",
+ "endDate" : "2026-12-02T07:59:00.000UTC",
+ "priorityScore" : 15,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "QBO"
+ }
+ } ]
+ },
+ "20057990" : {
+ "region" : "GB",
+ "name" : "PAYROLL Pr Premium GB Monthly Trial 10 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "0",
+ "type" : "TRIAL",
+ "pricingCategory" : "List Price",
+ "isListPriceOffer" : true,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "10",
+ "basePriceWhole" : "10",
+ "basePriceCents" : "00",
+ "productCode" : "PAYROLL",
+ "featureSetCode" : "PR_PREMIUM",
+ "frequency" : "MONTHLY",
+ "perWorkerCharge" : "2",
+ "perWorkerChargeFrequency" : "MONTHLY",
+ "billingRateUnit" : "MONTH",
+ "product" : [ {
+ "code" : "PAYROLL",
+ "featureSet" : {
+ "code" : "PR_PREMIUM"
+ },
+ "charge" : [ {
+ "name" : "QuickBooks Online Payroll Premium",
+ "type" : "RECURRING",
+ "price" : "10",
+ "discountAmount" : "0.0",
+ "priceAfterDiscount" : "10",
+ "frequency" : "MONTHLY"
+ }, {
+ "name" : "Payroll Premium Worker Charge",
+ "type" : "RECURRINGPERRESOURCE",
+ "price" : "2",
+ "discountAmount" : "0.0",
+ "priceAfterDiscount" : "2",
+ "frequency" : "MONTHLY"
+ } ]
+ } ],
+ "associatedCMOffers" : [ {
+ "offerId" : "6cda92a0-c573-11f0-bd93-0732035873a8",
+ "startDate" : "2025-11-19T18:11:00.000UTC",
+ "endDate" : "2027-08-01T06:59:00.000UTC",
+ "priorityScore" : 5,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "QBOPR"
+ }
+ } ]
+ },
+ "20059771" : {
+ "region" : "GB",
+ "name" : "QBO St Plus GB Annual Trial 108 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "0",
+ "type" : "TRIAL",
+ "pricingCategory" : "List Price",
+ "isListPriceOffer" : true,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "108",
+ "basePriceWhole" : "108",
+ "basePriceCents" : "00",
+ "productCode" : "QBO",
+ "featureSetCode" : "QBO_ST_PLUS",
+ "frequency" : "ANNUAL",
+ "billingRateUnit" : "YEAR",
+ "associatedCMOffers" : [ {
+ "offerId" : "56301e20-d21b-11f1-a5b5-1770725776f6",
+ "startDate" : "2026-11-02T08:00:00.000UTC",
+ "endDate" : "2027-08-01T06:59:00.000UTC",
+ "priorityScore" : 10,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "QBO"
+ }
+ } ]
+ },
+ "20138319" : {
+ "region" : "GB",
+ "name" : "QBO Plus GB Annual Trial 648.0 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "0",
+ "type" : "TRIAL",
+ "pricingCategory" : "List Price",
+ "isListPriceOffer" : true,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "648",
+ "basePriceWhole" : "648",
+ "basePriceCents" : "00",
+ "productCode" : "QBO",
+ "featureSetCode" : "QBO_PLUS",
+ "frequency" : "ANNUAL",
+ "billingRateUnit" : "YEAR",
+ "associatedCMOffers" : [ {
+ "offerId" : "56301e20-d21b-11f1-a5b5-1770725776f6",
+ "startDate" : "2026-11-02T08:00:00.000UTC",
+ "endDate" : "2027-08-01T06:59:00.000UTC",
+ "priorityScore" : 10,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "QBO"
+ }
+ } ]
+ },
+ "20059769" : {
+ "region" : "GB",
+ "name" : "QBO St Plus GB Monthly Trial 10 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "0",
+ "type" : "TRIAL",
+ "pricingCategory" : "List Price",
+ "isListPriceOffer" : true,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "10",
+ "basePriceWhole" : "10",
+ "basePriceCents" : "00",
+ "productCode" : "QBO",
+ "featureSetCode" : "QBO_ST_PLUS",
+ "frequency" : "MONTHLY",
+ "billingRateUnit" : "MONTH",
+ "associatedCMOffers" : [ {
+ "offerId" : "56301e20-d21b-11f1-a5b5-1770725776f6",
+ "startDate" : "2026-11-02T08:00:00.000UTC",
+ "endDate" : "2027-08-01T06:59:00.000UTC",
+ "priorityScore" : 10,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "QBO"
+ }
+ } ]
+ },
+ "20138326" : {
+ "region" : "GB",
+ "name" : "QBO Advanced GB Monthly Trial 128.0 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "0",
+ "type" : "TRIAL",
+ "pricingCategory" : "List Price",
+ "isListPriceOffer" : true,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "128",
+ "basePriceWhole" : "128",
+ "basePriceCents" : "00",
+ "productCode" : "QBO",
+ "featureSetCode" : "QBO_ADVANCED",
+ "frequency" : "MONTHLY",
+ "billingRateUnit" : "MONTH",
+ "associatedCMOffers" : [ {
+ "offerId" : "56301e20-d21b-11f1-a5b5-1770725776f6",
+ "startDate" : "2026-11-02T08:00:00.000UTC",
+ "endDate" : "2027-08-01T06:59:00.000UTC",
+ "priorityScore" : 10,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "QBO"
+ }
+ } ]
+ },
+ "20137259" : {
+ "region" : "GB",
+ "name" : "PAYROLL Pr elite QBO Advanced QBOA Ias core Bundle GB Free For Life Monthly Total 0 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "0",
+ "type" : "FREE",
+ "pricingCategory" : "List Price",
+ "isListPriceOffer" : true,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "0",
+ "basePriceWhole" : "0",
+ "basePriceCents" : "00",
+ "productCode" : "QBOA",
+ "featureSetCode" : "IAS_CORE",
+ "frequency" : "MONTHLY",
+ "billingRateUnit" : "MONTH",
+ "associatedCMOffers" : [ {
+ "offerId" : "69b3b080-d99e-11f1-9857-89e032039637",
+ "startDate" : "2026-11-06T04:53:00.000UTC",
+ "endDate" : "2027-08-01T06:59:00.000UTC",
+ "priorityScore" : 15,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "offerProductType" : "QBOA",
+ "promotionType" : null
+ }
+ } ]
+ },
+ "20138440" : {
+ "region" : "GB",
+ "name" : "QBO Plus GB Deep Discount High Annually Paid 90 PCT 1 Year 648 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "583.20",
+ "type" : "PAID",
+ "pricingCategory" : "Deep Discount High",
+ "isListPriceOffer" : false,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "648",
+ "basePriceWhole" : "648",
+ "basePriceCents" : "00",
+ "productCode" : "QBO",
+ "featureSetCode" : "QBO_PLUS",
+ "frequency" : "ANNUAL",
+ "billingRateUnit" : "YEAR",
+ "discountPrice" : "64.80",
+ "discountPriceWhole" : "64",
+ "discountPriceCents" : "80",
+ "discountPercentage" : "90",
+ "discountDuration" : 12,
+ "discountUnit" : "MONTHS",
+ "associatedCMOffers" : [ {
+ "offerId" : "78295b00-d2f6-11f1-9b7f-37d38bd4c6fe",
+ "startDate" : "2026-11-20T08:00:00.000UTC",
+ "endDate" : "2026-12-02T07:59:00.000UTC",
+ "priorityScore" : 15,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "QBO"
+ }
+ } ]
+ },
+ "20057989" : {
+ "region" : "GB",
+ "name" : "PAYROLL Pr Core GB Monthly Trial 5 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "0",
+ "type" : "TRIAL",
+ "pricingCategory" : "List Price",
+ "isListPriceOffer" : true,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "5",
+ "basePriceWhole" : "5",
+ "basePriceCents" : "00",
+ "productCode" : "PAYROLL",
+ "featureSetCode" : "PR_CORE",
+ "frequency" : "MONTHLY",
+ "perWorkerCharge" : "1.50",
+ "perWorkerChargeFrequency" : "MONTHLY",
+ "billingRateUnit" : "MONTH",
+ "product" : [ {
+ "code" : "PAYROLL",
+ "featureSet" : {
+ "code" : "PR_CORE"
+ },
+ "charge" : [ {
+ "name" : "Payroll Core Worker Charge",
+ "type" : "RECURRINGPERRESOURCE",
+ "price" : "1.50",
+ "discountAmount" : "0.0",
+ "priceAfterDiscount" : "1.50",
+ "frequency" : "MONTHLY"
+ }, {
+ "name" : "QuickBooks Online Payroll Core",
+ "type" : "RECURRING",
+ "price" : "5",
+ "discountAmount" : "0.0",
+ "priceAfterDiscount" : "5",
+ "frequency" : "MONTHLY"
+ } ]
+ } ],
+ "associatedCMOffers" : [ {
+ "offerId" : "6cda92a0-c573-11f0-bd93-0732035873a8",
+ "startDate" : "2025-11-19T18:11:00.000UTC",
+ "endDate" : "2027-08-01T06:59:00.000UTC",
+ "priorityScore" : 5,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "QBOPR"
+ }
+ } ]
+ },
+ "20138441" : {
+ "region" : "GB",
+ "name" : "QBO Essentials GB Deep Discount High Annually Paid 90 PCT 1 Year 432 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "388.80",
+ "type" : "PAID",
+ "pricingCategory" : "Deep Discount High",
+ "isListPriceOffer" : false,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "432",
+ "basePriceWhole" : "432",
+ "basePriceCents" : "00",
+ "productCode" : "QBO",
+ "featureSetCode" : "QBO_ESSENTIALS",
+ "frequency" : "ANNUAL",
+ "billingRateUnit" : "YEAR",
+ "discountPrice" : "43.20",
+ "discountPriceWhole" : "43",
+ "discountPriceCents" : "20",
+ "discountPercentage" : "90",
+ "discountDuration" : 12,
+ "discountUnit" : "MONTHS",
+ "associatedCMOffers" : [ {
+ "offerId" : "78295b00-d2f6-11f1-9b7f-37d38bd4c6fe",
+ "startDate" : "2026-11-20T08:00:00.000UTC",
+ "endDate" : "2026-12-02T07:59:00.000UTC",
+ "priorityScore" : 15,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "QBO"
+ }
+ } ]
+ },
+ "20138321" : {
+ "region" : "GB",
+ "name" : "QBO Essentials GB Monthly Trial 40.0 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "0",
+ "type" : "TRIAL",
+ "pricingCategory" : "List Price",
+ "isListPriceOffer" : true,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "40",
+ "basePriceWhole" : "40",
+ "basePriceCents" : "00",
+ "productCode" : "QBO",
+ "featureSetCode" : "QBO_ESSENTIALS",
+ "frequency" : "MONTHLY",
+ "billingRateUnit" : "MONTH",
+ "associatedCMOffers" : [ {
+ "offerId" : "56301e20-d21b-11f1-a5b5-1770725776f6",
+ "startDate" : "2026-11-02T08:00:00.000UTC",
+ "endDate" : "2027-08-01T06:59:00.000UTC",
+ "priorityScore" : 10,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "QBO"
+ }
+ } ]
+ },
+ "20138442" : {
+ "region" : "GB",
+ "name" : "QBO Simple Start GB Deep Discount High Annually Paid 90 PCT 1 Year 194.4 GBP",
+ "currency" : "GBP",
+ "currencySymbol" : "£",
+ "totalDiscount" : "174.96",
+ "type" : "PAID",
+ "pricingCategory" : "Deep Discount High",
+ "isListPriceOffer" : false,
+ "isBundle" : false,
+ "isTargeted" : false,
+ "basePrice" : "194.40",
+ "basePriceWhole" : "194",
+ "basePriceCents" : "40",
+ "productCode" : "QBO",
+ "featureSetCode" : "QBO_SIMPLE_START",
+ "frequency" : "ANNUAL",
+ "billingRateUnit" : "YEAR",
+ "discountPrice" : "19.44",
+ "discountPriceWhole" : "19",
+ "discountPriceCents" : "44",
+ "discountPercentage" : "90",
+ "discountDuration" : 12,
+ "discountUnit" : "MONTHS",
+ "associatedCMOffers" : [ {
+ "offerId" : "78295b00-d2f6-11f1-9b7f-37d38bd4c6fe",
+ "startDate" : "2026-11-20T08:00:00.000UTC",
+ "endDate" : "2026-12-02T07:59:00.000UTC",
+ "priorityScore" : 15,
+ "offerMetaData" : {
+ "offerGoal" : "LGEN",
+ "offerSubGoal" : "PROMO",
+ "promotionType" : null,
+ "offerProductType" : "QBO"
+ }
+ } ]
+ }
+ }
+}

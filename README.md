@@ -4,12 +4,13 @@ Static site for https://mtdsoftwarecompare.co.uk. The domain is not live yet; no
 
 ## Build & preview
     python3 build.py                      # writes ./dist (pure Python 3, no deps)
+    python3 scripts/check_site.py dist    # JSON-LD parses, FAQ text visible, no personal emails (or pass the live base URL)
     cd dist && python3 -m http.server 8765 # preview at http://localhost:8765/
     python3 scripts/screenshots.py         # needs server running + playwright
 
 ## Data
 - `data/raw/hmrc-products.json` – all products from HMRC's software finder (sole trader/landlord "view all" list), incl. every feature status. Refresh: `python3 scripts/scrape_hmrc.py` (needs a fresh `data/raw/hmrc-results.html` from the finder).
-- `data/vendor-verified.json` – hand-checked prices, joint-property support and affiliate programme facts, each with a source URL and check date. Add facts here only with a source.
+- `data/vendor-verified.json` – hand-checked prices, joint-property support and affiliate programme facts, each with a source URL and check date (`checked` overall; a product's own `price_checked` overrides it when re-checked later). Add facts here only with a source.
 - `data/raw/pricing/*.txt` – rendered text of vendor pages used as evidence.
 - `data/products.json` – merged output (generated).
 
@@ -30,7 +31,7 @@ Static site for https://mtdsoftwarecompare.co.uk. The domain is not live yet; no
 
 ## Email list: Free MTD Ready Kit (off until configured)
 - Lead magnet: `kit/mtd-ready-kit-2026-28.pdf` + `kit/mtd-deadlines-2026-28.ics`, generated from `data/deadlines.json` by `python3 scripts/make_kit.py` (needs playwright). Re-run after renaming the site.
-- Config: `config/email.json` (provider-agnostic; recommended provider Brevo). Until `provider` and `form_action` are set, every form shows an "Opening soon" state with disabled fields, and no sign-up JavaScript is published.
+- Config: `config/email.json` (provider-agnostic; recommended provider Brevo). Until `provider` and `form_action` are set, every form is replaced by an "Email us for the free kit" mailto link to `contact_email` (kit sent by hand, no list), and no sign-up JavaScript is published.
 - Where the form appears: homepage section after Start here, inline box on the guide and every product page, landing page `/free-mtd-kit/`, plus `/free-mtd-kit/confirmed/` (kit download after double opt-in) and `/free-mtd-kit/check-your-inbox/` (no-JS fallback). Both are noindex.
 - `src/signup.js` posts the form to the provider, shows a "check your inbox" message, and fires the analytics event `signup:<role>:<page>` (no personal data).
 - Privacy page text switches automatically when the email list is on.

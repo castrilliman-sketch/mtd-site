@@ -3,15 +3,19 @@
  "checked": "2026-11-18",
  "products": {
   "QuickBooks (Intuit)": {
-   "price_text": "unknown",
-   "price_note": "Plan prices on the pricing page load dynamically and could not be captured on 18 Nov 2026. The page shows a 30-day free trial and 'Calculate and submit CIS' on every plan, including Sole Trader Plus.",
+   "price_text": "From £10/month (Sole Trader Plus)",
+   "price_note": "Sole Trader Plus is £10/month and Simple Start is £18/month (list prices). Sole Trader Plus can't submit VAT returns. Every plan includes 'Calculate and submit CIS' and a 30-day free trial.",
    "price_source": "https://quickbooks.intuit.com/uk/pricing/",
    "joint": "unknown",
    "affiliate": {
     "status": "yes",
-    "note": "Listed on FlexOffers; the listing states a payout of 16% of online sales and free trials.",
+    "note": "UK publisher programme listed as Active on FlexOffers on 23 Nov 2026. Payout 16% of online sales and free trials (QBOA accountant purchases excluded); 30-day cookie; paid in USD. FlexOffers terms (updated 15 June 2026) pay monthly on NET 60 and require a verified live traffic source. Programme page last update 12 January 2026.",
     "source": "https://www.flexoffers.com/affiliate-programs/intuit-quickbooks-uk-affiliate-program/"
-   }
+   },
+   "price_from_gbp_month": 10,
+   "price_evidence": "https://quickbooks.intuit.com/qbmds-data/gb/billing_offers_gb.json",
+   "price_evidence_note": "Plan prices on the pricing page load from Intuit's own UK price list (billing_offers_gb.json, generated 20 Nov 2026). Read 23 Nov 2026: 'QBO St Plus GB Monthly Trial 10 GBP' (list price, basePrice 10) and 'QBO Simple Start GB Monthly Trial 18.0 GBP' (list price, basePrice 18). The rendered pricing page (also read 23 Nov 2026) lists Sole Trader Plus, Simple Start, Essentials, Plus and Advanced, each 'Free for 30 days', and says VAT submission is not available with Sole Trader Plus. VAT treatment of the list price was not stated in the text we could read. Saved copy: data/raw/pricing/quickbooks-billing-offers-2026-11-23.txt.",
+   "price_checked": "2026-11-23"
   },
   "Xero": {
    "price_text": "From £18/month excl. VAT",
@@ -21,7 +25,7 @@
    "joint": "unknown",
    "affiliate": {
     "status": "yes",
-    "note": "Xero runs an affiliate programme via PartnerStack; commission is not published (discussed after joining).",
+    "note": "Official UK publisher/review-site programme hosted on PartnerStack; free to join. Xero's own page does not publish a rate (discussed after joining). PartnerStack programme directory listed $200 per qualified purchase on 23 Nov 2026. Agreement: a new non-accounting/bookkeeping business signs up via the link and buys a paying Business Edition subscription within 35 days. Cookie length not stated.",
     "source": "https://www.xero.com/uk/affiliate-program/"
    }
   },
@@ -33,8 +37,8 @@
    "joint": "unknown",
    "affiliate": {
     "status": "yes",
-    "note": "sage.com links to a 'Sage Affiliate Programme'; terms not yet reviewed.",
-    "source": "https://www.sage.com/en-gb/making-tax-digital/sole-trader/"
+    "note": "Covered by the same Sage UK & Ireland Affiliate Programme (Impact.com) as the paid product; free to join. Official FAQ names SBCA and Sage Intacct as commissionable; whether the free Sole Trader MTD product pays is not stated on Sage's official page. Commission and cookie length are not published there. Read 23 Nov 2026.",
+    "source": "https://www.sage.com/en-gb/support/affiliate-programme/"
    }
   },
   "Sage Sole Trader & Landlord": {
@@ -45,8 +49,8 @@
    "joint": "unknown",
    "affiliate": {
     "status": "yes",
-    "note": "sage.com links to a 'Sage Affiliate Programme'; terms not yet reviewed.",
-    "source": "https://www.sage.com/en-gb/making-tax-digital/sole-trader/"
+    "note": "Official Sage UK & Ireland Affiliate Programme for publishers and comparison sites, tracked and paid via Impact.com; free to join. Official page does not publish commission or cookie length. FAQ names Sage Business Cloud Accounting (SBCA) and Sage Intacct as commissionable. Read 23 Nov 2026.",
+    "source": "https://www.sage.com/en-gb/support/affiliate-programme/"
    }
   },
   "FreeAgent": {
@@ -58,7 +62,7 @@
    "joint_source": "https://www.freeagent.com/blog/freeagent-landlords-mtd-ready/",
    "affiliate": {
     "status": "no",
-    "note": "No public affiliate programme found. FreeAgent's customer referral scheme gives the new customer a 10% discount, not a cash commission.",
+    "note": "No public publisher affiliate programme found. The customer referral scheme (terms updated 3 Feb 2026) gives a 10% subscription discount, not a cash commission, and is for existing subscribers only; terms forbid distributing a code in exchange for payment. The Partner Programme is for accountants and bookkeepers only.",
     "source": "https://www.freeagent.com/company/terms/freeagent-referral-scheme/"
    }
   },
@@ -83,7 +87,7 @@
    "joint": "unknown",
    "affiliate": {
     "status": "yes",
-    "note": "Zoho Affiliate Program: 15% commission on qualified sales for the first 12 months (standard tier).",
+    "note": "In-house Zoho Affiliate Program, open to individuals and website owners. Standard tier 15% of revenue/list price for the first 12 months (18% and 20% higher tiers); 90-day cookie; 60-day stickiness; free to join. Applications reviewed within five business days. Agreement last updated 7 October 2026. Read 23 Nov 2026.",
     "source": "https://www.zoho.com/affiliate/"
    }
   },
@@ -95,7 +99,9 @@
    "joint": "yes",
    "joint_source": "https://www.usehammock.com/landlord-mtd-for-accountants/",
    "affiliate": {
-    "status": "unknown"
+    "status": "no",
+    "note": "No public publisher affiliate programme found on 23 Nov 2026. Letting-agent and accountant pages invite recommendations or licence discounts but do not publish a publisher commission. Partner terms (updated 20 Oct 2022) are a reseller-style arrangement in which the partner pays Hammock subscription fees.",
+    "source": "https://www.usehammock.com/legal/partner-terms-and-conditions/"
    }
   },
   "Coconut": {
@@ -104,7 +110,9 @@
    "price_source": "https://www.getcoconut.com/pricing",
    "joint": "unknown",
    "affiliate": {
-    "status": "unknown"
+    "status": "no",
+    "note": "No public publisher affiliate programme found on 23 Nov 2026. The accountant Partner Programme is for practices. The customer refer-a-friend scheme (help article 9 Feb 2026) gives monthly-paying customers one free month, not a cash commission. The Partners page is aimed at brands wanting exposure to Coconut's audience.",
+    "source": "https://www.getcoconut.com/partners"
    },
    "price_from_gbp_year": 49.99
   },
@@ -135,7 +143,9 @@
    "price_source": "https://www.clearbooks.co.uk/pricing/",
    "joint": "unknown",
    "affiliate": {
-    "status": "unknown"
+    "status": "no",
+    "note": "No public publisher programme or published commission found on 23 Nov 2026. Terms of Use (last updated 26 May 2022), clause 13, say Clear Books may run an affiliate scheme in which subscribers receive a benefit (not stated) when a referred person signs up and pays. Accountants, bookkeepers and resellers are not eligible. No public sign-up page was found.",
+    "source": "https://www.clearbooks.co.uk/terms/usage/"
    }
   },
   "Acorah Software Products Ltd (TaxCalc)": {

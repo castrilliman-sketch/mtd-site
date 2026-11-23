@@ -224,3 +224,15 @@ header.site .wrap{min-height:52px}
  .flow .arrow{font-size:.95rem;height:14px;padding:0;margin:0;line-height:14px}
  .flow .go .btn{min-height:44px;margin-top:6px;padding:10px 16px}
 }
+
+/* 2026-11-23 review fixes: hero CTA, secondary Details link, table dashes */
+.sr{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.hero-cta{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin:0 0 16px}
+.hero-link{font-weight:600;font-size:.95rem}
+.pcard-more{font-weight:500;color:var(--muted);text-decoration:underline;text-underline-offset:2px}
+.pcard-more:hover{color:var(--brand)}
+.aff-note{margin:4px 0 0;font-size:.78rem}
+.u.dash{font-style:normal;cursor:help}
+.legend{font-size:.85rem;color:var(--muted);margin:-4px 0 8px}
+.filters .pcf{font-weight:600}
+@media(max-width:520px){.hero-cta{margin:0 0 8px;gap:6px 12px}.hero-cta .btn.big{padding:10px 18px;font-size:1rem}}
