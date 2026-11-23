@@ -1,7 +1,7 @@
 {
  "_how_to_use": "Analytics stays OFF until provider AND site_id are both filled in. Supported provider: \"goatcounter\" (recommended; site_id = your GoatCounter code, e.g. \"mtdsoftwarecompare\" for https://mtdsoftwarecompare.goatcounter.com). The API token for the private stats dashboard is NEVER stored here: set it as the GOATCOUNTER_TOKEN environment variable when running scripts/stats.py.",
- "provider": "",
- "site_id": "",
+ "provider": "goatcounter",
+ "site_id": "mtdsoftwarecompare",
  "track_outbound_clicks": true,
  "track_start_here": true,
  "track_filters": true,
