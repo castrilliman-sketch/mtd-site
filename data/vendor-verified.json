@@ -20,38 +20,44 @@
   "Xero": {
    "price_text": "From £18/month excl. VAT",
    "price_from_gbp_month": 18,
-   "price_note": "Ignite plan. Intro offer at check: 90% off for the first 6 months (£1.80/month excl. VAT). The Ignite plan lists 'MTD for Income Tax ready' and CIS calculations.",
+   "price_note": "Ignite plan, then £18/month excl. VAT. Intro offer at check (23 Nov 2026): 90% off for the first 6 months (£1.80/month excl. VAT); the page also offers one month free. Ignite lists 'MTD for Income Tax ready' and CIS calculations.",
    "price_source": "https://www.xero.com/uk/pricing-plans/",
    "joint": "unknown",
    "affiliate": {
     "status": "yes",
     "note": "Official UK publisher/review-site programme hosted on PartnerStack; free to join. Xero's own page does not publish a rate (discussed after joining). PartnerStack programme directory listed $200 per qualified purchase on 23 Nov 2026. Agreement: a new non-accounting/bookkeeping business signs up via the link and buys a paying Business Edition subscription within 35 days. Cookie length not stated.",
     "source": "https://www.xero.com/uk/affiliate-program/"
-   }
+   },
+   "price_checked": "2026-11-23",
+   "price_evidence": "data/raw/pricing/xero-2026-11-23.txt"
   },
   "Sage Sole Trader & Landlord Free": {
    "price_text": "Free",
    "price_from_gbp_month": 0,
-   "price_note": "Sole Trader Free: 25 auto-categorised transactions per month, 1 bank account, records landlord income and expenses.",
+   "price_note": "Sage Sole Trader Free: 'Completely free, no billing.' 25 auto-categorised transactions per month, 1 bank account, records landlord income and expenses, Making Tax Digital ready.",
    "price_source": "https://www.sage.com/en-gb/making-tax-digital/sole-trader/",
    "joint": "unknown",
    "affiliate": {
     "status": "yes",
     "note": "Covered by the same Sage UK & Ireland Affiliate Programme (Impact.com) as the paid product; free to join. Official FAQ names SBCA and Sage Intacct as commissionable; whether the free Sole Trader MTD product pays is not stated on Sage's official page. Commission and cookie length are not published there. Read 23 Nov 2026.",
     "source": "https://www.sage.com/en-gb/support/affiliate-programme/"
-   }
+   },
+   "price_checked": "2026-11-23",
+   "price_evidence": "data/raw/pricing/sage-st-2026-11-23.txt"
   },
   "Sage Sole Trader & Landlord": {
    "price_text": "£7/month excl. VAT",
    "price_from_gbp_month": 7,
-   "price_note": "Intro offer at check: 90% off for 10 months (£0.70/month excl. VAT), then £7/month.",
+   "price_note": "Sage Sole Trader plan, £7/month excl. VAT. Intro offer at check (23 Nov 2026): 90% off for 10 months (£0.70/month excl. 20% VAT), then £7/month.",
    "price_source": "https://www.sage.com/en-gb/making-tax-digital/sole-trader/",
    "joint": "unknown",
    "affiliate": {
     "status": "yes",
     "note": "Official Sage UK & Ireland Affiliate Programme for publishers and comparison sites, tracked and paid via Impact.com; free to join. Official page does not publish commission or cookie length. FAQ names Sage Business Cloud Accounting (SBCA) and Sage Intacct as commissionable. Read 23 Nov 2026.",
     "source": "https://www.sage.com/en-gb/support/affiliate-programme/"
-   }
+   },
+   "price_checked": "2026-11-23",
+   "price_evidence": "data/raw/pricing/sage-st-2026-11-23.txt"
   },
   "FreeAgent": {
    "price_text": "Sole trader £19/month, landlord £10/month (excl. VAT)",
@@ -82,14 +88,16 @@
   "Zoho": {
    "price_text": "Free plan; paid from £10/month billed annually",
    "price_from_gbp_month": 0,
-   "price_note": "Zoho Books Free plan is £0. Its MTD page says sole traders and landlords can manage MTD obligations for free. Standard plan is £10/org/month billed annually (£12 monthly).",
+   "price_note": "Zoho Books Free plan is £0 and lists MTD for Income Tax (Sole Traders & Landlords tab). Standard plan is £10/org/month billed annually (£12 billed monthly), with a free trial.",
    "price_source": "https://www.zoho.com/uk/books/pricing/",
    "joint": "unknown",
    "affiliate": {
     "status": "yes",
     "note": "In-house Zoho Affiliate Program, open to individuals and website owners. Standard tier 15% of revenue/list price for the first 12 months (18% and 20% higher tiers); 90-day cookie; 60-day stickiness; free to join. Applications reviewed within five business days. Agreement last updated 7 October 2026. Read 23 Nov 2026.",
     "source": "https://www.zoho.com/affiliate/"
-   }
+   },
+   "price_checked": "2026-11-23",
+   "price_evidence": "data/raw/pricing/zoho-2026-11-23.txt"
   },
   "Hammock for landlords": {
    "price_text": "From £8/month",
