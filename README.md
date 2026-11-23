@@ -18,7 +18,7 @@ Static site for https://mtdsoftwarecompare.co.uk. The domain is not live yet; no
 
 ## Before launch (D)
 - Brand and canonical URL are set in `config/site.json` (`MTD Software Compare`, `https://mtdsoftwarecompare.co.uk`). Register the domain and point DNS before publishing.
-- Add the public contact email in `config/site.json` (`contact_email`) and a postal address on the privacy page (still marked in yellow). The About page and operator name (Daniel Wyatt) are in place.
+- Public contact email is `help@mtdsoftwarecompare.co.uk` in `config/site.json` (`contact_email`). A postal address on the privacy page is still marked in yellow. The About page and operator name (Daniel Wyatt) are in place.
 - Founders Blog posts live in `data/blog/*.md` (YAML-like front matter + Markdown) and are built by `build.py`.
 
 ## Analytics & private stats (off until configured)
