@@ -6,14 +6,17 @@ measured at 20px and scaled so the previous homepage title matches
 Seobility's 698px reading. Descriptions are measured at 14px.
 No third-party dependencies.
 
-Limits: title 580px and 60 characters; description 1000px and 155 characters.
-The pixel caps follow Seobility; the character caps keep titles around 50–60
-characters and descriptions within a typical SERP snippet.
+Limits: title 580px and 65 characters; description 1000px and 155 characters.
+The pixel caps follow Seobility; the character caps follow Seobility's 55–65
+character target (hard max 65). Titles must not repeat a word (case-insensitive;
+'|' and '&' and other punctuation are separators).
 """
 from __future__ import annotations
+import re
 
 TITLE_MAX_PX = 580
-TITLE_MAX_CHARS = 60
+TITLE_MAX_CHARS = 65
+TITLE_MIN_CHARS = 55
 DESC_MAX_PX = 1000
 DESC_MAX_CHARS = 155
 _TITLE_SCALE = 1.0035269010445917
@@ -269,7 +272,32 @@ def desc_px(text: str) -> float:
     return _sum20(text) * _DESC_SCALE
 
 
+def title_words(title: str) -> list[str]:
+    """Alphanumeric words, lowercased. '|', '&' and other punctuation are separators."""
+    return [w.lower() for w in re.findall(r"[A-Za-z0-9]+", title or "")]
+
+
+def repeated_words(title: str) -> list[str]:
+    """Words that appear more than once, in the order the repeats are first seen."""
+    seen: set[str] = set()
+    out: list[str] = []
+    for w in title_words(title):
+        if len(w) < 2:
+            continue  # ignore "&", "I", digits like the "1 1" in "1 1 MTD Bridge"
+        if w in seen:
+            if w not in out:
+                out.append(w)
+        else:
+            seen.add(w)
+    return out
+
+
 def title_ok(title: str, max_px: int = TITLE_MAX_PX, max_chars: int = TITLE_MAX_CHARS) -> bool:
+    title = title or ""
+    return title_px(title) <= max_px and len(title) <= max_chars and not repeated_words(title)
+
+
+def _title_length_ok(title: str, max_px: int, max_chars: int) -> bool:
     title = title or ""
     return title_px(title) <= max_px and len(title) <= max_chars
 
@@ -301,9 +329,12 @@ def _truncate(text: str, fits) -> str:
 
 
 def fit_title(title: str, max_px: int = TITLE_MAX_PX, max_chars: int = TITLE_MAX_CHARS) -> str:
-    """Keep a full title (already including any brand suffix) within the caps.
+    """Keep a title within the caps and without repeated words.
 
-    Drops trailing ' | …' segments first, then truncates the remainder.
+    Drops trailing ' | …' segments first (this also removes a brand suffix
+    that repeats a word already in the page part, such as MTD). Then truncates
+    the remainder for length/width only. Internal repeats in a single segment
+    are left for the caller to reword; they are reported by check_site.py.
     """
     title = " ".join((title or "").split())
     if title_ok(title, max_px, max_chars):
@@ -315,7 +346,50 @@ def fit_title(title: str, max_px: int = TITLE_MAX_PX, max_chars: int = TITLE_MAX
         if title_ok(candidate, max_px, max_chars):
             return candidate
     remainder = parts[0] if parts else ""
-    return _truncate(remainder, lambda s: title_ok(s, max_px, max_chars))
+    if _title_length_ok(remainder, max_px, max_chars):
+        return remainder
+    return _truncate(remainder, lambda s: _title_length_ok(s, max_px, max_chars))
+
+
+def choose_title(
+    candidates,
+    max_px: int = TITLE_MAX_PX,
+    max_chars: int = TITLE_MAX_CHARS,
+    min_chars: int = TITLE_MIN_CHARS,
+) -> str:
+    """Pick the first unique, repeat-free candidate in the 55–65 character band.
+
+    Falls back to the closest in-cap option, then to fit_title of the first candidate.
+    """
+    seen: set[str] = set()
+    opts: list[str] = []
+    for raw in candidates or []:
+        c = " ".join((raw or "").split())
+        if not c:
+            continue
+        key = c.lower()
+        if key in seen:
+            continue
+        seen.add(key)
+        opts.append(c)
+    if not opts:
+        return ""
+    ok = [c for c in opts if title_ok(c, max_px, max_chars)]
+    if not ok:
+        return fit_title(opts[0], max_px, max_chars)
+    in_band = [c for c in ok if min_chars <= len(c) <= max_chars]
+    if in_band:
+        return in_band[0]
+
+    def distance(c: str) -> int:
+        n = len(c)
+        if n < min_chars:
+            return min_chars - n
+        if n > max_chars:
+            return n - max_chars
+        return 0
+
+    return min(ok, key=distance)
 
 
 def fit_desc(desc: str, max_px: int = DESC_MAX_PX, max_chars: int = DESC_MAX_CHARS) -> str:

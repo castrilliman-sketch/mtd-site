@@ -35,6 +35,7 @@
 
   function sortMatches(a, b) {
     if (!!a.featured !== !!b.featured) return a.featured ? -1 : 1;
+    if (!!a.free_variant !== !!b.free_variant) return a.free_variant ? 1 : -1;
     var ap = a.sort_price, bp = b.sort_price;
     var aMissing = ap == null, bMissing = bp == null;
     if (aMissing !== bMissing) return aMissing ? 1 : -1;
@@ -81,7 +82,8 @@
       heading.textContent = 'Matches what you picked';
       var extra = s.keep === 'paper' ? ' Paper records need to be kept digitally for MTD; these options create records in software.' : '';
       note.textContent = (all.length > shown.length ? 'Showing ' + shown.length + ' of ' + all.length + ' price-checked matches.' : all.length + ' price-checked match' + (all.length === 1 ? '.' : 'es.')) +
-        (shown.some(function (p) { return p.featured; }) ? ' Featured products, which we may earn a commission from, are shown first.' : '') + extra;
+        (shown.some(function (p) { return p.featured; }) ? ' Featured products, which we may earn a commission from, are shown first.' : '') +
+        ' Paid plans are listed before free variants.' + extra;
       cards.innerHTML = shown.map(card).join('');
       more.innerHTML = '<a href="#directory">Compare all ' + total + ' products</a>';
     }

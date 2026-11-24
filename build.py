@@ -5,7 +5,7 @@ from urllib.parse import urlsplit, urlunsplit, parse_qsl, urlencode
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(ROOT, 'scripts'))
-from seo_width import fit_title, fit_desc, title_ok
+from seo_width import fit_title, fit_desc, title_ok, choose_title, repeated_words, title_words
 DIST = os.path.join(ROOT, 'dist')
 SITE = json.load(open(f'{ROOT}/config/site.json'))
 _ACFG = os.environ.get('MTD_ANALYTICS_CONFIG', f'{ROOT}/config/analytics.json')
@@ -126,17 +126,34 @@ for r in HM['products']:
     products.append(p)
 products.sort(key=lambda p: p['name'].lower().strip('"#@'))
 BY = {p['slug']: p for p in products}
+
+def az_name(p):
+    return p['name'].lower().strip('"#@')
+
+def is_free_variant(p):
+    """True for the free listing of a paid/free pair (slug X-free with a matching X)."""
+    s = p['slug']
+    return s.endswith('-free') and s[:-5] in BY
+
+def pair_counterpart(p):
+    """The other product in a paid/free pair, or None."""
+    s = p['slug']
+    if s.endswith('-free') and s[:-5] in BY:
+        return BY[s[:-5]]
+    return BY.get(s + '-free')
+
 FEATURED_NAMES = json.load(open(f'{ROOT}/config/featured.json'))['products']
 _missing_feat = [n for n in FEATURED_NAMES if n not in {p['name'] for p in products}]
 assert not _missing_feat, f'config/featured.json names not on HMRC list: {_missing_feat}'
 for p in products: p['featured'] = p['name'] in FEATURED_NAMES
-FEATURED = [p for p in products if p['featured']]  # A-Z, same as products
+FEATURED = [p for p in products if p['featured']]
+FEATURED.sort(key=lambda p: (is_free_variant(p), az_name(p)))
 CHECKEDP = [p for p in products if p['vendor_checked']]
-CHECKEDP.sort(key=lambda p: not p['featured'])  # stable: featured first, A-Z within each group
+CHECKEDP.sort(key=lambda p: (not p['featured'], is_free_variant(p), az_name(p)))
 
 def dir_key(p):
-    """Default directory order: featured first, then price-checked, then A-Z."""
-    return (not p['featured'], not p['vendor_checked'], p['name'].lower().strip('"#@'))
+    """Default directory order: featured first, then price-checked, paid plans before free variants, then A-Z."""
+    return (not p['featured'], not p['vendor_checked'], is_free_variant(p), az_name(p))
 
 # ---------- product-page indexing (config/indexing.json) ----------
 IDX = {k: v for k, v in json.load(open(f'{ROOT}/config/indexing.json')).items() if not k.startswith('_')}
@@ -221,6 +238,7 @@ def finder_payload():
             'creates_records': p['creates_records'], 'uk_property': p['uk_property'],
             'sole_trader': p['sole_trader'], 'href': href, 'rel': rel, 'aff': aff,
             'featured': p['featured'],
+            'free_variant': is_free_variant(p),
         })
     return json.dumps({'total': len(products), 'products': items}, ensure_ascii=False)
 
@@ -425,7 +443,11 @@ def kit_pages():
         ('Can I unsubscribe?', 'Yes, with one click at the bottom of every email. We then stop emailing you straight away.'),
         ('Is this tax advice?', 'No. It\'s general information taken from GOV.UK, with links to every source. Check your own position on GOV.UK or with a qualified adviser.'),
     ]
-    out = head(f'Free MTD kit: calendar and checklist | {NAME}',
+    out = head(choose_title([
+        'Free Making Tax Digital kit: dates, checklist and reminders',
+        'Free Making Tax Digital kit: calendar and checklist',
+        f'Free Making Tax Digital kit | {NAME}',
+    ]),
                'Free MTD kit: every Income Tax deadline for 2026 to 2028, a getting-ready checklist, a calendar file and reminders 7 days before each deadline.',
                '/free-mtd-kit/', [faq_ld(faq), crumb_ld([('Home', '/'), ('Free MTD Ready Kit', '/free-mtd-kit/')])])
     out += f'''<section class="kit-hero"><div class="wrap"><div class="kh-grid">
@@ -452,7 +474,10 @@ def kit_pages():
     out += foot()
     write('/free-mtd-kit/', out)
     # Brevo: "confirmation page after clicking the validation link" -> /free-mtd-kit/confirmed/
-    out = head(f"Your MTD Ready Kit | {NAME}", 'Download the Free MTD Ready Kit.', '/free-mtd-kit/confirmed/', noindex=True)
+    out = head(choose_title([
+        'Your Making Tax Digital ready kit is available to download',
+        'Your Making Tax Digital kit is ready to download',
+    ]), 'Download the Free MTD Ready Kit.', '/free-mtd-kit/confirmed/', noindex=True)
     out += f'''<div class="wrap" style="max-width:760px"><h1>You're in. Here's your MTD Ready Kit</h1>
 <p class="lead">Thanks for confirming. We've also emailed you these links so you can find them later.</p>
 <p class="downloads"><a class="btn big" href="{KIT_PDF}" download>Download the kit (PDF)</a> <a class="btn big ghost" href="{KIT_ICS}" download>Add all deadlines to my calendar (.ics)</a></p>
@@ -461,7 +486,10 @@ def kit_pages():
 <li>Look out for our next email in a couple of days: the 5 decisions to make before your first quarterly update.</li></ol></div>'''
     out += foot(); write('/free-mtd-kit/confirmed/', out)
     # Brevo: "confirmation page after submitting the form" (used when JavaScript is off) -> /free-mtd-kit/check-your-inbox/
-    out = head(f'Check your inbox | {NAME}', 'Confirm your email to get the Free MTD Ready Kit.', '/free-mtd-kit/check-your-inbox/', noindex=True)
+    out = head(choose_title([
+        f'Check your inbox to confirm the kit | {NAME}',
+        f'Check your inbox | {NAME}',
+    ]), 'Confirm your email to get the Free MTD Ready Kit.', '/free-mtd-kit/check-your-inbox/', noindex=True)
     out += '''<div class="wrap" style="max-width:760px"><h1>Check your inbox</h1>
 <p class="lead">We've sent you an email. Click the <b>confirm</b> button in it and your Free MTD Ready Kit arrives straight away.</p>
 <p>Can't see it after a couple of minutes? Check your spam or promotions folder, or <a href="/free-mtd-kit/">try again</a> in case of a typo.</p></div>'''
@@ -481,7 +509,7 @@ def home():
     n = len(products)
     free_checked = [p for p in CHECKEDP if p['sort_price'] == 0 or p['free_version'] == 'yes']
     rows = {True: [], False: []}
-    # Default order: featured group first, then 'Best of the rest'; price-checked first and A-Z within each group (matches directory.js).
+    # Default order: featured group first, then 'Best of the rest'; price-checked first, paid before free variants, then A-Z (matches directory.js).
     for p in sorted(products, key=dir_key):
         href, rel, aff = link_for(p)
         inc = incomes(p)
@@ -492,6 +520,7 @@ def home():
             'uk_property': int(p['uk_property'] == 'yes'), 'sole_trader': int(p['sole_trader'] == 'yes'),
             'foreign_property': int(p['foreign_property'] == 'yes'), 'cis': int(p['cis'] == 'yes'), 'tax_return': int(p['tax_return']),
             'joint': int(p['joint_property'] == 'yes'), 'calendar': int(p['calendar_period'] == 'yes'), 'checked': int(p['vendor_checked']), 'aud': aud, 'group': 'featured' if p['featured'] else 'rest',
+            'free-variant': int(is_free_variant(p)),
             's-name': E(p['name'].lower().strip('"#@')), 's-price': sp, 's-free': int(p['free_version'] != 'yes'),
             's-cis': {'yes': 0, 'in development': 1}.get(p['cis'], 2), 's-joint': {'yes': 0, 'paid plans only': 1}.get(p['joint_property'], 2),
         }
@@ -508,7 +537,7 @@ def home():
         ("What is MTD bridging software?", "Bridging software connects to records you already keep, such as a spreadsheet, and sends your quarterly updates to HMRC. Some bridging products also submit your tax return; others only send the updates. Use the 'Bridging (spreadsheets)' filter above to see them, or read <a href=\"/guides/mtd-spreadsheets-bridging-software/\">our guide to spreadsheets and bridging software</a>."),
         ("Can I use more than one MTD product?", "Yes. HMRC says you can use more than one product, but only one product for each separate submission. For example, a landlord cannot use two products to send the same property quarterly update. If you combine products, make sure together they cover your quarterly updates and your tax return. <a href=\"https://www.gov.uk/guidance/choose-the-right-software-for-making-tax-digital-for-income-tax\">Source: GOV.UK, Choose the right software</a>"),
         ("When are MTD quarterly updates due?", "For both standard and calendar update periods, the deadlines are 7 August, 7 November, 7 February and 7 May (the following tax year). <a href=\"https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/send-quarterly-updates\">Source: GOV.UK, Send quarterly updates</a>. For what happens if one is late, see <a href=\"/guides/mtd-late-quarterly-update-penalties/\">MTD penalty points explained</a>. For how the two period types differ, see <a href=\"/guides/mtd-standard-vs-calendar-update-periods/\">standard vs calendar update periods</a>."),
-        ("Does HMRC recommend any MTD software?", "No. HMRC says it does not recommend any product or software provider. Every product in this directory has been through HMRC's recognition process. We show our featured products first, because we may earn a commission from them (see our affiliate disclosure), then every other product under Best of the rest. Within each group, price-checked products come first, then A to Z."),
+        ("Does HMRC recommend any MTD software?", "No. HMRC says it does not recommend any product or software provider. Every product in this directory has been through HMRC's recognition process. We show our featured products first, because we may earn a commission from them (see our affiliate disclosure), then every other product under Best of the rest. Within each group, price-checked products come first, paid plans before their free variants, then A to Z. You can still filter, including to free versions only. Right now no affiliate links are live, so a commission does not change this order."),
         ("Why does a product say 'Quarterly updates only'?", "HMRC lists some products as able to send quarterly updates but not to submit your tax return. If you pick one of those, you'll need another product, or an agent, for the tax return after the year ends."),
     ]
     il = {'@context': 'https://schema.org', '@type': 'ItemList', 'name': 'HMRC-recognised MTD for Income Tax software we have price-checked',
@@ -517,7 +546,11 @@ def home():
     any_aff = any(link_for(p)[2] for p in products)
     popular = [BY[s] for s in POPULAR_SLUGS if s in BY]
     popular_html = "".join(product_card(p, kind="popular") for p in popular)
-    out = head(f"Find your MTD software in 30 seconds | {NAME}",
+    out = head(choose_title([
+        f"Compare {n} HMRC-recognised Making Tax Digital products",
+        f"Compare {n} HMRC-recognised Making Tax Digital apps today",
+        f"Compare {n} HMRC-recognised Making Tax Digital apps",
+    ]),
                f"Compare {n} HMRC-recognised MTD software products. Pick who you are and what you need. Prices checked at source.",
                "/", [web, il, faq_ld(qas)])
     out += f'''<section class="hero funnel"><div class="wrap">
@@ -567,9 +600,9 @@ def home():
 </div></section>
 <div class="wrap">
 <section id="directory"><h2>Compare all HMRC-recognised MTD software</h2>
-<p class="disclose commercial"><strong>How this list is ordered:</strong> our featured products are ones whose providers run an affiliate programme we can join, so we may earn a commission if you sign up. That's why they're shown first: the featured section is commercial, not a purely editorial ranking. {'Affiliate links are marked next to the button. ' if any_aff else "Right now none of our links are affiliate links; every button goes to the provider's official website. "}Every HMRC-recognised product is still listed below, and the facts for every product are checked the same way. <a href="/affiliate-disclosure/">How we make money</a>.</p>
+<p class="disclose commercial"><strong>How this list is ordered:</strong> our featured products are ones whose providers run an affiliate programme we can join, so we may earn a commission if you sign up. That's why they're shown first: the featured section is commercial, not a purely editorial ranking. {'Affiliate links are marked next to the button. ' if any_aff else "Right now none of our links are affiliate links; every button goes to the provider's official website. "}Within each group, paid plans are listed before free variants, then A to Z; that is not a commission ranking. Every HMRC-recognised product is still listed below, and the facts for every product are checked the same way. <a href="/affiliate-disclosure/">How we make money</a>.</p>
 <section class="featured" aria-labelledby="featured-h"><h3 id="featured-h">Featured MTD software</h3>
-<p class="featured-note">{len(FEATURED)} HMRC-recognised products we may earn a commission from, A to Z. Prices checked on each provider's own website.</p>
+<p class="featured-note">{len(FEATURED)} HMRC-recognised products we may earn a commission from. Paid plans are listed before free variants, then A to Z. Prices checked on each provider's own website.</p>
 <div class="pcards fcards">{''.join(featured_card(p) for p in FEATURED)}</div></section>
 <h3 id="rest-h" class="rest-h">Best of the rest</h3>
 <p class="rest-note">The other {n - len(FEATURED)} HMRC-recognised products, in the full table below with the featured products at the top. Filter, sort or search the whole list.</p>
@@ -588,7 +621,7 @@ def home():
 <label class="pcf"><input type="checkbox" id="pcf" checked> Show price-checked first</label>
 <select id="aud" aria-label="Who will use it"><option value="">For anyone</option><option value="i">For individuals</option><option value="a">For agents/accountants</option></select>
 </form>
-<p class="count" id="count" aria-live="polite">{n} HMRC-recognised products. Featured products first, then Best of the rest; price-checked first and A to Z within each.</p>
+<p class="count" id="count" aria-live="polite">{n} HMRC-recognised products. Featured products first, then Best of the rest; price-checked first, paid plans before free variants, then A to Z within each.</p>
 <p class="legend"><span class="u" aria-hidden="true">–</span> means we haven't checked it yet, or HMRC doesn't list it. Hover or tap a dash for details.</p>
 <div class="tablewrap"><table class="dir" id="dir"><thead><tr>
 <th data-k="name"><button>Software</button></th><th data-k="price"><button>Price (from)</button></th><th data-k="free"><button>Free version</button></th>
@@ -611,13 +644,106 @@ def home():
     write('/', out)
 
 # ---------- product pages ----------
+def seo_label(name):
+    """Title-safe form of a product name, avoiding repeated words in the name itself."""
+    if not repeated_words(name):
+        return name
+    trimmed = re.sub(r'\s+[–-]\s+Making Tax Digital for Income Tax\s*$', '', name, flags=re.I)
+    trimmed = re.sub(r'\s+for Income Tax\s*$', '', trimmed, flags=re.I)
+    if trimmed and not repeated_words(trimmed):
+        return trimmed
+    m = re.match(r'^(\d+)\s+(\d+)(\b.*)$', name)
+    if m and m.group(1) == m.group(2):
+        alt = f"{m.group(1)}-{m.group(2)}{m.group(3)}"
+        if not repeated_words(alt):
+            return alt
+    return name
+
+def product_seo_title(p, heading):
+    """Unique, repeat-free product title; keywords (the name) first, 55-65 chars when possible."""
+    label = seo_label(heading)
+    if is_free_variant(p):
+        stems = [
+            f"{label} price, limits & features",
+            f"{label}: price, limits and features",
+            f"{label}: prices and key features",
+            f"{label}: price and features compared",
+            f"{label}: Making Tax Digital limits & features",
+            f"{label}: Making Tax Digital prices and features",
+            f"{label}: Making Tax Digital prices and features compared",
+            f"{label} prices, plans and features compared",
+            f"{label}: HMRC-recognised prices and features",
+            f"{label} on the HMRC list: price and features",
+        ]
+    elif pair_counterpart(p):
+        stems = [
+            f"{label} price, plan & features",
+            f"{label}: prices and key features",
+            f"{label}: price and features compared",
+            f"{label} paid plan: prices and features",
+            f"{label}: price, plan and features",
+            f"{label}: Making Tax Digital price & features",
+            f"{label}: Making Tax Digital prices and features",
+            f"{label}: Making Tax Digital prices and features compared",
+            f"{label} prices, plans and features compared",
+            f"{label}: HMRC-recognised prices and features",
+        ]
+    elif 'free' in title_words(label):
+        stems = [
+            f"{label} price & features",
+            f"{label}: prices and key features",
+            f"{label}: price and features compared",
+            f"{label}: Making Tax Digital price & features",
+            f"{label}: Making Tax Digital prices and features compared",
+            f"{label} prices, plans and features compared",
+            f"{label}: HMRC-recognised prices and features",
+        ]
+    else:
+        stems = [
+            f"{label} price, free plan & features",
+            f"{label}: price, free plan and features",
+            f"{label}: prices and key features",
+            f"{label}: price and features compared",
+            f"{label}: price, limits and features",
+            f"{label} price, limits & features",
+            f"{label}: Making Tax Digital price & features",
+            f"{label}: Making Tax Digital prices and features",
+            f"{label}: Making Tax Digital prices and features compared",
+            f"{label} prices, plans and features compared",
+            f"{label} paid plan: prices and features",
+            f"{label}: HMRC-recognised prices and features",
+            f"{label} on the HMRC list: price and features",
+        ]
+    pads = ['', ' compared', ' today', ' in the UK', ' at a glance', ' for UK users']
+    cands = []
+    for stem in stems:
+        for pad in pads:
+            if pad and stem.endswith(pad.strip()):
+                continue
+            body = stem + pad
+            cands.append(body)
+            cands.append(f"{body} | {NAME}")
+    cands += [f"{label} | {NAME}", label]
+    return choose_title(cands)
+
+
 def product_page(p):
     href, rel, aff = link_for(p)
     inc = incomes(p)
     tr = p['tax_return_items']
     ready = [k for k, v in tr.items() if v == 'yes']; dev = [k for k, v in tr.items() if v == 'in development']; no = [k for k, v in tr.items() if v == 'no']
     tlist = ' and '.join(x.lower() for x in ['software that creates digital records' if p['creates_records'] == 'yes' else '', 'bridging software that connects to your records' if p['bridging'] == 'yes' else ''] if x) or 'software'
-    summary = f"{E(p['name'])} is on HMRC's list of software recognised for Making Tax Digital for Income Tax. HMRC lists it as {tlist}, for {', '.join(inc).replace('Sole trader', 'sole trader').replace('Foreign property', 'foreign property') or 'unknown'} income. "
+    other = pair_counterpart(p)
+    heading = p['name']
+    if is_free_variant(p) and not re.search(r'\bfree\b', heading, re.I):
+        heading = f"{heading} Free"
+    inc_txt = ', '.join(inc).replace('Sole trader', 'sole trader').replace('Foreign property', 'foreign property') or 'unknown'
+    if is_free_variant(p) and other:
+        summary = f"{E(heading)} is the free version of {E(other['name'])}, listed separately on HMRC's list of software recognised for Making Tax Digital for Income Tax. HMRC lists it as {tlist}, for {inc_txt} income. "
+    elif other:
+        summary = f"{E(p['name'])} is on HMRC's list of software recognised for Making Tax Digital for Income Tax. This page is about the paid product, not the free version. HMRC lists it as {tlist}, for {inc_txt} income. "
+    else:
+        summary = f"{E(p['name'])} is on HMRC's list of software recognised for Making Tax Digital for Income Tax. HMRC lists it as {tlist}, for {inc_txt} income. "
     summary += 'It can send your quarterly updates <strong>and submit your tax return</strong>.' if p['tax_return'] else 'HMRC lists it for <strong>quarterly updates only</strong>, so you would need another product or an agent for your tax return.'
     suits = []
     if inc == ['UK property'] or inc == ['UK property', 'Foreign property']: suits.append('It is built for landlords: HMRC lists property as its only income type.')
@@ -626,13 +752,16 @@ def product_page(p):
     if p['free_version'] == 'yes': suits.append('HMRC says there is a free version. Check its limits on the provider site.')
     if p['agent'] == 'yes' and p['individual'] != 'yes': suits.append('HMRC lists it as agent software, aimed at accountants and bookkeepers rather than individuals.')
     if p['cis'] == 'yes': suits.append('It is ready to report Construction Industry Scheme (CIS) deductions on your tax return.')
-    # Prefer a title that still includes the brand; only drop "for MTD" or the brand if the name is long.
-    candidates = []
-    if not re.search(r'\bMTD\b|Making Tax Digital', p['name'], re.I):
-        candidates.append(f"{p['name']} for MTD | {NAME}")
-    candidates += [f"{p['name']} | {NAME}", p['name']]
-    title = next((c for c in candidates if title_ok(c)), candidates[-1])
-    desc = f"Is {p['name']} HMRC-recognised for MTD? Yes. See price{', checked ' + nice_date(p['price_checked']) if p['vendor_checked'] else ''}, free version and key features in plain English."
+    # Free variants always keep "Free" in the heading used for the title and H1.
+    title = product_seo_title(p, heading)
+    checked = (', checked ' + nice_date(p['price_checked'])) if p['vendor_checked'] else ''
+    if is_free_variant(p):
+        desc = f"Is {heading} HMRC-recognised for MTD? Yes. This page is about the free version: price{checked}, limits and key features in plain English."
+    elif other:
+        desc = f"Is {p['name']} HMRC-recognised for MTD? Yes. This page is about the paid product: price{checked} and key features in plain English."
+    else:
+        desc = f"Is {p['name']} HMRC-recognised for MTD? Yes. See price{checked}, free version and key features in plain English."
+    desc = fit_desc(desc)
     app = {'@context': 'https://schema.org', '@type': 'SoftwareApplication', 'name': p['name'], 'applicationCategory': 'FinanceApplication',
            'operatingSystem': p['compatible_with'] if p['compatible_with'] != 'unknown' else None, 'url': p['website'],
            'description': re.sub('<[^>]+>', '', summary)}
@@ -654,20 +783,31 @@ def product_page(p):
         f'<p>We haven\'t checked this price yet. HMRC says: <strong>{"free version available" if p["free_version"] == "yes" else "paid version"}</strong>. See the provider\'s website for current pricing.</p>'
     joint = yn(p['joint_property']) + (f' <a class="disclose" href="{E(p["joint_source"])}" rel="noopener" target="_blank">(source)</a>' if p.get('joint_source') else '')
     alts = [a for a in CHECKEDP if a['slug'] != p['slug'] and set(incomes(a)) & set(inc)]
-    alts.sort(key=lambda a: (not a['featured'], a['sort_price'] if a['sort_price'] is not None else 999, a['name']))
+    alts.sort(key=lambda a: (not a['featured'], is_free_variant(a), a['sort_price'] if a['sort_price'] is not None else 999, a['name']))
     alt_html = ''.join(f'<li><a href="/software/{a["slug"]}/">{E(a["name"])}</a>{" <span class=\"tag f\">Featured</span>" if a["featured"] else ""}: {card_price(a)}</li>' for a in alts[:5])
     tr_rows = ''.join(f'<tr><td>{E(k)}</td><td>{yn(v)}</td></tr>' for k, v in tr.items())
     acc = ', '.join(k for k, v in p['accessibility'].items() if v == 'yes') or 'None listed'
-    short = f"{E(p['name'])} is HMRC-recognised for Making Tax Digital for Income Tax."
-    if p['tax_return']:
-        short += " It can send quarterly updates and submit your tax return."
+    filing = " It can send quarterly updates and submit your tax return." if p['tax_return'] else " HMRC lists it for quarterly updates only."
+    if is_free_variant(p) and other:
+        short = f"{E(heading)} is the free version of {E(other['name'])}, listed separately by HMRC for Making Tax Digital for Income Tax.{filing}"
+        if p.get('price_note'):
+            short += f" {E(p['price_note'].rstrip('.'))}."
+        elif p['price_text'] and p['price_text'] != 'unknown':
+            short += f" {E(p['price_text'])}."
+        else:
+            short += " We have not yet checked this free plan on the provider's website."
+        pair_nav = f'<p class="disclose pair-nav">Looking for the paid version? See <a href="/software/{other["slug"]}/">{E(other["name"])}</a>.</p>'
+    elif other:
+        short = f"{E(p['name'])} is HMRC-recognised for Making Tax Digital for Income Tax.{filing} This page is about the paid product, not the free version."
+        pair_nav = f'<p class="disclose pair-nav">Looking for the free version? See <a href="/software/{other["slug"]}/">{E(other["name"])}</a>.</p>'
     else:
-        short += " HMRC lists it for quarterly updates only."
+        short = f"{E(p['name'])} is HMRC-recognised for Making Tax Digital for Income Tax.{filing}"
+        pair_nav = ''
     out += f'''<div class="wrap"><p class="breadcrumb"><a href="/">Home</a> › <a href="/#directory">MTD software</a> › {E(p['name'])}</p>
 <div class="cols"><div>
-<h1>{E(p['name'])}</h1>
+<h1>{E(heading)}</h1>
 <p class="lead">{short}</p>
-<div class="cta">{cta}{cta_note}</div>
+{pair_nav}<div class="cta">{cta}{cta_note}</div>
 <div class="facts">
 <div class="fact"><small>On HMRC's list</small><b class="y">Yes</b> <a class="disclose" href="{E(p['hmrc_url'])}" rel="noopener" target="_blank">(HMRC entry)</a></div>
 <div class="fact"><small>Free version (HMRC)</small><b>{yn(p['free_version'])}</b></div>
@@ -695,7 +835,7 @@ def product_page(p):
 {signup_block('inline')}
 </div>
 <aside><div class="card"><strong>{E(p['name'])}</strong><p>{price_html(p)}</p>{cta}<p>{cta_note}</p>
-{('<h3>Price-checked alternatives</h3><ul>' + alt_html + '</ul><p class="disclose">Featured products are listed first; <a href="/affiliate-disclosure/">we may earn a commission</a> from them.</p>') if alt_html else ''}
+{('<h3>Price-checked alternatives</h3><ul>' + alt_html + '</ul><p class="disclose">Featured products are listed first, then paid plans before free variants; <a href="/affiliate-disclosure/">we may earn a commission</a> from featured products.</p>') if alt_html else ''}
 <p><a href="/#directory">← Compare all {len(products)} products</a></p></div></aside>
 </div></div>'''
     out += foot()
@@ -714,7 +854,11 @@ def guide():
         ("Should I use standard or calendar update periods?", "GOV.UK says standard update periods (ending on the 5th) are the default and fit accounts that follow the tax year, and calendar update periods (ending on the month-end) are for accounts that run 1 April to 31 March. The deadlines are the same for both, and the choice is fixed for the tax year once you send your first update. See <a href=\"/guides/mtd-standard-vs-calendar-update-periods/\">standard vs calendar update periods</a>."),
         ("Will I get a penalty for a late quarterly update in 2026 to 2027?", "HMRC says there are no penalty points for late quarterly updates in your first tax year if you need to use MTD from 6 April 2026 or 6 April 2027 (so 2026 to 2027, or 2027 to 2028). You still need to send them before you can submit your tax return, and late tax returns still get penalty points. See <a href=\"/guides/mtd-late-quarterly-update-penalties/\">how MTD penalty points work</a>."),
     ]
-    out = head(f'Do I need MTD, and when? | {NAME}',
+    out = head(choose_title([
+        f'Do I need Making Tax Digital yet? | {NAME}',
+        'Do I need Making Tax Digital, and when?',
+        'Do I need Making Tax Digital yet?',
+    ]),
                'Who needs MTD for Income Tax, the £50,000, £30,000 and £20,000 thresholds, quarterly deadlines and exemptions. Sourced from GOV.UK.',
                '/do-i-need-mtd/', [faq_ld(qas), crumb_ld([('Home', '/'), ('Do I need MTD?', '/do-i-need-mtd/')])])
     out += f'''<div class="wrap" style="max-width:820px"><p class="breadcrumb"><a href="/">Home</a> › Do I need MTD?</p>
@@ -776,7 +920,7 @@ def guide():
     write('/do-i-need-mtd/', out)
 
 def simple(path, title, desc, body, crumbs):
-    out = head(f'{title} | {NAME}', desc, path, [crumb_ld(crumbs)])
+    out = head(choose_title([f'{title} | {NAME}', title]), desc, path, [crumb_ld(crumbs)])
     out += f'<div class="wrap" style="max-width:820px"><p class="breadcrumb"><a href="/">Home</a> › {E(title)}</p><h1>{E(title)}</h1>{body}</div>'
     out += foot(); write(path, out)
 
@@ -970,7 +1114,10 @@ def guide_pages():
     items = '<li><p class="byline">Facts checked ' + E(nice_date(CHECKED)) + '</p><h2><a href="/do-i-need-mtd/">Do I need Making Tax Digital, and when?</a></h2><p>Who needs MTD for Income Tax, the thresholds, quarterly deadlines and exemptions, all sourced from GOV.UK.</p></li>'
     items += ''.join(f'''<li><p class="byline">Facts checked {E(nice_date(g["checked"]))}</p>
 <h2><a href="{g["path"]}">{E(g["title"])}</a></h2><p>{E(g["description"])}</p></li>''' for g in GUIDES)
-    out = head(f'Making Tax Digital guides for landlords and sole traders | {NAME}',
+    out = head(choose_title([
+        'Making Tax Digital guides for landlords and sole traders',
+        f'Making Tax Digital guides | {NAME}',
+    ]),
                "Plain-English guides to Making Tax Digital for Income Tax for landlords and sole traders, checked against GOV.UK and providers' own websites.",
                '/guides/', [il, crumb_ld([('Home', '/'), ('Guides', '/guides/')])])
     out += f'''<div class="wrap prose"><p class="breadcrumb"><a href="/">Home</a> › Guides</p><h1>Making Tax Digital guides</h1>
@@ -984,7 +1131,14 @@ def guide_pages():
                'publisher': {'@type': 'Organization', 'name': NAME, 'url': BASE + '/'},
                'mainEntityOfPage': {'@type': 'WebPage', '@id': BASE + g['path']}, 'url': BASE + g['path']}
         ld = [art, crumb_ld(crumbs)] + ([faq_ld(g['qas'])] if g['qas'] else [])
-        out = head(f"{g.get('meta_title') or g['short']} | {NAME}", g.get('meta_description') or g['description'], g['path'], ld, og_type='article')
+        raw_title = g.get('meta_title') or g['short']
+        unmtd = re.sub(r'\bMTD\b', 'Making Tax Digital', raw_title)
+        out = head(choose_title([
+            raw_title,
+            unmtd,
+            f"{unmtd} | {NAME}",
+            f"{raw_title} | {NAME}",
+        ]), g.get('meta_description') or g['description'], g['path'], ld, og_type='article')
         faqs = ('<h2>Quick answers</h2>' + faq_html(g['qas'])) if g['qas'] else ''
         out += f'''<article class="wrap" style="max-width:980px"><p class="breadcrumb"><a href="/">Home</a> › <a href="/guides/">Guides</a> › {E(g["short"])}</p>
 <h1>{E(g["title"])}</h1>
@@ -1095,7 +1249,10 @@ def blog_pages():
 <h2><a href="{p["path"]}">{E(p["title"])}</a></h2>
 <p>{E(p["description"])}</p>
 <p><a href="{p["path"]}">Read the post →</a></p></li>''' for p in POSTS) or '<li><p>No posts yet.</p></li>'
-    out = head(f'Founders Blog | {NAME}',
+    out = head(choose_title([
+        f'Founders Blog from the site operator | {NAME}',
+        f'Founders Blog | {NAME}',
+    ]),
                f'Notes from {OPERATOR} on building {NAME}, a plain-English comparison of Making Tax Digital software.',
                '/founders-blog/', [il, crumb_ld([('Home', '/'), ('Founders Blog', '/founders-blog/')])])
     out += f'''<div class="wrap prose">
@@ -1117,7 +1274,11 @@ def blog_pages():
             'url': BASE + p['path'],
         }
         crumbs = [('Home', '/'), ('Founders Blog', '/founders-blog/'), (p['title'], p['path'])]
-        out = head(f"{p['title']} | Founders Blog | {NAME}", p['description'] or p['title'], p['path'],
+        out = head(choose_title([
+            f"{p['title']} | Founders Blog | {NAME}",
+            f"{p['title']} | Founders Blog",
+            p['title'],
+        ]), p['description'] or p['title'], p['path'],
                    [post_ld, crumb_ld(crumbs)], og_type='article')
         out += f'''<article class="wrap prose">
 <p class="breadcrumb"><a href="/">Home</a> › <a href="/founders-blog/">Founders Blog</a> › {E(p["title"])}</p>
@@ -1129,7 +1290,7 @@ def blog_pages():
         out += foot(); write(p['path'], out)
 
 def other_pages():
-    simple('/methodology/', 'How we check', 'Where our MTD software data comes from, how we check prices, and what "unknown" means.', f'''
+    simple('/methodology/', 'How we check our prices and sources', 'Where our MTD software data comes from, how we check prices, and what "unknown" means.', f'''
 <p class="lead">Our rule is simple: we only show a fact if we can point to where it came from. If we can't confirm something, we say "Unknown" rather than guess.</p>
 <h2>Where the data comes from</h2>
 <ul><li><strong>Which products are listed, and their features:</strong> <a href="{FINDER}">HMRC's software finder for Making Tax Digital for Income Tax</a>, using the full list for sole traders and landlords. Last read on {nice_date(HMRC_DATE)}: {len(products)} products. This gives us whether there's a free version, whether it creates records or bridges to spreadsheets, which income sources it supports, what it can submit, MTD for VAT, HMRC Assist, accessibility features and the status of each tax-return item.</li>
@@ -1138,7 +1299,7 @@ def other_pages():
 <li><strong>CIS:</strong> "CIS on tax return" is HMRC's status for reporting Construction Industry Scheme deductions on your tax return. It doesn't mean the software files contractor CIS returns.</li>
 <li><strong>Thresholds and dates:</strong> taken directly from GOV.UK and linked wherever they appear.</li></ul>
 <h2>Order and independence</h2>
-<p>The directory shows our <strong>featured</strong> products first. These are products whose providers run an affiliate programme we can join, so featuring them is a commercial decision, not a purely editorial ranking. Every other HMRC-recognised product follows under <strong>Best of the rest</strong>. Within each group, price-checked products come first, then A to Z, and you can re-sort or filter the whole list yourself. A commission never decides whether a product is listed or what facts we show: every product's details come from HMRC and the provider's own website, checked the same way.</p>
+<p>The directory shows our <strong>featured</strong> products first. These are products whose providers run an affiliate programme we can join, so featuring them is a commercial decision, not a purely editorial ranking. Every other HMRC-recognised product follows under <strong>Best of the rest</strong>. Within each group, the default order is price-checked products first, then paid plans before their free variants (for example Clear Books before Clear Books Free), then A to Z. Free variants stay in the list, and if you filter to free versions only you still see them. You can also re-sort the table yourself. Right now no affiliate links are live, so a commission does not change this order. A commission never decides whether a product is listed or what facts we show: every product's details come from HMRC and the provider's own website, checked the same way.</p>
 <h2>Which pages search engines see</h2>
 <p>Every HMRC-recognised product has a page, and every page stays linked from the directory. We release product pages to search engines gradually: until a page has information we've checked on the provider's own website, it's kept out of search results, so we don't publish thin pages.</p>
 <h2>Who checks</h2>
@@ -1164,21 +1325,24 @@ def other_pages():
 <p>It isn't HMRC, it isn't connected with any government body, and it doesn't give tax advice.</p>
 <h2>Contact</h2>
 <p>{contact_html()}.</p>'''
-    out = head(f'About Daniel Wyatt | {NAME}', f'Who runs {NAME} and why. {OPERATOR} on 20 years in London finance and a plain-English comparison of Making Tax Digital software.', '/about/', [about_person, crumb_ld(about_crumbs)])
+    out = head(choose_title([
+        f'About Daniel Wyatt, who runs the site | {NAME}',
+        f'About Daniel Wyatt | {NAME}',
+    ]), f'Who runs {NAME} and why. {OPERATOR} on 20 years in London finance and a plain-English comparison of Making Tax Digital software.', '/about/', [about_person, crumb_ld(about_crumbs)])
     out += f'<div class="wrap prose"><p class="breadcrumb"><a href="/">Home</a> › About Daniel Wyatt</p><h1>About Daniel Wyatt</h1>{about_body}</div>'
     out += foot(); write('/about/', out)
     live = [p for p in products if p['affiliate_url']]
-    simple('/affiliate-disclosure/', 'Affiliate disclosure', 'How this site makes money and how affiliate links are marked.', f'''
+    simple('/affiliate-disclosure/', 'Affiliate disclosure: how this comparison may be funded', 'How this site makes money and how affiliate links are marked.', f'''
 <p class="lead">This site is free to use. To pay for it, we may earn a commission when you sign up for some software through links on this site.</p>
 <h2>Right now</h2>
 <p>{f"Affiliate links are live for: {', '.join(E(p['name']) for p in live)}." if live else "No affiliate links are live yet. Every link goes to the provider's official website, as listed by HMRC."}</p>
 <h2>How affiliate links are marked</h2>
-<ul><li>Next to every affiliate button we say it's an affiliate link.</li><li>Affiliate links carry <code>rel="sponsored nofollow"</code>, so search engines know they're paid links.</li><li>Featured products are the ones we may earn a commission from, and they're shown first on the homepage and in "alternatives" lists. That placement is commercial. A commission never decides whether a product is listed or what facts we show about it: every product's facts are checked the same way, and every HMRC-recognised product stays in the full list.</li></ul>
+<ul><li>Next to every affiliate button we say it's an affiliate link.</li><li>Affiliate links carry <code>rel="sponsored nofollow"</code>, so search engines know they're paid links.</li><li>Featured products are the ones we may earn a commission from, and they're shown first on the homepage and in "alternatives" lists. That placement is commercial. Within each group, the default order lists paid plans before their free variants, then A to Z; that is not a commission ranking, and right now no affiliate links are live. A commission never decides whether a product is listed or what facts we show about it: every product's facts are checked the same way, and every HMRC-recognised product stays in the full list.</li></ul>
 <h2>Our emails</h2>
 <p>If you get our Free MTD Ready Kit, our emails may sometimes mention software we earn a commission from. When they do, we say so in the email, and the same rules apply: a commission never changes what we recommend.</p>
 <h2>Other ways we may earn in future</h2>
 <p>If we ever show sponsored placements or refer you to an accountant for a fee, we'll label it clearly on the page where it appears.</p>''', [('Home', '/'), ('Affiliate disclosure', '/affiliate-disclosure/')])
-    simple('/privacy/', 'Privacy', 'Privacy information for this site.', '''
+    simple('/privacy/', 'Privacy information for this site', 'Privacy information for this site.', '''
 ''' + privacy_body(), [('Home', '/'), ('Privacy', '/privacy/')])
     out = head(f'Page not found | {NAME}', 'Page not found.', '/404.html', noindex=True)
     out += '<div class="wrap"><h1>Page not found</h1><p><a href="/">Go to the MTD software comparison</a></p></div>' + foot()
@@ -1298,7 +1462,7 @@ def llms_txt():
         '',
         f'The site is run by {OPERATOR} in London. It is written for UK landlords and sole traders facing Making Tax Digital for Income Tax from 6 April 2026 (qualifying income over £50,000 in the 2024 to 2025 tax year), 6 April 2027 (over £30,000 in 2025 to 2026), or 6 April 2028 (over £20,000 in 2026 to 2027).',
         '',
-        "It is a plain-English, independent comparison of software HMRC recognises for Making Tax Digital for Income Tax, built from HMRC's own list and the providers' own websites. Prices are checked on each provider's own pricing page. Some links may earn a commission. Featured products are ones whose providers run an affiliate programme, and they are shown first: that placement is commercial, not a purely editorial ranking. A commission never decides whether a product is listed or what facts are shown.",
+        "It is a plain-English, independent comparison of software HMRC recognises for Making Tax Digital for Income Tax, built from HMRC's own list and the providers' own websites. Prices are checked on each provider's own pricing page. Some links may earn a commission. Featured products are ones whose providers run an affiliate programme, and they are shown first: that placement is commercial, not a purely editorial ranking. Within each group, paid plans are listed before free variants, then A to Z. Right now no affiliate links are live, so a commission does not change this order. A commission never decides whether a product is listed or what facts are shown.",
         '',
         'This site gives general information only. It is not tax, legal or financial advice.',
         '',
@@ -1314,7 +1478,7 @@ def llms_txt():
         lines.append(item(g['title'], g['path'], g['description']))
     lines += [
         item('Free MTD Ready Kit', '/free-mtd-kit/', 'Free Making Tax Digital for Income Tax kit: every deadline for 2026 to 2028, a getting-ready checklist, a calendar file and email reminders 7 days before each HMRC deadline. Sourced from GOV.UK.'),
-        item('How we check', '/methodology/', 'Where the software data comes from, how prices are checked, what "unknown" means, and how the featured section is ordered.'),
+        item('How we check', '/methodology/', 'Where the software data comes from, how prices are checked, what "unknown" means, and how the directory is ordered.'),
         item('About Daniel Wyatt', '/about/', f'Who runs {NAME} and why. {OPERATOR} on 20 years in London finance and a plain-English comparison of Making Tax Digital software.'),
         item('Affiliate disclosure', '/affiliate-disclosure/', 'How this site makes money and how affiliate links are marked.'),
         item('Privacy', '/privacy/', 'Privacy information for this site.'),
