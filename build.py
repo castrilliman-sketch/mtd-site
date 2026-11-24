@@ -27,6 +27,8 @@ ELIGIBILITY_URL = 'https://www.gov.uk/guidance/find-out-if-and-when-you-need-to-
 OG_IMAGE = BASE + '/assets/og-image.png'
 LOGO_URL = BASE + '/assets/apple-touch-icon.png'
 OPERATOR = (SITE.get('operator_name') or '').strip() or 'Daniel Wyatt'
+OPERATOR_ORG = (SITE.get('operator_org') or '').strip() or 'CastilliAI'
+OPERATOR_ORG_URL = (SITE.get('operator_org_url') or '').strip() or 'https://www.castilliai.com/'
 CONTACT_EMAIL = (SITE.get('contact_email') or '').strip()
 FINDER = 'https://www.tax.service.gov.uk/find-making-tax-digital-income-tax-software/'
 E = html.escape
@@ -45,8 +47,23 @@ def contact_html():
         return f'<a href="mailto:{addr}">{addr}</a>'
     return 'Contact email coming soon'
 
+def operator_org_link(label=None):
+    """A followed (dofollow) link to the operator's organisation."""
+    return f'<a href="{E(OPERATOR_ORG_URL)}">{E(label or OPERATOR_ORG)}</a>'
+
+def parent_org_ld():
+    return {'@type': 'Organization', 'name': OPERATOR_ORG, 'url': OPERATOR_ORG_URL}
+
 def person_ld():
-    return {'@context': 'https://schema.org', '@type': 'Person', 'name': OPERATOR, 'url': BASE + '/about/'}
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        'name': OPERATOR,
+        'url': BASE + '/about/',
+        'jobTitle': 'Founder',
+        'worksFor': parent_org_ld(),
+        'sameAs': [OPERATOR_ORG_URL],
+    }
 
 def organization_ld():
     org = {
@@ -55,6 +72,7 @@ def organization_ld():
         'name': NAME,
         'url': BASE + '/',
         'logo': LOGO_URL,
+        'parentOrganization': parent_org_ld(),
     }
     if CONTACT_EMAIL:
         org['email'] = CONTACT_EMAIL
@@ -318,7 +336,7 @@ def head(title, desc, path, jsonld=(), noindex=False, og_type='website'):
 
 def foot():
     return f'''</main><footer class="site"><div class="wrap"><div class="cols3">
-<div><strong>{E(NAME)}</strong><br>{E(SITE['tagline'])}.<br>HMRC list last read: {nice_date(HMRC_DATE)}.</div>
+<div><strong>{E(NAME)}</strong><br>{E(SITE['tagline'])}.<br>HMRC list last read: {nice_date(HMRC_DATE)}.<p class="project">{operator_org_link('A ' + OPERATOR_ORG + ' project')}</p></div>
 <nav class="fnav" aria-label="Footer"><a href="/#directory">Compare all software</a><a href="/do-i-need-mtd/">Do I need MTD, and when?</a><a href="/guides/">MTD guides</a><a href="/methodology/">Methodology</a><a href="/free-mtd-kit/">Free MTD Ready Kit</a></nav>
 <nav class="fnav" aria-label="About this site"><a href="/about/">About</a><a href="/founders-blog/">Founders Blog</a><a href="/affiliate-disclosure/">Affiliate disclosure</a><a href="/privacy/">Privacy</a><span class="contact">{contact_html()}</span></nav></div>
 <p class="disclaimer"><strong>Not tax advice.</strong> This site gives general information only. It is not tax, legal or financial advice. Check your own position on <a href="{ELIGIBILITY_URL}">GOV.UK</a> or with a qualified adviser before you act. HMRC does not recommend any software product and is not connected with this site. Prices change, so always confirm on the provider's own website. No affiliate links are live yet. If we add any, they'll be clearly labelled; see our <a href="/affiliate-disclosure/">disclosure</a>. Contains public sector information licensed under the <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">Open Government Licence v3.0</a>.</p>
@@ -1320,7 +1338,7 @@ def other_pages():
 <p>I use AI to gather and organise the details quickly, but a person always checks the results before anything goes on this site. Where I earn a commission, or could, I'll always tell you. Those products are shown in a labelled Featured section, and the facts about every product are checked the same way.</p>
 <p class="note-footer">This site gives general information, not personal tax advice.</p>
 <h2>What this site is</h2>
-<p>A plain-English, independent comparison of software HMRC recognises for Making Tax Digital for Income Tax, built from HMRC's own list and the providers' own websites. It's run by me, {E(OPERATOR)}, in the UK, and written for UK landlords and sole traders.</p>
+<p>A plain-English, independent comparison of software HMRC recognises for Making Tax Digital for Income Tax, built from HMRC's own list and the providers' own websites. It's run by me, {E(OPERATOR)}, founder of {operator_org_link()}, in the UK, and written for UK landlords and sole traders.</p>
 <h2>What this site isn't</h2>
 <p>It isn't HMRC, it isn't connected with any government body, and it doesn't give tax advice.</p>
 <h2>Contact</h2>
