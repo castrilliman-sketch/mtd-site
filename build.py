@@ -5,7 +5,7 @@ from urllib.parse import urlsplit, urlunsplit, parse_qsl, urlencode
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(ROOT, 'scripts'))
-from seo_width import fit_title, fit_desc, title_px, TITLE_MAX_PX
+from seo_width import fit_title, fit_desc, title_ok
 DIST = os.path.join(ROOT, 'dist')
 SITE = json.load(open(f'{ROOT}/config/site.json'))
 _ACFG = os.environ.get('MTD_ANALYTICS_CONFIG', f'{ROOT}/config/analytics.json')
@@ -23,6 +23,9 @@ CHECKED = VV['checked']
 HMRC_DATE = HM['retrieved']
 BASE = SITE['base_url'].rstrip('/')
 NAME = SITE['name']
+ELIGIBILITY_URL = 'https://www.gov.uk/guidance/find-out-if-and-when-you-need-to-use-making-tax-digital-for-income-tax'
+OG_IMAGE = BASE + '/assets/og-image.png'
+LOGO_URL = BASE + '/assets/apple-touch-icon.png'
 OPERATOR = (SITE.get('operator_name') or '').strip() or 'Daniel Wyatt'
 CONTACT_EMAIL = (SITE.get('contact_email') or '').strip()
 FINDER = 'https://www.tax.service.gov.uk/find-making-tax-digital-income-tax-software/'
@@ -44,6 +47,18 @@ def contact_html():
 
 def person_ld():
     return {'@context': 'https://schema.org', '@type': 'Person', 'name': OPERATOR, 'url': BASE + '/about/'}
+
+def organization_ld():
+    org = {
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        'name': NAME,
+        'url': BASE + '/',
+        'logo': LOGO_URL,
+    }
+    if CONTACT_EMAIL:
+        org['email'] = CONTACT_EMAIL
+    return org
 
 
 def nice_date(iso):
@@ -146,7 +161,7 @@ def outbound_cta(p, kind='visit', cls='btn', page='', label=None):
     """Single affiliate-ready outbound button. Falls back to the official URL."""
     href, rel, aff = link_for(p)
     if label is None:
-        label = 'View deal' if aff else 'Visit site'
+        label = f'View {p["name"]} deal' if aff else f'Visit {p["name"]}'
     attrs = [f'class="{cls}"', f'href="{E(href)}"', f'rel="{rel}"', 'target="_blank"',
              f'data-product="{E(p["slug"])}"', f'data-aff="{int(aff)}"', f'data-cta="{E(kind)}"']
     if page:
@@ -172,7 +187,7 @@ def product_card(p, kind='visit'):
         f'<p class="pcard-price">{card_price(p)}</p>'
         f'<p class="pcard-tags">{tag_html}</p>'
         f'<div class="pcard-cta">{outbound_cta(p, kind=kind, cls="btn", page="home")}'
-        f'<a class="pcard-more" href="/software/{E(p["slug"])}/">Details<span class="sr"> about {E(p["name"])}</span></a></div>'
+        f'<a class="pcard-more" href="/software/{E(p["slug"])}/">More about {E(p["name"])}</a></div>'
         + ('<p class="disclose aff-note">Affiliate link. <a href="/affiliate-disclosure/">Disclosure</a></p>' if link_for(p)[2] else '') +
         f'</article>'
     )
@@ -190,7 +205,7 @@ def featured_card(p):
     return (f'<article class="pcard fcard"><p class="pcard-name"><a href="/software/{E(p["slug"])}/">{E(p["name"])}</a></p>'
             f'<p class="pcard-price">{card_price(p)}</p><ul class="ffacts">{fl}</ul>'
             f'<div class="pcard-cta">{outbound_cta(p, kind="featured", cls="btn", page="home")}'
-            f'<a class="pcard-more" href="/software/{E(p["slug"])}/">Details<span class="sr"> about {E(p["name"])}</span></a></div>'
+            f'<a class="pcard-more" href="/software/{E(p["slug"])}/">More about {E(p["name"])}</a></div>'
             + ('<p class="disclose aff-note">Affiliate link. <a href="/affiliate-disclosure/">Disclosure</a></p>' if link_for(p)[2] else '') +
             '</article>')
 
@@ -212,7 +227,7 @@ def finder_payload():
 POPULAR_SLUGS = ['xero', 'quickbooks-intuit', 'freeagent', 'sage-sole-trader-and-landlord', 'zoho']
 
 def aff_row_note():
-    return '<p class="disclose">Some Visit site buttons may be affiliate links; we may earn a commission if you sign up. <a href="/affiliate-disclosure/">How we make money</a>.</p>'
+    return '<p class="disclose">Some Visit buttons may be affiliate links; we may earn a commission if you sign up. <a href="/affiliate-disclosure/">How we make money</a>.</p>'
 
 
 def yn(v, short=False):
@@ -262,17 +277,20 @@ def verification_tags(path):
 def head(title, desc, path, jsonld=(), noindex=False, og_type='website'):
     canon = BASE + path
     title, desc = fit_title(title), fit_desc(desc)
-    ld = ''.join(f'<script type="application/ld+json">{json.dumps(j, ensure_ascii=False)}</script>' for j in jsonld)
+    blocks = [organization_ld(), *jsonld]
+    ld = ''.join(f'<script type="application/ld+json">{json.dumps(j, ensure_ascii=False)}</script>' for j in blocks)
     robots = '<meta name="robots" content="noindex,follow">' if noindex else '<meta name="robots" content="index,follow,max-snippet:-1">'
     return f'''<!doctype html><html lang="en-GB"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(title)}</title><meta name="description" content="{E(desc)}">
 <link rel="canonical" href="{canon}">{robots}{verification_tags(path)}
 <meta property="og:type" content="{E(og_type)}"><meta property="og:title" content="{E(title)}"><meta property="og:description" content="{E(desc)}"><meta property="og:url" content="{canon}"><meta property="og:site_name" content="{E(NAME)}"><meta property="og:locale" content="en_GB">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="{OG_IMAGE}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="{E(NAME + ' — ' + SITE['tagline'])}">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{OG_IMAGE}"><meta name="twitter:title" content="{E(title)}"><meta name="twitter:description" content="{E(desc)}">
 <meta name="theme-color" content="#0b6e4f">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/style.css">{ld}{analytics_tag()}</head><body>
 <a class="skip" href="#main">Skip to content</a>
@@ -283,9 +301,9 @@ def head(title, desc, path, jsonld=(), noindex=False, og_type='website'):
 def foot():
     return f'''</main><footer class="site"><div class="wrap"><div class="cols3">
 <div><strong>{E(NAME)}</strong><br>{E(SITE['tagline'])}.<br>HMRC list last read: {nice_date(HMRC_DATE)}.</div>
-<div><a href="/#directory">Compare all software</a><br><a href="/do-i-need-mtd/">Do I need MTD, and when?</a><br><a href="/guides/">MTD guides</a><br><a href="/methodology/">Methodology</a><br><a href="/free-mtd-kit/">Free MTD Ready Kit</a></div>
-<div><a href="/about/">About</a><br><a href="/founders-blog/">Founders Blog</a><br><a href="/affiliate-disclosure/">Affiliate disclosure</a><br><a href="/privacy/">Privacy</a><br><span class="contact">{contact_html()}</span></div></div>
-<p class="disclaimer"><strong>Not tax advice.</strong> This site gives general information only. It is not tax, legal or financial advice. Check your own position on <a href="https://www.gov.uk/guidance/check-if-youre-eligible-for-making-tax-digital-for-income-tax">GOV.UK</a> or with a qualified adviser before you act. HMRC does not recommend any software product and is not connected with this site. Prices change, so always confirm on the provider's own website. Some links may be affiliate links; see our <a href="/affiliate-disclosure/">disclosure</a>. Contains public sector information licensed under the <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">Open Government Licence v3.0</a>.</p>
+<nav class="fnav" aria-label="Footer"><a href="/#directory">Compare all software</a><a href="/do-i-need-mtd/">Do I need MTD, and when?</a><a href="/guides/">MTD guides</a><a href="/methodology/">Methodology</a><a href="/free-mtd-kit/">Free MTD Ready Kit</a></nav>
+<nav class="fnav" aria-label="About this site"><a href="/about/">About</a><a href="/founders-blog/">Founders Blog</a><a href="/affiliate-disclosure/">Affiliate disclosure</a><a href="/privacy/">Privacy</a><span class="contact">{contact_html()}</span></nav></div>
+<p class="disclaimer"><strong>Not tax advice.</strong> This site gives general information only. It is not tax, legal or financial advice. Check your own position on <a href="{ELIGIBILITY_URL}">GOV.UK</a> or with a qualified adviser before you act. HMRC does not recommend any software product and is not connected with this site. Prices change, so always confirm on the provider's own website. No affiliate links are live yet. If we add any, they'll be clearly labelled; see our <a href="/affiliate-disclosure/">disclosure</a>. Contains public sector information licensed under the <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">Open Government Licence v3.0</a>.</p>
 </div></footer></body></html>'''
 
 def write(path, content):
@@ -305,11 +323,13 @@ def crumb_ld(items):
     return {'@context': 'https://schema.org', '@type': 'BreadcrumbList', 'itemListElement': [
         {'@type': 'ListItem', 'position': i + 1, 'name': n, 'item': BASE + u} for i, (n, u) in enumerate(items)]}
 
-DATES_HTML = '''<div class="dates">
-<div class="date"><strong>6 April 2026</strong>Qualifying income over £50,000 (2024 to 2025 tax year)</div>
-<div class="date"><strong>6 April 2027</strong>Qualifying income over £30,000 (2025 to 2026 tax year)</div>
-<div class="date"><strong>6 April 2028</strong>Qualifying income over £20,000 (2026 to 2027 tax year)</div></div>
-<p class="disclose">Source: <a href="https://www.gov.uk/guidance/check-if-youre-eligible-for-making-tax-digital-for-income-tax">GOV.UK, Find out if and when you need to use Making Tax Digital for Income Tax</a>. Qualifying income is your self-employment plus property income before expenses.</p>'''
+DATES_HTML = (
+    '<div class="dates">'
+    '<div class="date"><strong>6 April 2026</strong>Qualifying income over £50,000 (2024 to 2025 tax year)</div>'
+    '<div class="date"><strong>6 April 2027</strong>Qualifying income over £30,000 (2025 to 2026 tax year)</div>'
+    '<div class="date"><strong>6 April 2028</strong>Qualifying income over £20,000 (2026 to 2027 tax year)</div></div>'
+    f'<p class="disclose">Source: <a href="{ELIGIBILITY_URL}">GOV.UK, Find out if and when you need to use Making Tax Digital for Income Tax</a>. Qualifying income is your self-employment plus property income before expenses.</p>'
+)
 
 # ---------- email sign-up (Free MTD Ready Kit) ----------
 def next_deadline():
@@ -338,7 +358,7 @@ def mailto_kit(uid, variant):
     return f'''<div class="signup-mailto {variant}" aria-labelledby="{uid}-h">
 <p class="signup-soon"><strong>Our automatic sign-up isn't switched on yet.</strong> Until it is, email us and we'll send you the kit by reply. Automatic deadline reminders will start when sign-up opens.</p>
 <p><a class="btn big" href="mailto:{E(CONTACT_EMAIL)}?subject={subj}&amp;body={body}">Email us for the free kit</a></p>
-<p class="consent">This opens your own email app with a message to {E(CONTACT_EMAIL)}. We'll use your email address only to reply with the kit; we won't add you to a mailing list. <a href="/privacy/#email">Privacy</a>.</p>
+<p class="consent">This opens your own email app with a message to {E(CONTACT_EMAIL)}. We'll use your email address only to reply with the kit; we won't add you to a mailing list. <a href="/privacy/#email">How we use your email</a>.</p>
 </div>'''
 
 def signup_form(uid, variant):
@@ -365,7 +385,7 @@ def signup_form(uid, variant):
 <label class="sf"><span>Email address</span><input type="email" name="{E(f.get("email", "EMAIL"))}" autocomplete="email" maxlength="120" required{dis}></label></div>
 <fieldset class="roles"><legend>I am a… <span class="opt">(optional, so reminders fit your situation)</span></legend>{roles}</fieldset>
 {hidden}<button type="submit" class="btn big"{dis}>{btn}</button>
-<p class="consent">{CONSENT} <a href="/privacy/#email">Privacy</a>.</p>
+<p class="consent">{CONSENT} <a href="/privacy/#email">How we use your email</a>.</p>
 <p class="signup-msg" role="alert"></p>
 </form>
 <div class="signup-ok" hidden tabindex="-1"><strong>Nearly there, <span class="signup-name"></span>!</strong>
@@ -484,10 +504,10 @@ def home():
 <td data-label="CIS on tax return">{cell_yn(p['cis'], 'Not listed by HMRC')}</td><td data-label="Joint property">{cell_yn(p['joint_property'], 'Joint property not yet checked')}</td></tr>''')
     free_list = ''.join(f'<li><a href="/software/{p["slug"]}/">{E(p["name"])}</a>: {E(p["price_text"])}{" – " + E(p["price_note"]) if p.get("price_note") else ""}</li>' for p in free_checked)
     qas = [
-        ("Does HMRC provide free software for Making Tax Digital?", "HMRC's guidance says you, or an agent, will need to use commercial software that works with Making Tax Digital for Income Tax. It also says free products are available for people with simple tax affairs, but they may have limits, such as a set number of transactions. <a href=\"https://www.gov.uk/guidance/choose-the-right-software-for-making-tax-digital-for-income-tax\">Source: GOV.UK</a>"),
+        ("Does HMRC provide free software for Making Tax Digital?", "HMRC's guidance says you, or an agent, will need to use commercial software that works with Making Tax Digital for Income Tax. It also says free products are available for people with simple tax affairs, but they may have limits, such as a set number of transactions. <a href=\"https://www.gov.uk/guidance/choose-the-right-software-for-making-tax-digital-for-income-tax\">Source: GOV.UK, Choose the right software</a>"),
         ("What is MTD bridging software?", "Bridging software connects to records you already keep, such as a spreadsheet, and sends your quarterly updates to HMRC. Some bridging products also submit your tax return; others only send the updates. Use the 'Bridging (spreadsheets)' filter above to see them, or read <a href=\"/guides/mtd-spreadsheets-bridging-software/\">our guide to spreadsheets and bridging software</a>."),
-        ("Can I use more than one MTD product?", "Yes. HMRC says you can use more than one product, but only one product for each separate submission. For example, a landlord cannot use two products to send the same property quarterly update. If you combine products, make sure together they cover your quarterly updates and your tax return. <a href=\"https://www.gov.uk/guidance/choose-the-right-software-for-making-tax-digital-for-income-tax\">Source: GOV.UK</a>"),
-        ("When are MTD quarterly updates due?", "For both standard and calendar update periods, the deadlines are 7 August, 7 November, 7 February and 7 May (the following tax year). <a href=\"https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/send-quarterly-updates\">Source: GOV.UK</a>. For what happens if one is late, see <a href=\"/guides/mtd-late-quarterly-update-penalties/\">MTD penalty points explained</a>. For how the two period types differ, see <a href=\"/guides/mtd-standard-vs-calendar-update-periods/\">standard vs calendar update periods</a>."),
+        ("Can I use more than one MTD product?", "Yes. HMRC says you can use more than one product, but only one product for each separate submission. For example, a landlord cannot use two products to send the same property quarterly update. If you combine products, make sure together they cover your quarterly updates and your tax return. <a href=\"https://www.gov.uk/guidance/choose-the-right-software-for-making-tax-digital-for-income-tax\">Source: GOV.UK, Choose the right software</a>"),
+        ("When are MTD quarterly updates due?", "For both standard and calendar update periods, the deadlines are 7 August, 7 November, 7 February and 7 May (the following tax year). <a href=\"https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/send-quarterly-updates\">Source: GOV.UK, Send quarterly updates</a>. For what happens if one is late, see <a href=\"/guides/mtd-late-quarterly-update-penalties/\">MTD penalty points explained</a>. For how the two period types differ, see <a href=\"/guides/mtd-standard-vs-calendar-update-periods/\">standard vs calendar update periods</a>."),
         ("Does HMRC recommend any MTD software?", "No. HMRC says it does not recommend any product or software provider. Every product in this directory has been through HMRC's recognition process. We show our featured products first, because we may earn a commission from them (see our affiliate disclosure), then every other product under Best of the rest. Within each group, price-checked products come first, then A to Z."),
         ("Why does a product say 'Quarterly updates only'?", "HMRC lists some products as able to send quarterly updates but not to submit your tax return. If you pick one of those, you'll need another product, or an agent, for the tax return after the year ends."),
     ]
@@ -582,7 +602,7 @@ def home():
 <ul>{free_list}</ul><p><a href="/guides/free-mtd-software/">Learn more: what each free plan includes, and the catches →</a></p>
 </details>
 <section><h2>Common questions</h2>{faq_html(qas)}</section>
-<p class="below-fold-cta"><a href="/founders-blog/">Why I built this site</a>, by {E(OPERATOR)}. <a href="/methodology/">How we check</a>.</p>
+<p class="below-fold-cta"><a href="/founders-blog/">Founders Blog</a>, by {E(OPERATOR)}. <a href="/methodology/">How we check</a>.</p>
 </div>
 {signup_block('home')}
 <script src="/assets/directory.js" defer></script>
@@ -611,7 +631,7 @@ def product_page(p):
     if not re.search(r'\bMTD\b|Making Tax Digital', p['name'], re.I):
         candidates.append(f"{p['name']} for MTD | {NAME}")
     candidates += [f"{p['name']} | {NAME}", p['name']]
-    title = next((c for c in candidates if title_px(c) <= TITLE_MAX_PX), candidates[-1])
+    title = next((c for c in candidates if title_ok(c)), candidates[-1])
     desc = f"Is {p['name']} HMRC-recognised for MTD? Yes. See price{', checked ' + nice_date(p['price_checked']) if p['vendor_checked'] else ''}, free version and key features in plain English."
     app = {'@context': 'https://schema.org', '@type': 'SoftwareApplication', 'name': p['name'], 'applicationCategory': 'FinanceApplication',
            'operatingSystem': p['compatible_with'] if p['compatible_with'] != 'unknown' else None, 'url': p['website'],
@@ -651,12 +671,12 @@ def product_page(p):
 <div class="facts">
 <div class="fact"><small>On HMRC's list</small><b class="y">Yes</b> <a class="disclose" href="{E(p['hmrc_url'])}" rel="noopener" target="_blank">(HMRC entry)</a></div>
 <div class="fact"><small>Free version (HMRC)</small><b>{yn(p['free_version'])}</b></div>
-<div class="fact"><small>Bridging / spreadsheets</small><b>{yn(p['bridging'])}</b> <a class="disclose" href="/guides/mtd-spreadsheets-bridging-software/">(guide)</a></div>
+<div class="fact"><small>Bridging / spreadsheets</small><b>{yn(p['bridging'])}</b> <a class="disclose" href="/guides/mtd-spreadsheets-bridging-software/">(bridging guide)</a></div>
 <div class="fact"><small>Landlords (UK property)</small><b>{yn(p['uk_property'])}</b></div>
 <div class="fact"><small>Sole traders</small><b>{yn(p['sole_trader'])}</b></div>
-<div class="fact"><small>Foreign property</small><b>{yn(p['foreign_property'])}</b> <a class="disclose" href="/guides/mtd-foreign-property/">(guide)</a></div>
+<div class="fact"><small>Foreign property</small><b>{yn(p['foreign_property'])}</b> <a class="disclose" href="/guides/mtd-foreign-property/">(foreign property guide)</a></div>
 <div class="fact"><small>CIS on tax return</small><b>{yn(p['cis'])}</b></div>
-<div class="fact"><small>Joint property splits</small><b>{joint}</b> <a class="disclose" href="/guides/jointly-owned-property-mtd/">(guide)</a></div>
+<div class="fact"><small>Joint property splits</small><b>{joint}</b> <a class="disclose" href="/guides/jointly-owned-property-mtd/">(joint property guide)</a></div>
 <div class="fact"><small>Submits</small><b>{E(p['submits'])}</b></div>
 <div class="fact"><small>MTD for VAT too</small><b>{yn(p['vat'])}</b></div>
 <div class="fact"><small>HMRC Assist built in</small><b>{yn(p['hmrc_assist'])}</b></div>
@@ -705,7 +725,7 @@ def guide():
 <h2>Who needs to use it</h2>
 <p>According to HMRC, you need to use Making Tax Digital for Income Tax if <strong>all</strong> of these apply:</p>
 <ul><li>you're a sole trader or a landlord registered for Self Assessment</li><li>you get income from self-employment or property, or both</li><li>your qualifying income is over the threshold for the relevant tax year</li></ul>
-<p class="disclose">Source: <a href="{G}check-if-youre-eligible-for-making-tax-digital-for-income-tax">GOV.UK, Find out if and when you need to use Making Tax Digital for Income Tax</a>.</p>
+<p class="disclose">Source: <a href="{ELIGIBILITY_URL}">GOV.UK, Find out if and when you need to use Making Tax Digital for Income Tax</a>.</p>
 <h2>When you need to start</h2>
 <div class="tablewrap"><table><thead><tr><th>If your qualifying income was over…</th><th>…in the tax year</th><th>You need to use MTD from</th></tr></thead><tbody>
 <tr><td>£50,000</td><td>2024 to 2025</td><td>6 April 2026 (now live)</td></tr>
@@ -713,7 +733,7 @@ def guide():
 <tr><td>£20,000</td><td>2026 to 2027</td><td>6 April 2028</td></tr></tbody></table></div>
 <p>HMRC checks your Self Assessment tax return each year. If you're over the threshold it will write to you, but HMRC is clear that if you don't get a letter it is still your responsibility to check. Partnerships will need to join later; HMRC hasn't set the date yet.</p>
 <p>Starting in April 2027? See <a href="/guides/sign-up-mtd-april-2027/">how and when to sign up if you're over £30,000</a>, including whether HMRC signs you up and the key dates for your first year.</p>
-<p class="disclose">Source: <a href="{G}check-if-youre-eligible-for-making-tax-digital-for-income-tax">GOV.UK</a>. You can also use <a href="https://tax.service.gov.uk/guidance/check-if-you-need-to-use-making-tax-digital-for-income-tax">HMRC's own checker tool</a>.</p>
+<p class="disclose">Source: <a href="{ELIGIBILITY_URL}">GOV.UK</a>. You can also use <a href="https://tax.service.gov.uk/guidance/check-if-you-need-to-use-making-tax-digital-for-income-tax">HMRC's own checker tool</a>.</p>
 <h2>What counts as qualifying income</h2>
 <p>Qualifying income is your <strong>total income from self-employment and property, before expenses</strong> (your turnover), based on the tax return for the earlier tax year. HMRC's own example: £25,000 of rental income plus £27,000 of self-employment income gives qualifying income of £52,000.</p>
 <p><strong>It does not include</strong> employment (PAYE) income, your share of profit from a partnership as an individual partner, dividends (including from your own company), the State Pension or private pensions.</p>
@@ -1313,12 +1333,13 @@ def llms_txt():
     return '\n'.join(lines) + '\n'
 
 def seo_files():
+    build_date = datetime.date.today().isoformat()
     urls = [('/', CHECKED), ('/do-i-need-mtd/', CHECKED), ('/free-mtd-kit/', CHECKED), ('/methodology/', CHECKED),
             ('/about/', CHECKED), ('/founders-blog/', CHECKED), ('/affiliate-disclosure/', CHECKED), ('/privacy/', CHECKED)]
     urls += [(p['path'], p['date']) for p in POSTS]
     urls += [('/guides/', max([g['checked'] for g in GUIDES] + [CHECKED]))] + [(g['path'], g['checked']) for g in GUIDES]
     urls += [(f"/software/{p['slug']}/", p['price_checked'] or CHECKED) for p in products if p['slug'] in INDEXABLE]
-    sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'<url><loc>{BASE}{u}</loc><lastmod>{lm}</lastmod></url>\n' for u, lm in urls) + '</urlset>\n'
+    sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'<url><loc>{BASE}{u}</loc><lastmod>{build_date}</lastmod></url>\n' for u, lm in urls) + '</urlset>\n'
     write('/sitemap.xml', sm)
     write('/robots.txt', robots_txt())
     write('/llms.txt', llms_txt())
@@ -1329,7 +1350,9 @@ if __name__ == '__main__':
     os.makedirs(f'{DIST}/assets')
     shutil.copy(f'{ROOT}/src/favicon.ico', f'{DIST}/favicon.ico')
     shutil.copy(f'{ROOT}/src/favicon.svg', f'{DIST}/assets/favicon.svg')
+    shutil.copy(f'{ROOT}/src/favicon-32.png', f'{DIST}/assets/favicon-32.png')
     shutil.copy(f'{ROOT}/src/apple-touch-icon.png', f'{DIST}/assets/apple-touch-icon.png')
+    shutil.copy(f'{ROOT}/src/og-image.png', f'{DIST}/assets/og-image.png')
     shutil.copy(f'{ROOT}/src/style.css', f'{DIST}/assets/style.css')
     shutil.copy(f'{ROOT}/src/directory.js', f'{DIST}/assets/directory.js')
     shutil.copy(f'{ROOT}/src/funnel.js', f'{DIST}/assets/funnel.js')

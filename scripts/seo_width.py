@@ -6,12 +6,16 @@ measured at 20px and scaled so the previous homepage title matches
 Seobility's 698px reading. Descriptions are measured at 14px.
 No third-party dependencies.
 
-Limits: title 580px, description 1000px (Seobility).
+Limits: title 580px and 60 characters; description 1000px and 155 characters.
+The pixel caps follow Seobility; the character caps keep titles around 50–60
+characters and descriptions within a typical SERP snippet.
 """
 from __future__ import annotations
 
 TITLE_MAX_PX = 580
+TITLE_MAX_CHARS = 60
 DESC_MAX_PX = 1000
+DESC_MAX_CHARS = 155
 _TITLE_SCALE = 1.0035269010445917
 _DESC_SCALE = 0.7
 # Advance widths at 20px Liberation Sans, keyed by Unicode code point.
@@ -265,46 +269,57 @@ def desc_px(text: str) -> float:
     return _sum20(text) * _DESC_SCALE
 
 
-def _truncate(text: str, max_px: float, measure) -> str:
-    """Fit text to max_px, breaking at a word boundary and adding an ellipsis."""
-    if measure(text) <= max_px:
+def title_ok(title: str, max_px: int = TITLE_MAX_PX, max_chars: int = TITLE_MAX_CHARS) -> bool:
+    title = title or ""
+    return title_px(title) <= max_px and len(title) <= max_chars
+
+
+def desc_ok(desc: str, max_px: int = DESC_MAX_PX, max_chars: int = DESC_MAX_CHARS) -> bool:
+    desc = desc or ""
+    return desc_px(desc) <= max_px and len(desc) <= max_chars
+
+
+def _truncate(text: str, fits) -> str:
+    """Fit text to a predicate, breaking at a word boundary and adding an ellipsis."""
+    if fits(text):
         return text
     ell = "…"
     lo, hi = 0, len(text)
     while lo < hi:
         mid = (lo + hi + 1) // 2
-        if measure(text[:mid] + ell) <= max_px:
+        if fits(text[:mid] + ell):
             lo = mid
         else:
             hi = mid - 1
     cut = text[:lo].rstrip()
     if " " in cut:
         snapped = cut.rsplit(" ", 1)[0].rstrip(" ,;:-")
-        if snapped and measure(snapped + ell) <= max_px:
+        if snapped and fits(snapped + ell):
             cut = snapped
     cut = cut.rstrip(" ,;:-")
     return (cut + ell) if cut else ell
 
 
-def fit_title(title: str, max_px: int = TITLE_MAX_PX) -> str:
-    """Keep a full title (already including any brand suffix) within max_px.
+def fit_title(title: str, max_px: int = TITLE_MAX_PX, max_chars: int = TITLE_MAX_CHARS) -> str:
+    """Keep a full title (already including any brand suffix) within the caps.
 
     Drops trailing ' | …' segments first, then truncates the remainder.
     """
     title = " ".join((title or "").split())
-    if title_px(title) <= max_px:
+    if title_ok(title, max_px, max_chars):
         return title
     parts = [p.strip() for p in title.split(" | ") if p.strip()]
     while len(parts) > 1:
         parts.pop()
         candidate = " | ".join(parts)
-        if title_px(candidate) <= max_px:
+        if title_ok(candidate, max_px, max_chars):
             return candidate
-    return _truncate(parts[0] if parts else "", max_px, title_px)
+    remainder = parts[0] if parts else ""
+    return _truncate(remainder, lambda s: title_ok(s, max_px, max_chars))
 
 
-def fit_desc(desc: str, max_px: int = DESC_MAX_PX) -> str:
+def fit_desc(desc: str, max_px: int = DESC_MAX_PX, max_chars: int = DESC_MAX_CHARS) -> str:
     desc = " ".join((desc or "").split())
-    if desc_px(desc) <= max_px:
+    if desc_ok(desc, max_px, max_chars):
         return desc
-    return _truncate(desc, max_px, desc_px)
+    return _truncate(desc, lambda s: desc_ok(s, max_px, max_chars))

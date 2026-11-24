@@ -8,7 +8,7 @@ from collections import Counter
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, 'scripts'))
-from seo_width import title_px, desc_px, TITLE_MAX_PX, DESC_MAX_PX
+from seo_width import title_px, desc_px, TITLE_MAX_PX, TITLE_MAX_CHARS, DESC_MAX_PX, DESC_MAX_CHARS
 
 src = sys.argv[1] if len(sys.argv) > 1 else 'dist'
 paths = sys.argv[2:] or None
@@ -91,9 +91,17 @@ for p in paths:
     if tw > TITLE_MAX_PX:
         print(f'TITLE TOO WIDE {tw:.0f}px>{TITLE_MAX_PX} {p} {title}')
         bad += 1
+    if len(title) > TITLE_MAX_CHARS:
+        print(f'TITLE TOO LONG {len(title)}>{TITLE_MAX_CHARS} {p} {title}')
+        bad += 1
     if dw > DESC_MAX_PX:
         print(f'DESC TOO WIDE {dw:.0f}px>{DESC_MAX_PX} {p} {desc[:140]}')
         bad += 1
+    if len(desc) > DESC_MAX_CHARS:
+        print(f'DESC TOO LONG {len(desc)}>{DESC_MAX_CHARS} {p} {desc[:140]}')
+        bad += 1
+    if 'og:image' not in h:
+        print('NO OG IMAGE', p); bad += 1
     if not re.search(r'<link[^>]+rel=["\'][^"\']*icon', h, re.I):
         print('NO FAVICON MARKUP', p); bad += 1
 
