@@ -35,6 +35,7 @@
 
   function sortMatches(a, b) {
     if (!!a.featured !== !!b.featured) return a.featured ? -1 : 1;
+    if (!!a.free_variant !== !!b.free_variant) return a.free_variant ? 1 : -1;
     var ap = a.sort_price, bp = b.sort_price;
     var aMissing = ap == null, bMissing = bp == null;
     if (aMissing !== bMissing) return aMissing ? 1 : -1;
@@ -55,11 +56,11 @@
     if (p.creates_records === 'yes') tags.push('App');
     if (p.free_version === 'yes') tags.push('Free version');
     var tagHtml = tags.slice(0, 4).map(function (t) { return '<span class="tag">' + escapeHtml(t) + '</span>'; }).join('');
-    var label = p.aff ? 'View deal' : 'Visit site';
+    var label = p.aff ? ('View ' + p.name + ' deal') : ('Visit ' + p.name);
     return '<article class="pcard"><p class="pcard-name"><a href="/software/' + escapeHtml(p.slug) + '/">' + escapeHtml(p.name) + '</a>' + (p.featured ? ' <span class="tag f">Featured</span>' : '') + '</p>' +
       '<p class="pcard-price">' + price + '</p><p class="pcard-tags">' + tagHtml + '</p>' +
       '<div class="pcard-cta"><a class="btn" href="' + escapeHtml(p.href) + '" rel="' + escapeHtml(p.rel) + '" target="_blank" data-product="' + escapeHtml(p.slug) + '" data-aff="' + (p.aff ? 1 : 0) + '" data-cta="match" data-page="home">' + label + ' ↗</a>' +
-      '<a class="pcard-more" href="/software/' + escapeHtml(p.slug) + '/">Details<span class="sr"> about ' + escapeHtml(p.name) + '</span></a></div>' +
+      '<a class="pcard-more" href="/software/' + escapeHtml(p.slug) + '/">More about ' + escapeHtml(p.name) + '</a></div>' +
       (p.aff ? '<p class="disclose aff-note">Affiliate link. <a href="/affiliate-disclosure/">Disclosure</a></p>' : '') + '</article>';
   }
 
@@ -81,7 +82,8 @@
       heading.textContent = 'Matches what you picked';
       var extra = s.keep === 'paper' ? ' Paper records need to be kept digitally for MTD; these options create records in software.' : '';
       note.textContent = (all.length > shown.length ? 'Showing ' + shown.length + ' of ' + all.length + ' price-checked matches.' : all.length + ' price-checked match' + (all.length === 1 ? '.' : 'es.')) +
-        (shown.some(function (p) { return p.featured; }) ? ' Featured products, which we may earn a commission from, are shown first.' : '') + extra;
+        (shown.some(function (p) { return p.featured; }) ? ' Featured products, which we may earn a commission from, are shown first.' : '') +
+        ' Paid plans are listed before free variants.' + extra;
       cards.innerHTML = shown.map(card).join('');
       more.innerHTML = '<a href="#directory">Compare all ' + total + ' products</a>';
     }

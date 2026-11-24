@@ -1,5 +1,5 @@
 {
- "_how_to_use": "Products shown in the homepage 'Featured' section, (the site shows them A to Z). These are the products with an affiliate programme D can join (research: affiliate-programmes-all-2026-11-23.md). Use HMRC product names exactly. Featuring is commercial and is disclosed on the site.",
+ "_how_to_use": "Products shown in the homepage 'Featured' section. Featuring is commercial (providers with an affiliate programme D can join; research: affiliate-programmes-all-2026-11-23.md). Use HMRC product names exactly. Default display order within the section is paid plans before free variants, then A to Z; it is not a commission ranking.",
  "products": [
   "Zoho",
   "Xero",

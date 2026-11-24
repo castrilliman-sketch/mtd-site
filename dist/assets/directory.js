@@ -18,9 +18,10 @@
  }
  q.addEventListener('input',apply);boxes.forEach(function(b){b.addEventListener('change',apply)});if(aud)aud.addEventListener('change',apply);
  // sorting: price-checked first (toggle, on by default), then the chosen column (default A-Z)
- var pcf=document.getElementById('pcf'),sk='name',sd=1;
+ var pcf=document.getElementById('pcf'),sk='name',sd=1,userSort=false;
  function cmp(a,b){
   if(pcf&&pcf.checked){var ca=+a.getAttribute('data-checked'),cb=+b.getAttribute('data-checked');if(ca!==cb)return cb-ca}
+  if(!userSort){var fa=+a.getAttribute('data-free-variant')||0,fb=+b.getAttribute('data-free-variant')||0;if(fa!==fb)return fa-fb}
   var x=a.getAttribute('data-s-'+sk),y=b.getAttribute('data-s-'+sk);var nx=parseFloat(x),ny=parseFloat(y);
   var r=((!isNaN(nx)&&!isNaN(ny))?(nx-ny):x.localeCompare(y))*sd;
   if(r===0&&sk!=='name')r=a.getAttribute('data-s-name').localeCompare(b.getAttribute('data-s-name'));
@@ -29,6 +30,7 @@
  function resort(){rows.sort(cmp);rows.forEach(function(r){t.querySelector('tbody.g-'+r.getAttribute('data-group')).appendChild(r)})}
  [].slice.call(t.tHead.querySelectorAll('th[data-k]')).forEach(function(th){
   th.querySelector('button').addEventListener('click',function(){
+   userSort=true;
    var k=th.getAttribute('data-k');sd=(sk===k&&th.getAttribute('aria-sort')==='ascending')?-1:1;sk=k;
    [].slice.call(t.tHead.querySelectorAll('th')).forEach(function(h){h.removeAttribute('aria-sort')});
    th.setAttribute('aria-sort',sd===1?'ascending':'descending');

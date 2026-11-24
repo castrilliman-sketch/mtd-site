@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Checks a built site (./dist or a live base URL): JSON-LD parses, FAQPage text matches visible text,
-ItemList items, no personal emails, table dash cells, title/description SERP length, favicon markup,
+ItemList items, no personal emails, table dash cells, title/description SERP length and repeated words, favicon markup,
 duplicate headings, and H1 words in the page text.
 Usage: python3 scripts/check_site.py [dist|https://...] [paths...]"""
 import sys, re, json, html, os, urllib.request
@@ -8,7 +8,7 @@ from collections import Counter
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, 'scripts'))
-from seo_width import title_px, desc_px, TITLE_MAX_PX, DESC_MAX_PX
+from seo_width import title_px, desc_px, TITLE_MAX_PX, TITLE_MAX_CHARS, TITLE_MIN_CHARS, DESC_MAX_PX, DESC_MAX_CHARS, repeated_words
 
 src = sys.argv[1] if len(sys.argv) > 1 else 'dist'
 paths = sys.argv[2:] or None
@@ -45,6 +45,7 @@ STOP = {
 }
 
 bad = 0; faqs = 0
+title_map = {}
 personal = re.compile(r'danwyatt398|dthomas838485|@gmail\.com|@icloud\.com', re.I)
 seen_favicon_files = False
 
@@ -91,9 +92,24 @@ for p in paths:
     if tw > TITLE_MAX_PX:
         print(f'TITLE TOO WIDE {tw:.0f}px>{TITLE_MAX_PX} {p} {title}')
         bad += 1
+    if len(title) > TITLE_MAX_CHARS:
+        print(f'TITLE TOO LONG {len(title)}>{TITLE_MAX_CHARS} {p} {title}')
+        bad += 1
+    reps = repeated_words(title)
+    if reps:
+        print(f'TITLE REPEATED WORDS {reps} {p} {title}')
+        bad += 1
+    if title and len(title) < TITLE_MIN_CHARS:
+        print(f'TITLE SHORT {len(title)}<{TITLE_MIN_CHARS} {p} {title}')
+    title_map.setdefault(title.lower(), []).append((p, title))
     if dw > DESC_MAX_PX:
         print(f'DESC TOO WIDE {dw:.0f}px>{DESC_MAX_PX} {p} {desc[:140]}')
         bad += 1
+    if len(desc) > DESC_MAX_CHARS:
+        print(f'DESC TOO LONG {len(desc)}>{DESC_MAX_CHARS} {p} {desc[:140]}')
+        bad += 1
+    if 'og:image' not in h:
+        print('NO OG IMAGE', p); bad += 1
     if not re.search(r'<link[^>]+rel=["\'][^"\']*icon', h, re.I):
         print('NO FAVICON MARKUP', p); bad += 1
 
@@ -123,6 +139,12 @@ for p in paths:
             if missing:
                 print('H1 WORDS NOT IN TEXT', p, missing, 'from', h1)
                 bad += 1
+
+for title_key, items in sorted(title_map.items()):
+    if len(items) > 1:
+        pages = ', '.join(p for p, _ in items)
+        print(f'DUPLICATE TITLE {pages} {items[0][1]}')
+        bad += 1
 
 print(f'Checked {len(paths)} pages, {faqs} FAQPage blocks, problems: {bad}')
 sys.exit(1 if bad else 0)
