@@ -41,8 +41,8 @@ If verifying by HTML tag instead of DNS, paste only the `content` value into `go
 
 ## Email list: Free MTD Ready Kit (off until configured)
 - Lead magnet: `kit/mtd-ready-kit-2026-28.pdf` + `kit/mtd-deadlines-2026-28.ics`, generated from `data/deadlines.json` by `python3 scripts/make_kit.py` (needs playwright). Re-run after renaming the site.
-- Config: `config/email.json` (provider-agnostic; recommended provider Brevo). Until `provider` and `form_action` are set, every form is replaced by an "Email us for the free kit" mailto link to `contact_email` (kit sent by hand, no list), and no sign-up JavaScript is published.
-- Where the form appears: homepage section after Start here, inline box on the guide and every product page, landing page `/free-mtd-kit/`, plus `/free-mtd-kit/confirmed/` (kit download after double opt-in) and `/free-mtd-kit/check-your-inbox/` (no-JS fallback). Both are noindex.
+- Config: `config/email.json` (provider-agnostic; recommended provider Brevo). Until `provider` and `form_action` are set, the kit is a direct download (PDF and calendar file) on `/free-mtd-kit/`, the homepage and the inline kit boxes. No email address is collected, and no sign-up JavaScript is published.
+- When a real `provider` and `form_action` are set, those same places show the email sign-up form. `/free-mtd-kit/confirmed/` (kit download after double opt-in) and `/free-mtd-kit/check-your-inbox/` (no-JS fallback) stay noindex and are used by that form flow.
 - `src/signup.js` posts the form to the provider, shows a "check your inbox" message, and fires the analytics event `signup:<role>:<page>` (no personal data).
 - Privacy page text switches automatically when the email list is on.
 - Stats: the dashboard shows form submissions and conversion per page (GoatCounter) and, with `BREVO_API_KEY` + `list_id`, confirmed subscribers and roles from Brevo.

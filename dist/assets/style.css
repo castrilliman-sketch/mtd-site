@@ -113,6 +113,11 @@ ul.ticks li b{display:block}
 .previews figcaption{font-size:.88rem;color:var(--muted);margin-top:6px;text-align:center}
 @media(max-width:600px){.previews{grid-template-columns:1fr 1fr;gap:10px}}
 .downloads{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}
+.btn.big.ghost{border:1px solid var(--brand)}
+.signup-download{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:0 6px 24px rgba(20,33,61,.07)}
+.signup-download .downloads{margin:0 0 12px;flex-direction:column}
+.signup-download .downloads .btn.big{width:100%;text-align:center;box-sizing:border-box}
+.signup.inline .signup-download{box-shadow:none;padding:14px;background:#fff}
 @media(max-width:820px){.kh-grid{display:flex;flex-direction:column}.kh-text{display:contents}.kh-text>*{order:1}
 .kh-text>ul.ticks,.kh-text>.nextdl,.kh-text>.trust{order:4}.kit-hero .kh-form{order:3;position:static;margin:4px 0 10px}}
 /* founders blog + about */
