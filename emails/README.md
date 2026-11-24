@@ -13,7 +13,7 @@ Options considered:
 Asset files (rebuild with `python3 scripts/make_kit.py` after changing the site name or dates):
 - `kit/mtd-ready-kit-2026-28.pdf` (5 pages, A4) · source `kit/kit.html` · data `data/deadlines.json` (every date with its GOV.UK source)
 - `kit/mtd-deadlines-2026-28.ics` (13 future dates, each with a 7-day alert)
-- Published at `/kit/…` (blocked in robots.txt; linked from the welcome email and `/free-mtd-kit/confirmed/`).
+- Published at `/kit/…` (blocked in robots.txt; linked from `/free-mtd-kit/` as a direct download until email sign-up is configured, and from the welcome email and `/free-mtd-kit/confirmed/` once it is).
 
 ## Recommended provider: Brevo (free plan)
 Checked on the providers' own sites, 18 November 2026:
